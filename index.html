@@ -109,7 +109,7 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
   padding:14px 20px;min-width:190px;display:flex;flex-direction:column;justify-content:center
 }
 .keys > .key .k{font-size:13px;color:#31537f;font-weight:700;letter-spacing:-.01em}
-.keys > .key .v{font-size:18px;font-weight:800;margin-top:5px;color:#0f3a7d;letter-spacing:-.03em;line-height:1.35}
+.keys > .key .v{font-size:18px;font-weight:800;margin-top:5px;color:#0f3a7d;letter-spacing:-.03em;line-height:1.4;word-break:keep-all}
 
 .seclab{
   font-size:13px;font-weight:700;color:var(--tx2);
@@ -213,6 +213,11 @@ table.t td.w{white-space:pre-wrap;word-break:keep-all;overflow-wrap:break-word}
 table.t tbody td.nb{border-bottom-color:transparent}
 table.t tbody td.mg{color:transparent}
 .tblwrap{overflow-x:auto}
+/* 표 사이에 끼워 넣는 설명 문단 */
+.tnote{font-size:13px;color:#3f4650;padding:14px 18px 4px;word-break:keep-all;overflow-wrap:break-word}
+.tblwrap + .tnote{padding-top:16px}
+.tnote + .tblwrap{margin-top:2px}
+@media (max-width:640px){ .tnote{padding:12px 14px 4px} }
 
 /* ── 정책 ── */
 .pol{padding:14px 0;border-top:1px solid var(--tline)}
@@ -307,6 +312,10 @@ body.edit .card:hover{border-color:#c9dbf2}
 .dhead .x{margin-left:auto;border:0;background:none;font-size:17px;color:var(--tx3);line-height:1;padding:4px 6px;border-radius:4px}
 .dhead .x:hover{background:#f0f1f3}
 .dbody{flex:1;overflow-y:auto;padding:18px 20px}
+.addbar{display:flex;gap:8px;flex-wrap:wrap}
+.addbar .addrow{flex:1;min-width:150px}
+.tsel{margin-bottom:8px}
+.tsel select{max-width:190px}
 .dfoot{padding:12px 20px;border-top:1px solid var(--line);display:flex;gap:8px;background:#f7fafe}
 .dfoot .grow{flex:1}
 
@@ -819,40 +828,64 @@ function cardPolicy(g,tag,meta){
   });
   return card(g.name, h, tag, widthOf(g.rows, len>900), est, meta, meta&&meta.showGrp?g.grp:'');
 }
+function isNote(r){ return String(r['행유형']||'').trim()==='설명' }
 function cardTable(g,tag,meta){
   var rows=g.rows.slice().sort(function(a,b){return (parseFloat(a['순번'])||0)-(parseFloat(b['순번'])||0)});
   var head=rows.filter(function(r){return r['행유형']==='헤더'})[0];
-  var body=rows.filter(function(r){return r['행유형']!=='헤더'});
+  /* 표 줄과 설명 줄이 섞여 있을 수 있다. 순서를 지키며 표 덩어리 / 설명 문단으로 나눈다 */
+  var seq=rows.filter(function(r){ return r['행유형']!=='헤더' });
+  var body=seq.filter(function(r){ return !isNote(r) });
   var cols=['열1','열2','열3','열4','열5'].filter(function(c){
     return (head&&(head[c]||'').trim()) || body.some(function(r){return (r[c]||'').trim()});
   });
   if(!cols.length) cols=['열1','열2'];
-  var h='<div class="tblwrap"><table class="t'+(cols.length>2?' wide':'')+'">';
-  if(head){ h+='<thead><tr>'; cols.forEach(function(c){h+='<th>'+esc(head[c])+'</th>'}); h+='</tr></thead>' }
-  h+='<tbody>';
-  var same=body.map(function(r,i){
-    return i>0 && String(r[cols[0]]||'').trim()!=='' &&
-           String(r[cols[0]]||'')===String(body[i-1][cols[0]]||'');
-  });
-  body.forEach(function(r,ri){
-    h+='<tr>';
-    cols.forEach(function(c,i){
-      if(i===0){
-        var cls='w'+(same[ri]?' mg':'')+((same[ri+1])?' nb':'');
-        h+='<td class="'+cls+'">'+(same[ri]?'':hl(flat(r[c])))+'</td>';
-      }else{
-        h+='<td class="w">'+hl(flat(r[c]))+'</td>';
-      }
+
+  function tableHTML(part){
+    if(!part.length) return '';
+    var t='<div class="tblwrap"><table class="t'+(cols.length>2?' wide':'')+'">';
+    if(head){ t+='<thead><tr>'; cols.forEach(function(c){t+='<th>'+esc(head[c])+'</th>'}); t+='</tr></thead>' }
+    t+='<tbody>';
+    var same=part.map(function(r,i){
+      return i>0 && String(r[cols[0]]||'').trim()!=='' &&
+             String(r[cols[0]]||'')===String(part[i-1][cols[0]]||'');
     });
-    h+='</tr>';
+    part.forEach(function(r,ri){
+      t+='<tr>';
+      cols.forEach(function(c,i){
+        if(i===0){
+          var cls='w'+(same[ri]?' mg':'')+((same[ri+1])?' nb':'');
+          t+='<td class="'+cls+'">'+(same[ri]?'':hl(flat(r[c])))+'</td>';
+        }else{
+          t+='<td class="w">'+hl(flat(r[c]))+'</td>';
+        }
+      });
+      t+='</tr>';
+    });
+    return t+'</tbody></table></div>';
+  }
+
+  var h='', buf=[], noteCnt=0;
+  function flushT(){ if(buf.length){ h+=tableHTML(buf); buf=[] } }
+  seq.forEach(function(r){
+    if(isNote(r)){
+      flushT();
+      var txt=String(r['열1']||'').trim();
+      if(txt){ noteCnt++; h+='<div class="tnote tx">'+fmtText(txt)+'</div>' }
+    } else buf.push(r);
   });
-  h+='</tbody></table></div>';
+  flushT();
+  if(!h) h='<div class="tblwrap"><table class="t"><tbody></tbody></table></div>';
+
   var maxLen=0, est=90;
   body.forEach(function(r){
     var mx=0;
     cols.forEach(function(c){ mx=Math.max(mx, String(r[c]||'').length) });
     maxLen=Math.max(maxLen,mx);
     est+=28+Math.ceil(mx/Math.max(26,Math.floor(66/cols.length)))*20;
+  });
+  seq.filter(isNote).forEach(function(r){
+    var c=String(r['열1']||'');
+    est+=26+Math.max((c.match(/\n/g)||[]).length+1, Math.ceil(c.length/52))*21;
   });
   return card(g.name, h, tag, widthOf(g.rows, cols.length>=3 || maxLen>230), est, meta, meta&&meta.showGrp?g.grp:'');
 }
@@ -1117,7 +1150,8 @@ function renderBody(){
   if(keyRows.length){
     out+='<div class="keys">';
     keyRows.forEach(function(r){
-      out+='<div class="key"><div class="k">'+esc(r['소제목'])+'</div><div class="v">'+esc(r['내용'])+'</div></div>';
+      out+='<div class="key"><div class="k">'+esc(r['소제목'])+'</div><div class="v">'+
+           esc(String(r['내용']||'').trim()).replace(/\n/g,'<br>')+'</div></div>';
     });
     if(EDITMODE){
       CARDS.push({sheet:'정책', rows:keyRows, code:CUR});
@@ -1456,35 +1490,37 @@ function openCardEditor(meta){
   var tIn=document.createElement('input'); tIn.type='text'; tIn.value=tHolder.v;
   tIn.addEventListener('input',function(){ setAll(rows,titleKey,tIn.value) });
   body.appendChild(fld(sheet==='기준표'?'표 제목':'카드 제목', tIn,
-    isKey ? '‘핵심 기준’ 이라고 두면 화면 맨 위 요약 배지로 표시됩니다.' : ''));
+    isKey ? '‘핵심 기준’ 이라고 두면 화면 맨 위 요약 블록으로 표시됩니다. 블록마다 띄울 메뉴는 아래에서 따로 정합니다.' : ''));
 
-  /* 위치 · 폭 */
-  var r2=el2('div','row2');
-  var midOpts=[['공통 (모든 메뉴에 표시)','']].concat(mids(code).map(function(m){return [m,m]}));
-  var curMid = rows.length ? (rows[0]['중분류']||'') : '';
-  r2.appendChild(fld('메뉴 위치', selectBox(midOpts, curMid, function(v){ setAll(rows,'중분류',v) })));
-  var curW = rows.length ? (rows[0]['배치']||'') : '';
-  r2.appendChild(fld('가로 폭', selectBox([['자동',''],['넓게 (한 줄 전체)','넓게'],['좁게 (절반 폭)','좁게']], curW,
-    function(v){ setAll(rows,'배치',v) })));
-  body.appendChild(r2);
+  /* 위치 · 폭 · 구분  — 요약 블록은 항목마다 따로 정하므로 아예 넣지 않는다 */
+  if(!isKey){
+    var r2=el2('div','row2');
+    var midOpts=[['공통 (모든 메뉴에 표시)','']].concat(mids(code).map(function(m){return [m,m]}));
+    var curMid = rows.length ? (rows[0]['중분류']||'') : '';
+    r2.appendChild(fld('메뉴 위치', selectBox(midOpts, curMid, function(v){ setAll(rows,'중분류',v) })));
+    var curW = rows.length ? (rows[0]['배치']||'') : '';
+    r2.appendChild(fld('가로 폭', selectBox([['자동',''],['넓게 (한 줄 전체)','넓게'],['좁게 (절반 폭)','좁게']], curW,
+      function(v){ setAll(rows,'배치',v) })));
+    body.appendChild(r2);
 
-  /* 소분류(그룹) */
-  var gList=groupsOf(code, rows.length?(rows[0]['중분류']||''):SUB);
-  var curG = rows.length ? (rows[0]['그룹']||'') : '';
-  if(curG && gList.indexOf(curG)<0) gList.push(curG);
-  var gwrap=el2('div');
-  var gsel=selectBox([['구분 없음','']].concat(gList.map(function(g){return [g,g]})).concat([['＋ 새 구분 만들기…','__new__']]),
-    curG, function(v){
-      if(v==='__new__'){
-        var nv=prompt('새 구분 이름을 입력하세요. (예: SKT, SKB, 유선)','');
-        if(nv && nv.trim()){ setAll(rows,'그룹',nv.trim()) } 
-        closeDrawer(); renderBody(); return;
-      }
-      setAll(rows,'그룹',v);
-    });
-  gwrap.appendChild(gsel);
-  body.appendChild(fld('구분 (같은 메뉴 안에서 나누기)', gwrap,
-    'SKT / SKB 처럼 한 메뉴 안에서 좌우로 나눠 보고 싶을 때 사용합니다. 비우면 구분 없이 표시됩니다.'));
+    /* 소분류(그룹) */
+    var gList=groupsOf(code, rows.length?(rows[0]['중분류']||''):SUB);
+    var curG = rows.length ? (rows[0]['그룹']||'') : '';
+    if(curG && gList.indexOf(curG)<0) gList.push(curG);
+    var gwrap=el2('div');
+    var gsel=selectBox([['구분 없음','']].concat(gList.map(function(g){return [g,g]})).concat([['＋ 새 구분 만들기…','__new__']]),
+      curG, function(v){
+        if(v==='__new__'){
+          var nv=prompt('새 구분 이름을 입력하세요. (예: SKT, SKB, 유선)','');
+          if(nv && nv.trim()){ setAll(rows,'그룹',nv.trim()) }
+          closeDrawer(); renderBody(); return;
+        }
+        setAll(rows,'그룹',v);
+      });
+    gwrap.appendChild(gsel);
+    body.appendChild(fld('구분 (같은 메뉴 안에서 나누기)', gwrap,
+      'SKT / SKB 처럼 한 메뉴 안에서 좌우로 나눠 보고 싶을 때 사용합니다. 비우면 구분 없이 표시됩니다.'));
+  }
 
   if(sheet==='환수율')      buildRateItems(body, rows, sheet);
   else if(sheet==='정책')   buildPolicyItems(body, rows, sheet, isKey);
@@ -1571,7 +1607,11 @@ function buildPolicyItems(body, rows, sheet, isKey){
       g.appendChild(capWrap(isKey?'항목명':'소제목 (굵은 글씨 · 비워도 됨)',
         textInput(r,'소제목', isKey?'예) 해지 후 재가입':'')));
       if(isKey){
-        g.appendChild(capWrap('값', textInput(r,'내용','예) M+3개월')));
+        g.appendChild(capWrap('값 (줄바꿈 가능)', textArea(r,'내용','예) M+3개월', 54)));
+        var mopts=[['모든 메뉴에 표시','']].concat(mids(r['통신사']||CUR).map(function(m){return [m,m]}));
+        g.appendChild(capWrap('어느 메뉴에 띄울까요', selectBox(mopts, r['중분류']||'', function(v){
+          r['중분류']=v; renderBody();
+        })));
       }else{
         g.appendChild(capWrap('본문', textArea(r,'내용','줄바꿈은 Enter')));
         var lb=el2('label','chk');
@@ -1596,6 +1636,11 @@ function buildPolicyItems(body, rows, sheet, isKey){
   body.appendChild(add);
 }
 
+/* 표 안에서의 줄 순서를 다시 매긴다 (이게 없어서 표 편집 화면이 열리지 않았습니다) */
+function renumber(rows){
+  var n=0;
+  rows.forEach(function(r){ r['순번']=String(++n) });
+}
 /* 기준표 */
 function buildTableItems(body, rows, sheet){
   var COLS=['열1','열2','열3','열4','열5'];
@@ -1641,28 +1686,45 @@ function buildTableItems(body, rows, sheet){
     }
 
     /* 본문 */
-    wrap.appendChild(el2('div','dsec','표 내용'));
+    wrap.appendChild(el2('div','dsec','표 내용 · 설명'));
     bodyRows.forEach(function(r,i){
       var gi=rows.indexOf(r);
+      var note=(String(r['행유형']||'').trim()==='설명');
       var box=itemShell(i+1, bodyRows.length,
         function(){ moveRow(sheet,rows,gi,gi-1); draw() },
         function(){ moveRow(sheet,rows,gi,gi+1); draw() },
         function(){ delRowFrom(sheet,rows,r); draw() });
-      var g=el2('div','g'+(ncol>=4?' c2':''));
-      for(var k=0;k<ncol;k++){
-        var lab=(head && String(head[COLS[k]]||'').trim()) ? head[COLS[k]] : ((k+1)+'번째 칸');
-        g.appendChild(capWrap(lab, k===0 ? textInput(r,COLS[k],'') : textArea(r,COLS[k],'',34)));
+      /* 이 줄을 표로 볼지 설명 문단으로 볼지 */
+      var tw=el2('div','fld tsel');
+      tw.appendChild(selectBox([['표 줄','본문'],['설명 문단','설명']], note?'설명':'본문', function(v){
+        r['행유형']=v;
+        if(v==='설명'){ for(var k=1;k<5;k++) r[COLS[k]]='' }
+        draw();
+      }));
+      box.appendChild(tw);
+      var g=el2('div', note ? 'g' : ('g'+(ncol>=4?' c2':'')));
+      if(note){
+        g.appendChild(capWrap('설명 글 (■ ● - ※ 기호로 단계 표현)',
+          textArea(r,'열1','예)\n■ 큰 항목\n  ● 중간 항목\n    - 세부 내용', 96)));
+      }else{
+        for(var k=0;k<ncol;k++){
+          var lab=(head && String(head[COLS[k]]||'').trim()) ? head[COLS[k]] : ((k+1)+'번째 칸');
+          g.appendChild(capWrap(lab, k===0 ? textInput(r,COLS[k],'') : textArea(r,COLS[k],'',34)));
+        }
       }
       box.appendChild(g); wrap.appendChild(box);
     });
-    var add=el2('button','addrow','＋ 줄 추가');
-    add.onclick=function(){
+    function newRow(kind){
       var last=rows[rows.length-1]||{};
       addRowTo(sheet,rows,{'통신사':last['통신사']||CUR,'중분류':last['중분류']||'','표명':last['표명']||'',
-        '순번':'','행유형':'본문','열1':'','열2':'','열3':'','열4':'','열5':'','배치':last['배치']||''});
+        '순번':'','행유형':kind,'열1':'','열2':'','열3':'','열4':'','열5':'','배치':last['배치']||''});
       draw();
-    };
-    wrap.appendChild(add);
+    }
+    var addbar=el2('div','addbar');
+    var add=el2('button','addrow','＋ 표 줄 추가');   add.onclick=function(){ newRow('본문') };
+    var addn=el2('button','addrow','＋ 설명 추가');   addn.onclick=function(){ newRow('설명') };
+    addbar.appendChild(add); addbar.appendChild(addn);
+    wrap.appendChild(addbar);
   }
   draw();
   body.appendChild(wrap);
