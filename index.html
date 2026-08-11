@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>통신사별 환수규정</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --bg:#f3f5f8; --side:#ffffff; --card:#ffffff;
+  --line:#dde3ec; --line2:#e9edf3; --tline:#dfe4ec; --thead:#c2d7f2;
+  --tx:#1a1d23; --tx2:#4e5560; --tx3:#8b919c;
+  --pri:#0d5bd4; --pri-w:#e7f0fd;
+  --warn:#d63a31; --warn-w:#fef0ee;
+  --r:10px;
+  --sideW:222px; --topH:56px; --barH:0px;
+  --mk:16px;   /* 들여쓰기 한 단계 = 마커칸 너비 */
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--tx);
+  font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",sans-serif;
+  font-size:14px; line-height:1.6; -webkit-text-size-adjust:100%; -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;font-size:13px;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:13px}
+
+/* ── 상단 ── */
+.topbar{
+  background:#fff;border-bottom:1px solid var(--line);position:fixed;top:0;left:0;right:0;
+  height:var(--topH);z-index:60;display:flex;align-items:center;gap:12px;padding:0 20px
+}
+.hamb{display:none;border:1px solid var(--line);background:#fff;border-radius:6px;width:32px;height:32px;font-size:14px;line-height:1;color:var(--tx2)}
+.brand{display:flex;align-items:baseline;gap:10px;min-width:0;overflow:hidden;flex:1}
+.brand h1{font-size:16px;font-weight:700;margin:0;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--tx)}
+.tnotice{
+  font-size:12.5px;font-weight:500;color:#4a5361;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  padding-left:12px;border-left:1px solid var(--line);min-width:0
+}
+.tools{margin-left:auto;display:flex;align-items:center;gap:6px;flex:none}
+.srch{position:relative}
+.srch input{
+  width:250px;height:33px;padding:0 28px 0 31px;border:1px solid var(--line);
+  border-radius:6px;background:#f7fafe;outline:none;color:var(--tx)
+}
+.srch input::placeholder{color:var(--tx3)}
+.srch input:focus{border-color:var(--pri);background:#fff;box-shadow:0 0 0 3px rgba(13,91,212,.13)}
+input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none;display:none}
+.srch .ic{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:13px}
+.srch .clr{position:absolute;right:5px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--tx3);font-size:15px;display:none;padding:2px 5px;line-height:1}
+.btn{height:33px;padding:0 12px;border:1px solid var(--line);background:#fff;border-radius:6px;color:var(--tx2);font-weight:500;white-space:nowrap}
+.btn:hover{background:#f2f7fd;border-color:#c3d8f2;color:var(--tx)}
+.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}
+.btn.pri:hover{background:#0a4bb0;color:#fff}
+.btn:disabled{opacity:.5;cursor:default}
+
+/* ── 사이드바 ── */
+.side{
+  position:fixed;top:calc(var(--topH) + var(--barH));bottom:0;left:0;width:var(--sideW);
+  background:var(--side);border-right:1px solid var(--line);overflow-y:auto;z-index:55;padding:14px 10px 26px;
+  display:flex;flex-direction:column
+}
+.side .gp{margin-bottom:2px;flex:none}
+.gt{
+  width:100%;display:flex;align-items:center;gap:9px;border:0;background:none;text-align:left;
+  padding:8px 10px;font-size:13.5px;font-weight:600;color:var(--tx2);border-radius:6px;letter-spacing:-.01em
+}
+.gt:hover{background:#eff4fb;color:var(--tx)}
+.gt .ci{width:17px;height:17px;flex:none;display:block}
+.gt .ci svg{display:block;width:17px;height:17px}
+.gt .arw{margin-left:auto;color:#c3c6cc;font-size:10px;transition:transform .15s}
+.gp.open .gt{color:var(--tx)}
+.gp.open .gt .arw{transform:rotate(90deg)}
+.subs{display:none;padding:2px 0 8px}
+.gp.open .subs{display:block}
+.sb{
+  width:100%;border:0;background:none;text-align:left;padding:6px 10px 6px 36px;
+  font-size:13px;color:var(--tx2);border-radius:6px
+}
+.sb:hover{background:#eff4fb;color:var(--tx)}
+.sb.on{color:#0a4bb0;font-weight:700;background:var(--pri-w)}
+.sideBk{display:none;position:fixed;inset:0;background:rgba(20,22,26,.35);z-index:54}
+.sidever{
+  margin:26px 4px 0;flex:none;padding:12px 8px 0;border-top:1px solid var(--line2);
+  display:flex;flex-direction:column;align-items:flex-start;gap:5px
+}
+.side .sidever{margin-top:auto}
+.sidever .vb{
+  font-size:11.5px;font-weight:700;color:#0a4bb0;background:var(--pri-w);
+  border:1px solid #cfe0f8;border-radius:5px;padding:3px 9px;letter-spacing:-.01em
+}
+.sidever .vu{font-size:11px;color:var(--tx3);padding-left:2px;letter-spacing:-.01em}
+
+/* ── 본문 ── */
+.body{margin-left:var(--sideW);padding:calc(var(--topH) + var(--barH) + 26px) 32px 80px;max-width:1520px}
+.crumb{font-size:15px;font-weight:600;color:#39414e;margin-bottom:22px;display:flex;align-items:center;min-height:32px}
+.crumb b{color:var(--tx);font-weight:700;font-size:17.5px;letter-spacing:-.02em}
+.crumb .sep{margin:0 11px;color:#b9c2cf;font-size:14px;font-weight:400}
+.clogo{display:block;object-fit:contain;flex:none;-webkit-user-drag:none;user-select:none}
+.clogo.mini{display:inline-block;vertical-align:middle;margin-right:8px}
+.seclab .cnt{color:var(--tx3);font-weight:500;font-size:12px}
+
+/* 핵심 요약 */
+.keys{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px;align-items:stretch}
+.keys > .key{
+  background:#e9f1fd;border:1px solid #c8dcf7;border-radius:var(--r);
+  padding:14px 20px;min-width:190px;display:flex;flex-direction:column;justify-content:center
+}
+.keys > .key .k{font-size:13px;color:#31537f;font-weight:700;letter-spacing:-.01em}
+.keys > .key .v{font-size:18px;font-weight:800;margin-top:5px;color:#0f3a7d;letter-spacing:-.03em;line-height:1.35}
+
+.seclab{
+  font-size:13px;font-weight:700;color:var(--tx2);
+  margin:34px 0 14px;letter-spacing:-.01em;display:flex;align-items:center;gap:2px
+}
+.seclab:first-child{margin-top:0}
+
+/* ── 카드 ── */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  margin-bottom:16px;overflow:hidden
+}
+.card > h3{
+  margin:0;padding:14px 18px 11px;font-size:14.5px;font-weight:700;letter-spacing:-.01em;
+  color:var(--tx);display:flex;align-items:center;gap:9px;background:none;border:0
+}
+.card > h3 .dot{display:none}
+.card > h3 .tag{margin-left:auto;font-size:11px;font-weight:600;color:#2f5f9e;background:#e6eefb;border-radius:5px;padding:3px 9px}
+.card > h3 .gtag{font-size:11px;font-weight:700;border-radius:5px;padding:3px 9px;border:0;letter-spacing:-.01em}
+.card .bd{padding:0 0 4px}
+.card .bd.pad{padding:0 18px 17px}
+
+/* 그룹 (소분류) */
+.gtabs{display:flex;gap:6px;margin:0 0 20px;flex-wrap:wrap;align-items:center}
+.gt2{
+  border:1px solid var(--line);background:#fff;border-radius:6px;padding:6px 13px;
+  font-size:13px;font-weight:500;color:var(--tx2);display:inline-flex;align-items:center;gap:7px
+}
+.gt2:hover{background:#f2f7fd;border-color:#c3d8f2;color:var(--tx)}
+.gt2.on{color:#fff;background:var(--tx);border-color:var(--tx)}
+.gt2 .gd{width:7px;height:7px;border-radius:50%;background:var(--tx3);flex:none}
+.ggrid{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:0 16px;align-items:start}
+.gcol{
+  min-width:0;background:color-mix(in srgb, var(--gc) 10%, #fff);
+  border-radius:12px;padding:14px 14px 2px
+}
+.ghead{
+  display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;letter-spacing:-.01em;
+  color:color-mix(in srgb, var(--gc) 88%, #1a1d23);
+  background:color-mix(in srgb, var(--gc) 22%, #fff);
+  border-radius:6px;padding:5px 11px;margin-bottom:13px
+}
+.ghead .gd{width:7px;height:7px;border-radius:50%;flex:none;background:var(--gc)}
+.gone{padding:0}
+
+/* 카드 그리드 */
+.grid{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:0 16px;align-items:start}
+.grid .col{min-width:0}
+
+/* ── 환수율 표 : 선 없이 정렬로 구분 ── */
+table.rt2{width:100%;border-collapse:collapse;font-size:13.2px}
+table.rt2 th,table.rt2 td{text-align:left;padding:10px 10px;vertical-align:top}
+table.rt2 tr > *:first-child{padding-left:18px}
+table.rt2 tr > *:last-child{padding-right:18px}
+table.rt2 thead th{
+  font-size:11.5px;font-weight:700;color:#5f6a79;background:#fff;
+  padding-top:8px;padding-bottom:8px;
+  border-top:1px solid var(--line2);border-bottom:1.5px solid #c8d2e0;
+  white-space:nowrap;letter-spacing:.02em
+}
+table.rt2 tbody td{border-bottom:1px solid var(--tline)}
+table.rt2 tbody tr:last-child td{border-bottom:0}
+table.rt2 tbody tr:hover td{background:#f6faff}
+table.rt2 th.k,table.rt2 td.key{width:1%;min-width:118px}
+table.rt2 th.k.nw,table.rt2 td.key.nw{white-space:nowrap}
+table.rt2 td.key{font-weight:600;color:var(--tx);word-break:keep-all;padding-right:22px}
+table.rt2 td.key.nb{border-bottom-color:transparent}
+table.rt2 td.key.mg{color:transparent}
+table.rt2 td.sec{color:var(--tx);word-break:keep-all;overflow-wrap:break-word;font-variant-numeric:tabular-nums}
+table.rt2 td.sec .memo{display:block;font-size:11.5px;color:#767d88;margin-top:2px;line-height:1.45}
+table.rt2 td.sec .memo.m-red{color:#c0392b;font-weight:600}
+table.rt2 td.sec .memo.m-blue{color:#1d6fc4;font-weight:600}
+table.rt2 td.sec .dv{color:#c8ccd3;margin:0 6px}
+table.rt2 td.sec .dash{color:#ccd0d6}
+table.rt2 th.val,table.rt2 td.val{width:1%;white-space:nowrap;text-align:right}
+.num{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;display:inline-block;min-width:42px;text-align:right;letter-spacing:-.02em}
+.num.txt{min-width:0;font-size:12.5px;font-weight:600;white-space:nowrap}
+.r3{color:var(--warn)}
+.r2{color:#b5651d}
+.r1{color:var(--tx)}
+.r0{color:var(--tx2)}
+
+/* ── 기준표 ── */
+table.t{width:100%;border-collapse:collapse;font-size:12.8px}
+table.t th,table.t td{
+  padding:10px 10px;text-align:left;vertical-align:top;line-height:1.55;
+  border-bottom:1px solid var(--tline)
+}
+table.t tr > *:first-child{padding-left:18px}
+table.t tr > *:last-child{padding-right:18px}
+table.t thead th{
+  font-size:11.5px;font-weight:700;color:#5f6a79;background:#fff;
+  padding-top:8px;padding-bottom:8px;white-space:nowrap;
+  border-top:1px solid var(--line2);border-bottom:1.5px solid #c8d2e0;letter-spacing:.02em
+}
+table.t tbody tr:last-child > td{border-bottom:0}
+table.t tbody td:first-child{font-weight:600;color:var(--tx);white-space:pre-wrap;padding-right:20px}
+table.t tbody tr:hover td{background:#f6faff}
+table.t td.w{white-space:pre-wrap;word-break:keep-all;overflow-wrap:break-word}
+table.t tbody td.nb{border-bottom-color:transparent}
+table.t tbody td.mg{color:transparent}
+.tblwrap{overflow-x:auto}
+
+/* ── 정책 ── */
+.pol{padding:14px 0;border-top:1px solid var(--tline)}
+.pol:first-child{padding-top:2px;border-top:0}
+.pol .st{font-weight:700;font-size:13.5px;margin-bottom:6px;color:var(--tx);word-break:keep-all;overflow-wrap:break-word}
+.pol .st.hm{padding-left:var(--mk);text-indent:calc(-1 * var(--mk))}
+.pol .st .mk{font-style:normal;display:inline-block;width:var(--mk);color:var(--pri);font-weight:700;text-indent:0}
+.pol .ct{font-size:13px;color:#3f4650;word-break:keep-all;overflow-wrap:break-word}
+.pol .ct.ind{margin-left:var(--mk)}
+.pol.hi{background:var(--warn-w);border-radius:8px;padding:13px 15px;margin:9px 0;border:0}
+.pol.hi .st{color:var(--warn)}
+.pol.hi .ct{color:#8f4a44}
+
+/* 계층 텍스트 */
+/* 들여쓰기 격자 : 마커칸 = 단계폭 = --mk. 모든 단계가 같은 눈금 위에 놓임 */
+.tx .l0,.tx .l1,.tx .l2,.tx .l3{
+  word-break:keep-all;overflow-wrap:break-word;
+  padding-left:var(--mk);text-indent:calc(-1 * var(--mk))
+}
+.tx .l0{font-weight:700;color:var(--tx);margin:15px 0 6px}
+.tx .l1{font-weight:600;color:var(--tx);margin:10px 0 3px}
+.tx .l2{margin:2px 0;color:#3f4650}
+.tx .l2.note,.tx .l2.arw{color:var(--tx3)}
+.tx .l3{margin:2px 0;text-indent:0}
+.tx > *:first-child{margin-top:0 !important}
+.tx .mk{
+  font-style:normal;display:inline-block;width:var(--mk);color:#aab1bc;font-weight:600;
+  text-indent:0;white-space:nowrap
+}
+.tx .l0 > .mk{color:var(--pri)}
+.tx .l1 > .mk{color:var(--pri);font-size:10px;vertical-align:1.5px}
+.tx .sp{height:9px;padding-left:0;text-indent:0}
+
+.empty{text-align:center;color:var(--tx3);padding:56px 0;font-size:13.5px}
+.ft{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--tx3);font-size:12px;display:flex;flex-wrap:wrap;gap:6px 18px}
+mark{background:#fff0a6;color:inherit;padding:0 1px;border-radius:2px}
+
+/* ── 모달 ── */
+.mask{position:fixed;inset:0;background:rgba(20,22,26,.4);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.mask.on{display:flex}
+.modal{background:#fff;border-radius:10px;width:100%;max-width:350px;padding:24px;box-shadow:0 16px 44px rgba(20,22,26,.18)}
+.modal h4{margin:0 0 4px;font-size:16px;font-weight:700}
+.modal p{margin:0 0 16px;font-size:12.5px;color:var(--tx3)}
+.modal input{width:100%;height:37px;padding:0 12px;border:1px solid var(--line);border-radius:6px;outline:none}
+.modal input:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(13,91,212,.13)}
+.modal .row{display:flex;gap:8px;margin-top:14px}
+.modal .row .btn{flex:1;height:37px}
+.err{color:var(--warn);font-size:12.5px;margin-top:8px;min-height:17px}
+
+/* ── 편집 모드 ── */
+.ebar{
+  position:fixed;top:var(--topH);left:0;right:0;height:44px;z-index:58;display:none;
+  align-items:center;gap:10px;padding:0 20px;background:var(--pri);color:#fff
+}
+body.edit .ebar{display:flex}
+body.edit{--barH:44px}
+.ebar .etag{font-weight:700;font-size:13px}
+.ebar .eh{font-size:12.5px;color:#d3e3f8}
+.ebar .demo{font-size:11.5px;font-weight:700;color:#7a4a00;background:#ffe8bf;border-radius:4px;padding:3px 9px}
+.ebar .sp{margin-left:auto;display:flex;gap:6px}
+.ebar .eb{height:29px;padding:0 11px;border-radius:5px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font-weight:500;font-size:12.5px}
+.ebar .eb:hover{background:rgba(255,255,255,.2)}
+.ebar .eb.on{background:#fff;color:var(--pri);border-color:#fff;font-weight:700}
+
+.cardops{margin-left:auto;display:flex;gap:3px;flex:none;align-items:center}
+.cardops button{border:1px solid var(--line);background:#fff;border-radius:5px;height:24px;min-width:24px;padding:0 6px;font-size:11.5px;line-height:1;color:var(--tx2);opacity:.7}
+.card:hover .cardops button{opacity:1}
+.cardops button:hover{background:#f0f1f3;color:var(--tx)}
+.cardops .drag{cursor:grab;font-size:13px;letter-spacing:-1px;color:var(--tx3)}
+.cardops .drag:active{cursor:grabbing}
+.cardops .ed{color:var(--pri);border-color:#cddfF5;padding:0 9px;font-weight:600}
+.cardops .ed:hover{background:var(--pri-w)}
+.editbtn{border:1px solid #cddff5;background:#fff;border-radius:5px;height:24px;padding:0 9px;font-size:11.5px;font-weight:600;color:var(--pri)}
+.editbtn:hover{background:var(--pri-w)}
+.keyedit{margin-left:2px;align-self:center}
+body.edit .card:hover{border-color:#c9dbf2}
+.card.dragging{opacity:.45}
+.card.dropb{box-shadow:0 -3px 0 0 var(--pri)}
+.card.dropa{box-shadow:0 3px 0 0 var(--pri)}
+
+/* 서랍 */
+.dmask{position:fixed;inset:0;background:rgba(20,22,26,.35);z-index:110;display:none}
+.dmask.on{display:block}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:560px;max-width:100%;background:#fff;z-index:111;
+  transform:translateX(100%);transition:transform .2s;display:flex;flex-direction:column;
+  box-shadow:-4px 0 30px rgba(20,22,26,.12)
+}
+.drawer.on{transform:none}
+.dhead{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.dhead b{font-size:15px;font-weight:700}
+.dhead .x{margin-left:auto;border:0;background:none;font-size:17px;color:var(--tx3);line-height:1;padding:4px 6px;border-radius:4px}
+.dhead .x:hover{background:#f0f1f3}
+.dbody{flex:1;overflow-y:auto;padding:18px 20px}
+.dfoot{padding:12px 20px;border-top:1px solid var(--line);display:flex;gap:8px;background:#f7fafe}
+.dfoot .grow{flex:1}
+
+.fld{margin-bottom:16px}
+.fld > label{display:block;font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:6px}
+.fld input[type=text],.fld select,.fld textarea{
+  width:100%;border:1px solid var(--line);border-radius:6px;padding:8px 11px;outline:none;
+  font-size:13.5px;color:var(--tx);background:#fff
+}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(13,91,212,.13)}
+.fld textarea{resize:vertical;line-height:1.6}
+.row2{display:flex;gap:10px}
+.row2 > .fld{flex:1;min-width:0}
+.hint{font-size:11.5px;color:var(--tx3);margin-top:5px}
+
+.dsec{font-size:12px;font-weight:600;color:var(--tx3);margin:22px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.item{border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:10px;background:#f8fbff}
+.item .top{display:flex;align-items:center;gap:4px;margin-bottom:8px}
+.item .no{font-size:11px;font-weight:600;color:var(--tx3);margin-right:auto}
+.item .mb{border:1px solid var(--line);background:#fff;border-radius:5px;width:24px;height:24px;line-height:1;color:var(--tx2);font-size:11.5px}
+.item .mb:hover{background:#f0f1f3}
+.item .mb.del:hover{background:var(--warn-w);border-color:#f3cdca;color:var(--warn)}
+.item .g{display:grid;gap:8px}
+.item .g.c2{grid-template-columns:1fr 1fr}
+.item input[type=text],.item textarea{width:100%;border:1px solid var(--line);border-radius:6px;padding:7px 10px;outline:none;font-size:13px;background:#fff}
+.item textarea{resize:vertical;min-height:34px;line-height:1.6}
+.item input:focus,.item textarea:focus{border-color:var(--pri)}
+.item .cap{font-size:11px;color:var(--tx3);margin-bottom:3px;display:block}
+.item .memorow{display:flex;gap:6px}
+.item .memorow input{flex:1;min-width:0}
+.item .memorow select{width:74px;flex:none;border:1px solid var(--line);border-radius:6px;padding:0 6px;background:#fff;font-size:12.5px;color:var(--tx)}
+.chk{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--tx2);cursor:pointer}
+.addrow{width:100%;border:1px dashed #d5d8dd;background:#fff;border-radius:8px;padding:10px;color:var(--tx2);font-weight:500;font-size:13px}
+.addrow:hover{background:#f2f7fd;border-color:var(--pri);color:var(--pri)}
+.dbtn{height:35px;padding:0 15px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--tx2);font-weight:500}
+.dbtn:hover{background:#f2f7fd}
+.dbtn.pri{background:var(--pri);border-color:var(--pri);color:#fff;font-weight:600}
+.dbtn.pri:hover{background:#0a4bb0}
+.dbtn.danger{color:var(--warn);border-color:#f0cfcc}
+.dbtn.danger:hover{background:var(--warn-w)}
+
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+  background:var(--tx);color:#fff;padding:11px 19px;border-radius:6px;font-size:13px;
+  opacity:0;pointer-events:none;transition:.2s;z-index:200
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (min-width:1200px){ .cardops .mv{display:none} }
+@media (max-width:1199px){
+  .cardops .drag{display:none}
+  .hamb{display:block}
+  .tnotice{display:none}
+  .side{transform:translateX(-100%);transition:transform .2s;box-shadow:2px 0 20px rgba(20,22,26,.09)}
+  body.nav .side{transform:none}
+  body.nav .sideBk{display:block}
+  .body{margin-left:0;padding:calc(var(--topH) + var(--barH) + 18px) 16px 60px}
+  .brand h1{font-size:14.5px}
+  .srch input{width:150px}
+  .ggrid{grid-template-columns:1fr;gap:0}
+  .gcol{margin-bottom:16px;padding-bottom:4px}
+  .tblwrap table.t{min-width:520px}
+  .tblwrap table.t.wide{min-width:720px}
+  .keys > .key{flex:1;min-width:calc(50% - 5px)}
+  .crumb b{font-size:17px}
+  .clogo{transform:scale(.9);transform-origin:left center}
+}
+@media (max-width:760px){
+  .ebar{padding:0 12px;gap:7px}
+  .ebar .eh,.ebar .demo{display:none}
+  .ebar .sp{gap:5px}
+  .ebar .eb{padding:0 10px;font-size:12px}
+  .drawer{width:100%}
+  .dbody{padding:14px}
+  .item .g.c2{grid-template-columns:1fr}
+  table.rt2 th.k,table.rt2 td.key{min-width:0;padding-right:12px}
+  table.rt2 th.k.nw,table.rt2 td.key.nw{white-space:normal}
+  table.rt2 th,table.rt2 td{padding:9px 8px}
+  table.rt2 tr > *:first-child,table.t tr > *:first-child{padding-left:14px}
+  table.rt2 tr > *:last-child,table.t tr > *:last-child{padding-right:14px}
+  .card .bd.pad{padding:0 14px 15px}
+  .card > h3{padding:13px 14px 10px}
+}
+@media (max-width:560px){
+  .topbar{gap:8px;padding:0 14px}
+  .brand h1{font-size:14px;max-width:120px}
+  .srch input{width:140px}
+}
+@media print{
+  .topbar,.side,.sideBk,.ebar,.drawer,.dmask,.mask,.editbtn,.cardops,.gtabs{display:none !important}
+  .body{margin:0;padding:0;max-width:none}
+  body{background:#fff;font-size:11px}
+  .card{break-inside:avoid;border-color:#ccc}
+  .keys > .key{background:#fff !important;border-color:#bbb}
+  .keys > .key .k{color:#666}
+  .keys > .key .v{color:#000}
+  table.rt2 thead th,table.t thead th{background:#f0f0f0;color:#333}
+}
+
+/* ── 접기형 메뉴 (설명문 카드) ── */
+.foldbar{display:flex;align-items:center;gap:8px;margin:-2px 0 14px}
+.foldbar .fb{
+  height:29px;padding:0 12px;border:1px solid var(--line);background:#fff;border-radius:6px;
+  color:var(--tx2);font-size:12.5px;font-weight:500
+}
+.foldbar .fb:hover{background:#f2f7fd;border-color:#c3d8f2;color:var(--tx)}
+.foldbar .fcnt{margin-left:auto;font-size:12px;color:var(--tx3)}
+.acc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:18px}
+.ai{border-top:1px solid var(--line2)}
+.ai:first-child{border-top:0}
+.ah{
+  display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;
+  font-size:14.5px;font-weight:700;color:var(--tx);letter-spacing:-.01em;user-select:none
+}
+.ah:hover{background:#f7fafe}
+.ai.on > .ah{background:#f2f7fe}
+.ah:focus-visible{outline:2px solid var(--pri);outline-offset:-2px}
+.ah .chev{flex:none;width:13px;color:#a8b0bd;font-size:12px;line-height:1;transition:transform .15s}
+.ai.on > .ah .chev{transform:rotate(90deg);color:var(--pri)}
+.ah .at{flex:1;min-width:0;word-break:keep-all;overflow-wrap:break-word}
+.ah .tag,.ah .gtag{flex:none}
+.ab{display:none;border-top:1px solid var(--line2);background:#fcfdff}
+.ai.on > .ab{display:block}
+.ab > .bd{padding-top:14px}
+.ab > .bd.pad{padding:12px 18px 17px}
+.acc .cardops{flex:none;margin-left:6px}
+.acc .cardops .drag{display:none}
+.acc .cardops .mv{display:inline-block !important}
+.acc .cardops button{opacity:1}
+@media (max-width:640px){
+  .ah{padding:13px 14px;font-size:13.5px}
+  .ab > .bd.pad{padding:12px 14px 15px}
+}
+@media print{
+  .ab{display:block !important}
+  .ah .chev,.foldbar{display:none !important}
+  .ai{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="hamb" id="hamb" aria-label="메뉴">☰</button>
+  <div class="brand">
+    <h1 id="siteTitle">통신사별 환수규정</h1>
+    <span class="tnotice" id="tNotice"></span>
+  </div>
+  <div class="tools">
+    <div class="srch">
+      <span class="ic">⌕</span>
+      <input id="search" type="search" placeholder="전체 검색 (예: 90일, 재가입, 위면해지)" autocomplete="off">
+      <button class="clr" id="clrSearch" title="지우기">×</button>
+    </div>
+    <button class="btn" id="btnAdmin">관리자</button>
+  </div>
+</header>
+
+<aside class="side" id="side"></aside>
+<div class="sideBk" id="sideBk"></div>
+
+<div class="body">
+  <div class="crumb" id="crumb"></div>
+  <div id="main"></div>
+  <div class="ft">
+    <span id="ftNotice"></span>
+    <span id="ftUpdated"></span>
+  </div>
+</div>
+
+<div class="mask" id="loginMask">
+  <div class="modal">
+    <h4>관리자 로그인</h4>
+    <p>내용 수정은 관리자만 가능합니다.</p>
+    <input id="pw" type="password" placeholder="비밀번호" autocomplete="current-password">
+    <div class="err" id="loginErr"></div>
+    <div class="row">
+      <button class="btn" id="loginCancel">취소</button>
+      <button class="btn pri" id="loginOk">확인</button>
+    </div>
+  </div>
+</div>
+
+<div class="ebar" id="ebar">
+  <span class="etag">편집 모드</span>
+  <span class="demo" id="edDemo" style="display:none">미리보기 · 저장 안 됨</span>
+  <span class="eh" id="edHint"><b>⠿</b> 을 잡고 끌어서 순서 변경, <b>✎ 수정</b> 으로 내용 편집</span>
+  <div class="sp">
+    <button class="eb" id="edAdd">＋ 카드 추가</button>
+    <button class="eb" id="edConf">설정</button>
+    <button class="eb" id="edExit">나가기</button>
+    <button class="eb on" id="edSave">저장</button>
+  </div>
+</div>
+
+<div class="dmask" id="dmask"></div>
+<aside class="drawer" id="drawer">
+  <div class="dhead"><b id="dTitle">카드 수정</b><button class="x" id="dClose">✕</button></div>
+  <div class="dbody" id="dBody"></div>
+  <div class="dfoot" id="dFoot"></div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═════════ 설정 ═════════
+   Apps Script 웹앱 URL 을 여기에 붙여넣으세요.
+   비워두면 아래 내장 데이터로만 동작합니다(열람 전용).            */
+var API_URL = "https://script.google.com/macros/s/AKfycbxY8roKMsA1Zu2jBEkndvYz9XdN0hjIDj_Kx5orVVNMNH2LEyH-TjbP7PomMik25FkqUg/exec";
+/* ═══════════════════════ */
+
+var SHEETS = {
+  '설정':   ['키','값'],
+  '통신사': ['code','name','color'],
+  '중분류': ['통신사','중분류','표시'],
+  '환수율': ['통신사','중분류','그룹','구분','대상','구간','환수율','비고','비고색','배치','정렬'],
+  '정책':   ['통신사','중분류','그룹','섹션','소제목','내용','강조','배치','정렬'],
+  '기준표': ['통신사','중분류','그룹','표명','순번','행유형','열1','열2','열3','열4','열5','배치','정렬']
+};
+
+var LOGOS = {"KT":{"h":24,"src":"data:image/png;base64,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"},"SK":{"h":22,"src":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAABCCAYAAADHYU1tAAASKElEQVR42u1deZRU5ZX/3e9779XWC0sjiDsYSARNoqJjYkxDjFsgC0JjJjHoMZmMiTOeHDKcTGaS6jKTyaoZE08mnkzGGU5GnWoTE9ERRUMREQW7O+yirLI2DTQ03V3be9+988erXmjB7mq6oel+95w6XVX9quq99/2+312+e+9Hyce2HNyzM11BCAkgBACCoSdEENf1MHFSaXr2ly66iojeisdFJRLEZ9u1iPjjBMB54tfb6hv3u5eJERYidabPTBGRYZNt2Nv252gpyVXXjpJLJo5aMnXayFUAVhGRAEAyKXrePDLSS7BZK19qrniu5giisQgxyxCFKaAUUUuzy7fONbHZX7poFABMmQI6eyceiYjoV5YeHPvyM3mEI0Ry5oeOIAApCkej0Zu0Yvz5uYMYVXHslvMu2WomT43VrUodfvCaj496iohMYdIpop7JwtKWklgsStFoBEMcqGDPhW1bAOANletybNuLxTTCYQUZLEMngPHYGBByWU1NB13ZvN7olUtbrln6h8z/fuDKnfXrVx/98dRp5TVExMlkUldVVZn3BKoIiJnhP4YuUAECM0P80aShclXMQsJSuLZBZWppEINIIWwLCBrMFu98W2TXNnPllvXbnpz5+dKFInIfEb3WkxlmIZBABoxZVbtNXZhEngpFAIjmt9e78sjWQ1fu2+WuPNyQ/9uKc+nRRx+ttb/61avdAKiBnG6+B0gKgFUAGQgTAFHRmIYxyix65BAdbPB+9dbaxs2Trjhn+cnAanUYFYEEMgDmFjoCFNzluYAZIBI9ojwmS2qaTeux7DO7t7d+84IJJb+WpGiqouNsVhXczEDOqN8gHpWPDKvVy7jsVz/Z9nMRmUpVZOJxUQFQAxlUdiwzyHYs8+LTx8KPPfzmUyISAaq7xosDoAZyxpEKCMGyRGfT2lvyu8zk9asP/XMikeCamk58Bs7UULEFz3jETU7wmnp37mTATIjFQnrTmrQ8/fiu+0Tkp0R0VESIiEQNyxk85HAqhQd3Pod0e7/L/971/1M9XrpMFtXlb+/VP0AQccmyLa5d4ZWteGHPLADSzqoBow4BGw8wPjaky0SkHiYpnYCUT+X4jtdeJ1CL5AQRBccBGnYreeXlw/eKyONE1VwA6mBQG6cxWjL02NRAFIOVoIvzcfqFQUQg0iQifc47UEQqk8vT5nW5KwGMBRJ743FRljHieR7Bcwk8hMOpShG8PLExvioREaqpOfthSjpbTspWSjOE34Nzemsynuz4Hj8v8DxBLgPYtjZOmDUbFE2CIkJKa9N0EPYzj+/4CIAaAMoac06JNWasi0hU+xd6HJfLCdQAneSsu74nJ/ieM3k8oBQQjjBGj476A0wkyeTZOzMLoZv8rHkXLqm8mSezESGAOkxD7mYm8gnMRiZAyckI8r0/3/U1+xbrgf1tsmXTsUs31YdCDXszHI1airl9LFSv/AMRQCuN1mZNbRm5A0DNpgTEuraSEmPPd2A54v94j06HvMf/ZdAe7yfBhTFqrGkDsFmkdRwRDrR7lWcXjXacrwvC7eEIQaQY7iIopdDW6lI0pkX6IZvFV/sKba3u+599Yue3F/0yf+fmtcbESizNDN85EzoBAZ7guxSQzQgadreNBAE1UgPrk595X/Wwc0DmASLSBpDQ2W6ei1A2XcxES2pfm9aY/p2gAoCJiDaTwpdeW9rI/7pw9/xd2zwTCist4CLMAD/byvNURzqmtWyZWKlU/5zq/v11dO65VwmwUU0BsBFTuPO9wSGVSGF6YrpHREMkJ7V3YIvHRW1K1FANqtoTlqfVvtrw12Vj6BeTJ4/b3tsE5p4tEtFEVbh2xphvfGJm042P/bxpPEgYrAthgJ5Pl8jPtkqncx3ItqZPH7gBmzs3qZPJudwPN6DfJDHcolciqroypRIJ8kCAsFyz5Km9C++b98bnYrEy9Y0HJv4RwPaamv4J/RCRiceXWUR05MXf7/vd+PPzf79/X9o4NikpGLM9Miv5YHUcpwPVVj/fFCIiWfv67vMv/kBZpLy8fIuvWuNKpBqDCbDDAaBEHfecReTC55K7Hlowv372ulWgbW9n+Iabwp5S4va71qqsRHW10LpVx3aUj2zGnl0AHAa4lw4VK0DnUVYeszuc4f48werqlAaA+vpD13373vXrf/CtDT8Skeu0lSiwalwlk0kdwGhgAQr4apxUgkVk2n8/vO17X/7syrqf/lPj7S/8LoPmI54pK3dgWWJhgILoRCS5tBFjDIrlJ2NESso0RlbYtRAg/vExNCArU26eMpvrVagulVm4a1vtwv/59+3PzvvyJT+2HHqlqspn2GRyCvVUJxNIsQwKn0F9FX/t/z2175sL5tfP+curQNMhDctmU1oW1SBPmywPmHZLpVIgAvbsaqls3J+Bbdsk3Fv7FGAjVFLOctHEyDIAmPL1ShkQoCohFQ5rOdxg5Ve8cMzZsFpmLl/SNPO//m3rs7ffeeFPykY7fw4A2482aHVKEXXYoH/1zJO7Fnxjft2cta8BjfuyCEdCXiSqNQtrZgNSqiOJmQASEVVXB9Ufcarnn99i33bbpJyIXB2/b8NnGw/kuKwsqpi9QohK9cjExuT0BRPgfnTG+fUAsHEjZMDW+plBpPJWSSxKmbQ2r7yYVutrm2auePnIzMce3rp43l0TH4yW0/IAsKesYttt0CsWP7n3O/d/sW7O2lWEg/tzEomEuLQ8pNmwxdxZDtI18z6bdbNEDqNbFP0UJCciZQ/G6x958Y8ZicVCwuIq/zfVe4S2/PiqMcqUlNt6wuRQEkDj3LlJnUiQGSCgahD5iQnGGCgluqTEQTatzKtLs2r9G02zUs8fnrXo4R2LP3/3xQ/ZZZQKAFu84wpAwcW1v/31jtn3fPrVr2zfFCprbHA5ErGlrMzRzF2XMQtkKcofGzIQElwwITpRRI4W/JVTBavzRqrx1gV3r/zy63+SyW7WFssS3XMKQoHdFSGbdvXEy4hum3Ppg34pteiamtOYPcXCUJp1SUkYbg5mdSqr3lxzYNbypU2zHvvZ1sV33DPxoXBpANhioisiEvppov65556kEU0HbdghNmVltmbxa5Le4/MIhyy18+00/vEra57wTYFCal+fWB3wPEHLEULDHo13thEUOWxZUD1bE9IxR0SUcUJaXVfp1L3vstiGeFxUVaF26vSl+YldSJAVELGOlTpwc8q8ujSjNtSaWa+81DzrNw9tWTzv7ksfKhnVDtherLcNc9m6iXOHGo1XWqaU8UizmC5LlScDKqA0cOwIsPiJNkAUpN0k6ABPkWAFQGRBW5YXCtsKMEp6le5MABhaaxw9mpcZt5XRnV+9JEFEriRFJwYijtqLwEMBeg7YMEh5uqQ0hHxWm5Uvt6lN9WbWiqX1sx794VvPzv+bSQ+GR1DKM0IECsB6EgmFFFmWsViMgHSPzspxTq9yUFpeSJQW+/i8o+OQTYVxKyQUCBXKoLuAzTeVISyWiPJptpcQJ7KQzXrm4glR65bbo38YOS76XLJbJeppBCqj03djf9aKBguDFOuSEhvZDJnVqYzaUOvOrFu5buazyW0P6LkUTz7Zc8uXYWwG+MCR9kTlYkxNAbPpMi4Gx+kxepev05UEu8O+ACcGyEOvQ/R+NYEAOXXDrc7GmXdc8rWCWSPdv/103dJuj653gMCsoJToaKlDxnPcV19qkYMN2SrLBqqqqoIVrZMOtHTT1lzcmEg7sLljLDpMB+n2HCd4jq4ZUdzhsPXWelBKoaXZ8K2zK+hbP/7gfCLaX/tordU9YWbQlaIwA6RYR2M22bZOB0gc6hqBEQor2rgmI0ueeucHIvI5Ikp3T7+0Bu8FAMJBOfeQByoDTojUtrfy/Mj3D3+ShReLyI3V5Js17WAdxMV9FIzi8LBdIEwoLYPauTXn/eaho9OV3h5/gCbGp9SIbjecBx9jifiPICp1muxbdZyvcOo+R99IxniEsjLLenNtxl38eNt3d21t+WJVFRlJih7kjCoBVAf8FqvOGv12Z0p6w198ghBWwSkj6XXJyfGgB4wBykeE9PIXmrni3Dd/ISIvEeFAPC4qqOsf1oxqwEYbZktwXKlIHwL+ZAAIlFaklVIsxi/kKpJdWViFQyGz4kUe8dtfbvwu0dSvbdoUAHVY24ZsBJGo6FDY8gP+kL67BqIgIki35dHW6sIJE2tNSooNLApgh5Ru2Js3a1Z59zLLIiKsCoA6HCFKQDZrePLUsJp9V3TJ7ncOrdJkkRGWvrotChY8z4PW6podb+OGdasl1nKUJRyxCpuYFMGqhhGJhGXN6yxPL9p2H3Dp6wFQhyVQCcYTjBhtY949k75NNPkv/fXdlgO4Obn+qcd2/PA3P9/70f07YcIRW4t4RSzvCmybdWNDHrUrzU0iMiEA6jBmVc/1sHtHpjQeX2aNGnWebmrae8rL1KkUQEQrROQLY8fHfh//ux1XNh9x2bZJSWe0qceTEyEClHlnizVmY/2BGwOgDk93HwIBESEUsjiRmO4lkyL33z/plIEqIlRdLaquru7ox26+as7Hbtm34pnfZsfDshgwvaRUhkAhFLKx9x0jf1ndNCNY+RmWMB1Qs0ISCeKrr766mYh2XP+JMc+fe14J8nnDvS7yEz+2q7VRzc2t1Ljf+3gA1EAGRJYtEyseFzX+/OifRlQwjGECeluA7AOVFMjNWTh2RI0LgBrIgEjlQUgiQRyNOFrrYlcaC/FX8bsw7tvbIgFQAxkQSY3xI7IHGlqnpls1iKzigrSFjipECm6OKQDqcPT4QQOa8iMilKquhhMirFl16JN7dmYRCllFNPf1GVXgL25ZNgWt0Yc7ZI2B6s+6/lQKiigFIOFtXtv09X9ZsOPD2YxnIjHRfhOKYppjCkQMRo4OB0Ad1n4/EWAh3d4boJ++nCNRhXWvH577o+9s+cn6OiORmFVYSu19HZX/RyDIY9z4UQFQhzebGmhWlzfuaTWkSAlLn8BqO4CbB5Q4od37jt64ennTjMSCHdPXveEiEg6JcJF7CxQ6qhhDXFoaVSPHoDYA6jAUZiAUVmrrplb8wz1r/lMrBSEXJBpCfcsFJhCELaRbbOzankY67XE06hBz3zbAIBK4Oci48SFcNKF0eQDUYSpKEXLpENa8lhXp2BvqVLQ/AchDkWVCYU3RqK25r7uXiAYpgefl1fiLJT/jU+c8HgB1OCt/bRAtsQii0ZnoLH0Gqg94sUTcwg47fewwSh5ENIciNk263NkEOOsDoA5rn0qDmTtLf45rKtEXB609s18X97luVQFEQCYt/P7Lw9aMW859gojcAKjD3fvvakKesf3UCoxOnq/2AQY8uvL6/JEPXVexaMMGcQKgBnLGow9+qycFiILSgrZWVz44rUR/as7YhQBatD4UCoAayJkHql9o2t4V0ERLoD9yE56+6qPn/Uc+52ceBkuogZx586Mj/U84l3XVZ74Qab134RV35XOGpNASUA32awhkCAKzQwrpfMQgUtzc0orb54+mBfEPf52IjiWTnXtfDU7VT8f9CWRIafr2BmoMkAulNIzrmEwmp+fcNRr3f+eie0IltEjOXNvJQAKhDpASAaRIWluMVz5C7JvnOnu++7Mr5joOvd69N+qAA9VP1CpWgxfbWiaQs0ntkwIgmnNZYsNZ6/KrQvanvziq/o57Lvk8Eb29bJmccDfJAQNqYc8jUUogRbV4oU4NQYGV2pMopUQphlKFuP1ggmWhKxMRwKzY8yCuayzL8tTFlzpq2g0lDbPvvPDR939oxPeJyPX3UT3xlqcDAlR285TNCLIZUbkcG+nY/5J7CVRipT0CUSiXFSIKGPZkksu5uuWYMa6rpa8JIP3uXwhABLJtW4kIBB4iEdKjz7Ex9gLBB6+JrKu8eewfrr6+4hEiOuiDWhQRnbQKdkCAWjE2bC77sGcqxmXN6DEjnM6EWTn+at7FsoXgL1h7RsOOeNtJta+vBWA9EWldOBG5yk+VastCt5Wlnnqbn+z+9+b4k/dOF7THQw1aWlqPhsMaFedYrdFSt/ayqWOXzrv7gjdgo67dm4/Hl1kPPDDD62mf3H4d/S7byozNpb3rspn8vkipNcVkNRNMr35LoEWHASX6cGvm6IoRIywHKGkaOtuW99+9BoB8a/4yOHqayZpBMZsFWrRjyOSQjpQ7qXbiJ6LmrsfF48us6upK070F+snk/wFDEB+eGfi9LwAAAABJRU5ErkJggg=="},"LG":{"h":24,"src":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAP0AAABICAYAAAA9MvM6AABIeklEQVR42u29eYBV5Xk//nme9z3n3Hvnzsowww6CKIIoiuKaQDZjNGYfkjSpbZaaxG+zmeRbranDtE1Makxq0p/faNM0e81M2mZrEmsSwRhXMCowIsoOAwyz3rnbOed93+f3xz13GBAQBaw08+iVkZk557zveZ/t82yEE0ACoa625Tyxt5c25vPUs2aNdAAWgBzyFzRBZ7OIB3NMNWmHYvmI178X0MBSAMC+thZZ3zVfOtAhh73+OI3TOI0SHT9GBwHt1IUOWl5h8AO/L6L3fPpLTbvXdzcXBgeb4kKp3pRKNWrEKYinVTpIK60pLuVNVCqUxdeOMtplM5kS+96wntjS7505e3DRl2/cR0zRwezdDvCCtjZq6+pyNM784/S/gzfljjvuyKx7bN2sCFGLUko554SZjRhRsSv5gC56nrerWCz2fPvb3y6/pEx/4FUJ9950k679+Rq/UIjrPS8z2fe9GbBmThyHc2NjZlsTTXNxNBFl8V0oDOsYIgALwCTw2FBKxSrwcsx6u/LUJs5kNjPrjUbU1vTEpn3FBsntjvsKy3/0owgyzufj9L+KGIC78847pz3xxBMfFJGlSqm0iFgwQjh4xpqsONnp+/5PiOhnX/3qV/cmCpaI6LAMoY9Zw7e385qf/1wtXrPGECDwFIa+8G9NG3/8i3m5klsI485DcfjMuBhOkihOO5I0eTpgpsATBgkAjwCPISKAE8ABMICUHUxcbo6snY7YLFZCJe0HZckEQyPDw2ttSj3eUFO7dtUnb+le+rXrdyA2EIDWo83rboMd1/rjdLJSW1sbdXV1oVQqBUqpUwVyHrNKo6LdYjA87XtsorgBwKMAgurvrlixgo7k6r5ophe0cxe6iTo6LABHvocnP/C3swvru+c9/o3vnINCYaEXm1NFZI5PqsEHw0AhNgbGRhAiRBYCa2IHV9HTTgBWBF9rzQpkQGKElIinDXmeQ22KACnbGfloZA6P6EU0UN6C/lVP3H/229e65oa19Ot/6YbpitBVcTk60abaMM7843RS63wNB5+ZFSBwzmlWDGYNQ8ZLrIKjphfN9IQOBxFqX7GCX393d6DqGxcVnlx7ebi7f6kpls7ScdSoYofYWRkhcQIIBBA4EitEAjAInu/5zAwHAYEgEMTiEMOJIg0A4kCwmiUkYMQZoWIED5QJ2FvAKl5gw+gSRNFmNuZ3K5e8/T+G5tU8Ho2MFKmrywJddvzUjNPJSp7nCRxC5ySM49iTino0MFYr5WCtjRWzMcbICWP6e5e2632rOmQ5YOErueotHznT5cpvLO7aeJkrR2d4lhoV4IMUYk/BCpMtleBKhcjBipAiXVMbkNLgTECtM6cjW18HCjyw76HYO4CeDZuQLxQJvoICQ5ESC0sJXABRigwTAQItDtpIo4zkF9liYVbs8aVBX7Bq6pQp/ykiDxKRawcYWMorsMqOa/xxOilRPSJQ5chXtOeBgNwLwuaOmukFoBUAvWpVhwGAB1/9sdaB3s0XFR579jI/jC/zytEcxBYgBQOxUVhypVLJAYYzdY3elNPPSaWnNIObGzBMgmDKJNiUsvkNz/xoZG/fFpWphfYJ1udTgpYJ79D7tBrO5wz7ga4sOfFSiImIYMiJhXOxQJSAtIHyLU3wnZ5QduHM8tadUx4866qZq9uuuf+8H39jO+JVrgMgqcgNYJz5x+lkYvrKuSUQIE6IEpaAyAsG44+a6bmCIIiI0CPL/rw12rPr7f5Q/r0mDBcrBy92TmIRASyxc4qYVaaxFl5zPYIZU8XNO7Usc09xwcwpNPOUKag7e16mWCgYrqn5Zgq4p3qfx9/6yddxk3tLtmTVyOCgcZ5oGgNLEAASgWeFQKRABEsCQ5AQAi+OjRebiXEYvVsic6ba0PPD9e//y875X79tExE5ehGScZzG6WXr7jODmeH7/vFl+k7M95ejO4IiPPz6959V7tnzLsqV3pqKojkCaKsIVjG5fNGZciESkJqwaIF3xpsuQ8Nll2Jnbl9/1Jf7cO2cOeubL15YD+D/ATiHrVPxth3Xj+ze98F4YARgIL1obuvQz+/3hnI5sK8qPkzVtNlvdST/TxVZIJRwscACSgB4luBK0cJw72DdyC/XzSm/+s++JSIPEJFpBwjt7dTR0eFO1MsQEUpQ1CNSR8fLMqmI2tvbqbu7m+bPnz+6ht27dz9nPZMnTx599u7ubpk/f768VGs6mj1esWKFjLETj8veiAiO8r7yfPt7uN9vbGzktrY2APCIiGVMSLpq6hMRpKLp2Vqr2tvbubu7m3bv3s1tbW0EAPPnz5fk3VD1azoak74DcKvvuMMrfO++hW5v/9VqpPj2oBxPsyIokUSRibTNFyRTW6umLFqI9HkLkZ9Y0980/7SuSW961WkAzgZw3bP/9yvrBrufamp99xW3pfya+SNrn5IJmSwFYLhCGY6A4S07sfW+R1HsH4DyVOUhOAnnHZ0bAoFYEjgN8dJgFBkjXmPmp8G0id/3P3jlfYv+7OpCu4A7qj8+TgccxK6uLneM+0Lt7e10FId/nJ6Hbr/99pYNGzbcDGA5gKyIQEQMEWmlFKIo2qq1vsP3/W996Utf2nOUrsKRmZ4AgSKsOv8dS7B36C+lULxKR7Yhdg7Q7KwxbKIIqdoa1Jw5VxouvzQ+9S/f78UB1nlKXbJ3bfebWxubv5t/tBs77n0oym/Z5pe27IDrG4Lky3DGJrg94EQgiqF8XXk0AYixX6O/MD0ASxDfgbQAxkfo6tL31syb/U8z3/XOlZOvfn2h8lNChPFD+cLcy+fI2XE6znt8zTXX6DvvvDP+yEc+0qi1voWI3gWg5hBMv4WZ7/Q877tf+cpXdgFAe3s7H8mKPSzTr1682DtvzZoYAO5e/KYL0n2lD+pC6R2etQ1FEkQMsUMjcWRGXHrKdP3av/9rvbcplSvn81fMfM+brgJwzb67fvWz7V2/mlTX2HiZ7ulDoWcvbLGA/p49iAtFEBgO4ioGehJq1IpUJmCqhCSxnx/pBZ9LR06UQDwhVgQYzUWXSd+fnTX9S0se/bd7pBSiE22qTTrd8dRG11xzjbdgwYJ0oVDwqKHBlcNQMDSEMAwJAEqlkqTTaTrllFNUHMflj370o3n5H8gobG9vZySZXwcfkjvuuKO+u7t7itZ6IhFlRkZGAgBZpVSd1loRURxFUYmIykRUTqVSQ8aYfbNmzdp93XXXDY1dT1tbm0rcBHeMLtUoutPZ2akApDf19XmpMJS9e/cecEDCMKS6ujoMAW52U1Pp4x//eFg1jY9lr1ffcYf3682bM6VUykulWi1R7jnr6e3t9eI4jvbs2VPo6npuyPiTn/xkulwuN8dxXBdFEZRSwsyjD+WcIwlFBbV1ZT8j08TIR0noMmIaZXoAWmmNKAx74FynjeP/HByJdmQyKlBKad/3EYah86wX5k1eisWhoC6ojfza2pAOp907AYW2Tsx59sfThgf2fMovmXfqKG5xLHY4LjuJndfU0IDmhafBXnimO+1jH/gdmrO/zuVynfj1g38KR5/Vjz2Lzb/+PXav3SBReSgGlCj24dXVeOz7fEDgQZIvnUCsRTWtdn944oUzPcEllyVHIiYA+THDcmPD971zTr/9wh/946PE5OSmdqbj6N/fcsstLcPDwxeHYTizbCNlIysk4qoP5uCEwZ5zTkksj7ZObV3Z0dHhnk9CnwBtPXrQ7r333tQ999wzYWhoaKJSarpSara1diaAVmausdYGALLMXM/MWkQiY0yJiKqMPwRgt4jsCIJgm7V2l+/7vYsXL967fPny0pHu/WKY/rrrrmuObHQpWM1gIeWMgYgIM+AcoJRSQiRRFPWRyMNf//rXnz4aLXik+15zzTXehGx2TtmYc2PnZlgSI0KR4gqCzsLOimhnTJqIurPZ7G9uueWWkapgTXAI/uxnPzt9YGDgtc65s4XEMdgerNXEWlK+F3m+12qNXQKHOUzkCwHOOUdETMywxow4Z9dC8KR1boCYAibWzAxrrTC4aMWyhUszqR7t8Z5DAHntBFTi8Pf3/fucUrH0Z7ocv5WNaRkhU8mYi52nWAGzptppf/FO5V/5CkYmuHXNilsfnDB3zv0Na7fOeeJbXZEplH0RgBUonW32hRnVAIOLzFHu9osB2qsCowrvgS1DkwiUQLlc/i3hYxvsI1ffMAitNq7o6DjQnTlGRvKAFufc2yITv8ZE8X7pTMQQEaVYnHOpcqlMYTn82n1d990PIBp7OE40BlZ93ra2NjV58uSpK1eunOecu4CILjXGnGatrSeiDADlnGOlFIj2R4qqyHH1es45AAittaExZkgptY2ZH127du3KG264YfXNN9/cO4bR5UVaJpSAhMjlcq1C8h7t+a/USgUiTkTEiSMSEUdgX5yLxdrucrFYAPB0AkaqF7jHVL2v1jooGLNInHu/c+4SC2eJqOQsqYowt0ZEUkSUds51Njc3PwJgZOnSpbxq1arqPYmZW4jkCmJ6s1LaAYhFhMfuLRSDCLDGgok9IVEiUgWxOdl0MHOWmM4HcC45JwnAR0QEYoazYpjJ87TWJPIHce5pfeBJEAJWVCrmvviN7EM/+Okrw+LQu31jpxmBACzh8HDc2jo58BfMxuATGz4WXL6sFxn9z8iX329WPXpF7rFnTo939KO4d591YONl0qx9n0GqwsKEavDvULBochT5OQkIx2L8SpLWY0WcCCgb2bqoUHideWL9lvtf844fXPqrH24SgLrQxscjg88Y4zmRJiKe4qdSiZSTikQRgVIMAsFZh2Kp2BBFER0OHT/edM0113h33nlnDEBuvfXWps2bN18ax/Fl+/btO0spNd3zvKkAPHECpRScOIgIiPmAd0ZEUEpVvpecViJKa63TItIgIlOttXOHhoZeUY6jRz5wzQfuyaazv7vtttuGxmjcFwSkjkW7nXO+Uqol8PwWP/BhrYVzbtR893wP1ljEYdSqtc4ej71TaiIrVah1FLemajIpKwJjTA1XIuiACJgVPKWRGx6eUCwWD5UeK9ZaBai6dNpXxKystR7ouQqOKjF5iJMDVNlBUSxSij1m5RH2uy5VAWKdg/I1tNIoFvONEKk7SNMvZ0KXFRFas+Tqi6PhwjtQjk41QhIZayi2no6t1M6f6xr/7AqevbRjELW6Z+DJp13Tpr1vaaIUNv7sN8aBJNsy2XOUMLd1cInJXg21PUfpEAHVg3UC3FsWkIBgIRI5aznG5HhwZLnzZauIbCeiuPM43StUygqQF5Fha20GRCAnAhEWERC0FRE2NgYUl15CAE7uvPPOODExT9mxY8frlFJvBPBKpVRt9bBYa401Fs45ceLooHDRmLyQ/d9ImB9EJIkmUkQ0xfO9KcaZM0V5s0ul0uSPfOQTv7799q9sISJ3sMn+ghZDZJm5IM6VrDE6NoaS5yEAQgQ46xwRjZDW0XE7R56OJLYFY23snECss0acBgFMZMSJIoEQcyGO40MqkDiODRHnjbExs4MVceIc08EcX9HmBAETiA9l9YqIGOOEyDnC/i2oGg1OxAmEhS0gyDnn8gdIopXoIihg/f/5TGuut/dPTD56ncQCA6I4jrUTh9p5p3neq8+XzBsuRWrKlDsG1m74r93f7Gr8/V99HlsffBJ+ulan6yZ4NowhkYVYh4oCPzDWXmV9EYETVwHrqfK2BLI/Dnkc4OEqREcEAhOXNcEJlC2G891I/JqH//zTZ93b3q7b0OWkAm4dEyUVEEwiCtZ5sNYT57SIaBHRzjotIh4xe6yYcepzY94n0pf/u7/7uzOKxeL/ieP4/4rI67XWtVXGNcbAOaeJSTvnPAhpJtZMpJlIJQzNFeuelVJKMbMmIo1K3ocnIso5x8YYiBOk/KBGK+/1YL7B8/D+W2+99fSxJvsxxsyVOPFIoOFEJ38qOHjiRIsISQVPOWZKpYoizpBAWJzznDGes7ZyTyvaxlY7Yz1xznfWqkNdo6uri5RSRCQMQBNIM0hDcODHSWU9FROZBQI5CGtmInDi3JNAQUQToAmiIZUPA5qSfWEhRcQV36AdlYO+EnD3Ln93c/9Dz1xO5eIldVY8OFgRwIQlx43p8Kxr/1TN/vQHVKahCXpXby3f/VBD/89XUv8zG23srOEggE4HYAVIGMLmC7BhGWACtBrV8rL/ySEAbBgiLhRgSqWKSSMHaI/jeuodQJEIlBVWw6XXlh9Y944gl6sjhqxcuZKPO6vJ4Z+GX4LcwKVLl2oAwsxy7bXXXtDb2/sha+1y3/dPUUpp5xycc9ZVSMQ5cRUn3RJTTEwxEVns9xeJmYmIKMErLBHFRBQDsIm6Eeecs9ZaZ0U8z9OpVDCLtXrn7t27P/ypT33q/FtvvTW9YsUKSQTOCdmJxPI4jsLUjVWz+10ewVFlfbS1tVUKSp1lVPaugjxWhNNzPki8p0PyQfX+lQ8le3jgNZwb+/sEQGkAWICKr9RB5F73dPGMeCj/No7jSUZgHYTj4SHbOmu6ar7yFap41sx1GYVSadfexXu+cZfd+vUfmrh/JJWua1ac8oEwRjw8LCJOSCmwpyDOwY4UIIpJBT4x8+izEgjMBFG6GpmvvKnKuTmuDD/G1FcWIhZi60I7tewKl5s/9P3qDnvHAyvpQ1WT7ASDaoSXKht41apVAgAdHR3Te3p6/kRE3sXME0XEGmOsc84DkWLaL5CZiBLwTo014UUEiUAAJ5yfmPKq+v3kIwBYnMA460is9TwPvlan5vP5Nt/3u3O53CYiKgHPXwP+ouXtfmY4sRkLdPSR5cq2JVKzYs2yUupwzz+q/A6nSyowGIMP8TPOOa6m6lZeqVK6glh3WRDhD1++qSF/+30XUCFcwkBNkZw4Z8i6YnzKpUtUwzvfCH3pwo9u+Neufi9XekitfiYT7dlnvUwDsfaBKIY4AxtHjmpqXGb2VPgTGhAN5FB+ZjtsschI+ar6aE4cKLYI6mvhTWmBashak8sj3LVP20IJEMBZW1nw8dT2VAnmiYBZAOV4Rrx78IoZl/x6z4cSlLezrY2Wd3Wd1BkeY8JT9oYbbpjY19d3hVLqct/3J5pKiIuIyGOlyInAiYCJhJirUDI5EVhrQKCiYjVERAUiKif7GDjnap1zTUQUjDmYrnpYK6YsEQHsrEPZlBHH8RCAUjqd/qMre+7q6iJmjpl5r3NuNxFZVsocSlwQkTjnPGttnbW2hveHS6oYHkTECJBXzCNEZJIowKgAJSLnnAtERDNzDzP36q62NkZXl5Uf/lA9+M8/WuCi+HyO4onMGi6MYybxZ5650OXC0i894m/XQ6fmUfZdq//9Z9o9vc2qIKNU4AOsEBULIADTXnOJmvbW16m6BXPBDfXA0AgKazdg+3/9FjvvXwMTR9A1GYhxkDAENU1B81tejVOverUOn96CJ770TQyvewba8yqqNvHt6bgK6YrJEzrrYKnWjJRfk/LTj8uWe7fR7FeX1yd5yicrJdpNOjo68NGPfjSIouhCEXmPUmq2cw7W2qq2poqJKgIikFKkFJMxxhBoA4lsEMhOxWovMY2ISAlAWEGNleecq1FKNQCYCmCac24+Ec32/QqiLiJWKRJmpRO84IEgCP4tjuOHSqVSqdraqRqK+99ILS0to2tbv369KKV2+77fZa1dw8xORNzBmt45x6lUqmSMmV4sFq8kokXMHCTC1CXWFURkmIh+z8wPMPMe51yq4n1xNS9AoijyEvxlj+d5A3piby8BwIbvfS8T7i68kmJ3FlkhUQpSLIuqq8Gpb7sis2Na/XD9JWff3b9m3fcnBKkryk9txnBfn8lMbPXERDDlgijfp5rZ0+FfuqjPXX7BQHnGVGhWDOecmV4PHuhtqNnV2xJu2QlrjICIYhtKY0sj1V1yNnD23O3FuOhUfXZmyvMpslZIEUkl1nW8g9QEECIY8Zx4Olancbm0aPu3Vq4Coaejo8MdY9z+f5RWrFhBHR0dTkTohhtumF4qlV5DRBcqpXQcxzEReWPNR0DAqgIQW+f2MtFq1vo3mSB4sLW1dVMqlRq65pprzMH+cXt7O9fV1QVKqYn9/f1zh4eHX2mtvYyIzlRKZZ1ziohgjImcc4+nUql/ee1rX/ujK664IjfGrD/WqOxJQ8k72QvgV0opsdbSYd6f6ujoMLfeeuupW7duPQ3AmUQUJAJBxhTc5Jl5NRH94NZbb91BRPjhD3+o2tra3KGiN8wsGqsqfzO0106yI+ElnpFTYzDICYzASzfWQxbOxcwrL3lnuVg6u3/lo6f0/MdvUc7n4QUpJXAAEWxxKG6cc7o/+e2XAQtmfjM9a8btaQAhUBMwF/xZMzE0ZdLVky+79G9zP1uJvRs3RVRbGwjCaEJjY5Bgiv9n+/e/W3RR9PMJEyake3bsipD2gxP2BpwlBxgmcMrZ2rhYmLvt7rWn3PuKm3orfQPaCeg4KQ9kAki6FStWpK2154vIOczsJUw+FqysqFon4qyFJtoVpIK7mhpq72IONhaLxdInPvEJIyL40Ic+dMhDDKBERNtvuummPTU1NU9aax+Koui9zrk3EFFj4krcX1NT8/X58+ffU2X4aojvj83EH7vmI6zfAEAmkykRkanwunuOm5oAprZcLsdVIb58+XJ7JDhZr8QqJ7La+/15f3+KFOM5adF6GM5GxYI0TZmivdNmxXtyQ9+alU41e8PhW9PP7saGBx4spWrq0zoIqJoyK05c0NyI+rNPhzt9xs4M0baD7zr8aPc2l6lF+MiTsBuecto4CKzzPA2JYgB4/M3/eGv+rove7Xzfgzjr6MRuPhyBjADaGDjRp6kI502Y3dstwFBXBeA8KQ/l6aefTqtWrcLevXuzQRC82vO8+XEcO6kgqJxkClWdQ/E8j+Mo7mPBvzXUNXznr//6s+vGhOEPWwpaLdfs6OhwHR0dEYB969at+823vvWtXBiGBSJ6FYCNnuf96+mnn373+973vpHq9f6YK/CqZbBH+BHV29vrRCQAoMaCeWPyJKphSw0gaG9v193d3dLY2MiDg4PucO9KdwDu6o/fPVELn01WmsRV0n9cuRC1zluizfkLwp0fuO6valsaMiNb91wpm3dqDwSldSUDwlavragSDGDEsakBAFm92ttlbd3UJUtyRBRTStdwyoPTVEl5FQcBKLYGQSV2Ne32abMLxEzWWhwIWZ4A/qsAhMo4gXFOtNBMW4ov7N818BMCBjtPUkUCQCZPnixEhLq6uomlUmmR1ro5DMP9CTFVhL2C6pJ1NgLwUNrzvnPjjTeua2trU0mICcuXL3eJz324aAaJCC1fvpwB4Mwzz4wA/P5DH/pQHATBjnQ6veYf/uEf/puITFLkUxUS+GOl58v/b2trw6pVq+zb3va2Q8YFqqzhnINSSpxzrqOj0tWqvb1d7rzzzsNeX4sIPf7KP5spYXwxs6oLrSNnLSkQZaa1WLfojGiubCt9ich71Z9+xqvZvQ8EBVIqSaipxg+duHwRpm8IBY0CAHSdd5679HP/wndecC0AoO+pZwqZfcMwI0UokCitKoAaRtt5mrC312BmRaoxM4jpxDA8Rov4SIgELM4PTTa/b2ge5Qp1CdY6BgI4OTR+NU+8o6PDbt++Pf2d73zn1FKp1OAqoFqSrTaKkVitddJ91D0KhX/3s9mNCcosAKSrq+to3Jtqo4oDDtqkSZMe6+vr25TJZAqJiYqXqKDofw15nifV/T24QrDKIy+4cw4RyarZV0xkF5/pE/sxLMQ5iKc9Pb1FTXjVRU0AvnzZZ75oh351P0W7BqBqaj0BQHZ//YQKUjq/Z5/s/uV9bsabX/v64sDwcGbGpO/gxg/sg69Q3N3/LvuLB9+0+Z4H3PCO3URB2hMi0CjbVy7kokgOIdhOLDEAsFOxUUJuQv38U6bKTnlqBZEdy/UnAy1YsGAUGLvrrrumFIvFJUqpbLVb6tgkDxGAiSGQ2A+CJ2trax++6aabora2NlXV8C9CjlY72qhE8/RXzdlxpn/xGMDxLL3W0t7Ov/nG7xrZxK1pIY6Ntczg9KQWvdeFpbQnpQzwkSlzTkHv1h+hMJJDqrVF2ygelf8CwEvX6sLQsJTv+b2bddYZV+Ye/MOFu771o02Dv3zkqYZLF80Y/P1j/9C4q2963/2PmSiXYy+b1WIq1aZEByvSl5bFkh5CZJ2FDlRGpfyz+n+5cm0HsDNRn4STJKS0fv360c3bsWPHDCJaopRqrGr5/ZtLICZOMlR7Pc/bOG/evL0AqKury3Z2dtKxHFIApmryJy20xpn9xZ7P45xcpHH6uRN1+qEp5aFijRaGDWPj16SDGQvmYaC3v8urq/2n4T9039aQCy+KyyU4OEuAIhmTDySJBlFMplTQG37wY/D9rRMMq3/W2Zr87q7/TpOJpu/r6YMtFJXyfDAruKTeXQ5dSFDJRAJBQKgczv0VRMcjU89VU7IrmYHsiKCAmnBv//mbb+98CAnTV5Hwk+GAjK3UGxkZafQ8b1Y6nfaJSJiZnHMQJ0Ig0r5mALEVu6UYFde1tbUNAZDOzk5FiZVzKJ5ua2vjsb3zDkcrVqxAY2MjAZD2g2oauru7pbPz+DYv+V+q5Z1UyFZdpDF/CgDrEhzuqJl+x8oHWqw1E8hVEF1njGPNaJwxDWHKPesTPbrxc3esbdnZv5i08tl54qx7TsmrEwflabDHtOupp4z/9CaeMe/0M1KNDSjncti+YaPEcclmGpo0SB1gJRxe/R6IT1EiY4gPnaH3gi0gqlT1UTJOyzIDIF0ezE215XLzyX5g4jhmZg6cc6SUGtuZBcQEVgzrXGxi058rlAarlW9jrYVDvZlDdYN5kQd6nKufz/NkVgAyAOp83ycRgbVWMzO01oiiqI6ZA2PMUW+m7tmwo1miuDYQhuZKOYowQzc3ou6M6VkAyG/fWV/bX/QVM6xSo1Vwh+JYAiHTOEGLcejZvMWJcwIGOBVwOlujq8lf+/lanrdTH42a/A5wlao9OQ5MP6byj6rJ4iIgWyinbFgaLTuuXZU/KU9nKpWisQDQqF9IB22wEAXs67Fa+EjbVtX0CxYseMFauipQxjX90ZHv+5aIegFsjaKoJnl7obXWC8MwC2Cn1npQVVJ5j47pvaCm1UulGrzQQuBgYYQ8jczUScBps/MAkF/3TEnSDWBiOKUqRf1yMLw1NrJAFSWquNKdmhmkFOGFZtZVq5Yo6XErDjYMjcTGEDNIa80J+ozR9ppHd+HRx1AMYYKwUDJ3i8maLImkqj+9GaWThunvvPPOSixWa2Sz2ZooijQzIzEBaYzNBBFAKcVeEHi+50bN77a2NnQdVHdQTZf9+Mc/Xs/MZ+dyuebfPfA7AwsoKBxiOvkhSCGyked5nps/f/7A5z73uWcA7Bp7/XE2r1ASPQGAIa31z+I4Xu+c85IiKGutZRFJMfMAEa3r7+8fqf7u86U0a3Hc5Hm6xmOF0FlYiBIB8uSQmjPtvGJ//7uevPrG0wc27QYqh+T5GUAEYAYFARPRaN38i06lJcBIDGsN6urqdENtrWYQRkZGkMvlEkv9yG2yx7ojxAxyEDLGOo9ZPF2pL0n+FbGBE+udpOfFJaa9uuGGG7JxHOsqRnKw61TpNMOlVMrb7Ss//zz+OQGQrM7WF13xMufcEiY2YMDB4ehmKDp4rDyttTHGbPB9v6vK9F1dXXyUkuOPhRwA1NTUjCilHhgeHn40iiKqq6tDc3Oz5HI5eJ7Hw8PDbsKECeVsNls+2gvrOD9US8YFCgQiBoG1tQb7CjnMrKt5k1csval25mTs+u1Dle9rT412vHiuqXgg40uiVfHCG1xWgpOV6ztjQEwImhrhJjS4fE2NhROQNKh6rbj6C0diegZBCLBJZpNWHikLnd+zB4XeXnDsKvX+LHBiybjopDPpD9KWOmlgecCgBKn8U7GfROCsyQV+zVMNdQ0DY0zwg0MpUs0ec76rQRmLlVKvNdYkeI48bxFkEsuDVzHMjHOuzlq78mCzf5wOpCSlduSFHoUjMn25WMwEYezByZjGFgClPShPA9oHiYV1BkoF1fY2lakyL8AaOzKzyyH8+Eq5izDBjuSihpbJ/oRLl6CY0nds/cb3vw5EOO+7/9+Haxee/hEAMMVSBOLDZyhQxbp1ziEuFlHf0oJ0XSN6/uWHWHvnDxCXi/C1AlNSdHbyBpiqoTknFSlwQGIHJeZM0rYgGQrE5bq6uqPyCa21WefctExNBqZYKXtWRxL+BwqlSsIVSANQY82DlStXjnP4S0TaxU6JuMpJ50QTkECqLV1cpTFiVSQkBVkvQSR9v2VARsAgBE0NqH3F2Tjrn/+u8mjGgTUnh9EdUbAICcRWQhvK00TAPgCPldN6dkNj09yBfBnGWlGqkiOMkz+qLIfN6CAcMBbJCVG1J//z2pzOeUTki4gxcZzUgZMatTCSAYsHv4pqgolYIcUca62L1lozzoJHZ8EdaYzWC20wqtnTRhQ74THN9JyDxBbWCVwUwYHAXO18KomGlxPP8iIgAXSqxs8XC9iz/ik0tdZ9iLr++4PWCmwcK1ajyuLIeYhEcOXQQTNNW/ZKKjYGazLZ9Ft67uz6zNTJU/+uuLePbKkcw9PeH5OdSUQaYtP5fP6o5hoyswVgINDJiak2bah6c4fs4JL4FUjaxQgAxczjJv3RvaPjynC6piZbiEtRbNmiMmzGGa20aqmrg4uKPw3j6N8Kz27/2JQp0y7a3bMbcNaSpxUcjqO6p0P8P1WNVFDgw4jF0FNb4BVj9lo3sgiQGx7GSG4kAfKeZ3KJYpiRYRFPU6uXRvGsU4ZqFswNfwjeMX3K1dDEkIpEAxGDoU7Ww1HdTGuMCa21Vmt9cN42jWHi2iiK5g0b04QkGWlMKu+h7lFyzvVFUeSIuQqNVk6DuGpPl0Ma/GNDh8yMw7WIepFrP3DIaeU+oy39jt8uM5J8MSSR3ue0na5+7XkvT/2h09mawXhwuGiTMDiDrSKNWvZQ2tf3aO2MWXetmnfFZTMmtVy0d89uOGelEqd/KVzTBABUDDiGGyqgp2eN2YnQVMSC1oykYOSQeX1jFI1SiG0/MwLKPbPJBa848xQRecODb3j/ssGtfbBxDMXEjgSk2BKpk9XAZwBOKSUf+tCHCsYYEwTB/gM5hh+JCEJIhaXSpIio5mguboyxijkiJlZaHfCyxO3Pzky65hw2AafaN/+Y4G33/K8o6Rxz3KICxCw46L5HWufLkumNhz5r7QisS3x1TWIdwj39CDfurAGA1NzpaUSVaXPVl8lHAxMeI8uP1RcMAnsaqq6+2mr5hVkRngL3Ow4yWYz4nkyf3HpO5OKupiVneTsf/gFcuSx+KtAiIqR1WcMb7ZU+G+mTJn58zTXX0J133gnnHPL5fOh5nh27EdUQakXLE2JjXLFcjm1cHD3JXUfoDZjNZk25WN5nxfYwUUmccOKvE7OKnXOec65OROpQ6QZ+Qsg5R8xMBzXjPKDmnJmT6uHj40ZkMhkqx2VlYqf2dxg7YA5AtQElAKBYLL48mX5ExYPORCPkXGWKCTHBWJR392HkaS+176mnavd9+6ceb+9HLJWhFYr+ZypN6YBS2xfG9ORrGPZANVlMWnAGK2ZfgX0vMojjCEIiQaVLqbAKitYL9g9IWAxgzcmn8q218DyPnttKXEb7DiKZjGCMP6oNew/Mq5dEEFTmVoXhPt/zvxPZ6B7nXEhMIEcsLM73/ahQKNSXSqXziOiN6XR6arWnW2JqH7e1+b4/2o57rPVwkBXAQRCkMplMXWdnp798+fLoUM0lnsdSwIoVKwAAqVRKRTaqTRqCAgfOiT/AimFmxHH8slQWOjitdXd53dZh6yw0o9Kf3lqYgWEMPzE4MuP/vGdk1/f+o5C2SoyJCdaBlYLYl976FRHAvph9FLhi5LyUzzyhDv353DNTHUpDjz45u7h1dwoOLJ5XyUNgbam2djhonJDHjpMbAEpSOMtjUXxX6bEOVgrWWkDgBUHQmAlq6hMJKS2HTq8VAPjCF74wQES/PBx+snjx4swpp5ySr6+vv1gpNdVaW7Wyj2+lmK7MgKs2gDwYs3DOCTOT1nqC7/tTSqVSLYD+qvB6MZTL5XxjzCQAdYc8m4mGsdYKM4+kUqkIAHqTPpQvG/9vya03b2et9jlIBBEoZsBahH0DGF73DACg4aJFrmbWVFvpm1ixCI4XnEiH+ooqabzHChSKVKbzCQRmJB83TW1B/VlzsPe+h65HOX5/vntL2OC0tqUoZqVFkwIRQm9iw+Zg4ax9owd59uyTxr8fOyUnCIKBIAg2I+leKyJSGVUllcINYxwBniaaGQTq9Ntuu60WAHUtX26PwKRHrO3OZrPseR7Gjl4+XjT/wA7FITPvA1CsdoauPlii/V0iCCY452Zu3rx5cjLeWvAChg6MNSRGRkYay+XyKSY2EyoWjIMTV6lcrJgyKmH6IhHtDoKgBFRal72smJ5Tfpmg+1WQKhIA5WltrcOeZ7dCT2p9Q75n7z8GM6e/Sy08Q3t1tZVe8fZ4lLfu3/fnYPdJBRgpVXE5Rj8vvP/9/rZCeZturHUN554ervvJD1dRjb8m2r479EoGJMYSsfhgcWFcZJ8fia65YtPoo+3Pgz5ugMVoK38B8Ozxu/TYIphTTz11W0NDw8PMPJjcSZhZRpnEiUv2p9Vau3B4eHgqAGlra1MrV648EspG7e3tPOaj29vbua2tTQVB4CdjrvigXm7HTNVpOABQU1NTTKfT2z3PG35OQVEiABIfW8VxPLVQKExZv369ShqE8NGenfb2dkom3Uomk2myYucqxWnnnEtASzo4eqCUymmth6666qr4YEH8sjDvJYyJVLBPZWRbPBzVKe3ryMSyd9t2OeNVF5xXE+E8q/Qz23p3Rak5M+arguW4VHDs+wwCxB7v9USQyIiEBhIb2DKJJJV9yUyQo2d8rtp6AguruaWJJy29IHjPXz31zgu+9M0t5Q3b0vGuHhCzZieitCIrXDADufUXXXJRfxuguir54Cf0pcVxTAAoqYU/Jq0wJoWWPv3pT/fcfPPNj+ZyuXd7nkfWWjlEU0WISGCMOXdgYOAVbW1tW7u6ukpJE43DtqceW9TR1tYm1fZaV155pbwU8fepU6fmcrnchqGhoUEAsxLc4oD04WQajzjnZsVxvBjAY11dXX0HafrDvVu66aabKGn+4b7ylX9t2Llz3bkEms5KsVTmAlSyW5ItVUpR0p56n9a6f/PmzS9LC1EDkPTE7I5CX/SwdTIrIFUfsRNXzIWqfzi97Tf3y5SlF717eO1ar+7ChatUWfS2J5+MtGpIsT7usWxygEhsY2usOGeAsjPCSoiF4AeadDLyio5qfhDEWpCz0NlmT2ZMhj//dMTAlzKnThvu+dm99cVnnoVOZzwW40o+QYLavSZWgzAO12IpdWEVjnvv+4PmEDY3N/OSJUs4CAI+Wi10OFq5ciW1t7dXVs8cfvzjH99ijBlOp9NgZnFu/xRaIuJEEBCAc4rFYls2m30CwMOJlqu+YJd0rj3kPdva2jB//nzq7u6mOI7ZOXccnLMjm9of+9jHRj7/+c+vL5VK+7TWQge1X6rG5pP1zXbOXZnP5x8mot+KCC1dupSXLVs2uraDLArq7u6mlStXegBCALJr1/qlYRi+DaBGax2q86jG7KVTSrGIGGPMVmvt9sO0on5ZMD1l25bsLH7zN6vBeJOnVL1FJKy06lu/0ekJdUWZ2Xr5/L/+RKtev8XfsWMI0R9WK21MpSy1Cgbjhb5mGa3JcZX0TACQ5jkXZKfPm9vgsAU0uFvNmXOap4IApVIJu/fsRVgqwatO9zkc4ycPxaRgyiUnTnjWeWfZAuzD/T17/yWLiddOr20+b9u23RgZ2RfVN032KTYUa9rH9TWPh+maIQFo5VJAVp24gRfiBGKltGbNmuKaNWuA41RltmrVKrS1tZGIoFwu79NaPykipxBRYxJDr2rjKqOIUspTSi1h5ms/9rGP1V1++eX3XXHFFeEYzQ5gf6+7sRo/6aVX3aOBd77znUMA4hMVu25ra2Mistddd11PHMe9yUBNJCOdRnskJA0n4Pu+NsacFYbhe6677jrzpS996QEiMqtWrTpgbYcQy1ZE1I033nh+LpdrA3CeUko7awVJ1Pqgsd2SdBzqcc7tebniProdoNM+9cncgxe8/SkOdK84aaVYoIIav3fzNmma3JxdOH3m38MPkNN4qs/HpAmtMxtLQ0NwFAv5PsHa54BxR834CTAITwOAM5t69o68LnisYdmieU3zWmRwIL+VWRmDbLpmatO0YGuPLmzbJawUwfMOW65LUvnE5ZLjIE2z3/BK3b9w+vCEebN+tPXbPz2j7qntZ4cDw55mzypmMGs2wGaV9h7MnpUapIcgnWPGEZ0QQKWCQqeuvfbarDHGhWHoW2vjF3Ot1tZWYO9euIkT3bx580xPTw8BsK2trfkoiu4Nw/B0AJck/rwFRlMOKUH1re/7dcaY5c652rvvvrvmE5/4xMNRFI0opeKvfvWrUTJ+yh0C2aOuri61Y8cOf+3atc3W2slElDqa5JkXYyNVW3Xt2LGj0NLSsomI+oloAjOzc85VtXzVhUmagtaKyJviOPZuvPHGdHt7+x92796dnzx5cgTA/e3f/q0DgJtuuomnTJmiNm7c6Le2ttbeeOON5+Tz+eUi8mqlVG11nDLhOUxfnRQ7opTaUlNT01t96OdpSvLSM/0yLOUOu8oN1/A2ldWPhbnyjJRDHVIpFAZycal7k48N21GuTf3Qbdrw4XTzxC/OeN3S9z3x4//y4nJo/VSgxe6vtH1BYBYDXOVarWGA5suw4w+/+Po/vuqV2/5w96nipvf8/R1vfPgbX+hddvM/L+Km+rv0759sXbdxS+wC31PVYRuHwggFMMbBQFA/sSFS584Pplxx8RXG2vvym7dO2vmz33hWAD+d1WQFIQPOxps8z1u3ePLkMgC0dXW5463liQjOOSKuzA5IEc1TSr1LKVXyPC9dnTH3Aq8pxWKRUVsLFcfFZ555ZuvcuXOfIaI+AGVjzKPW2guMMedrrf2Dm1UkGlElqbEpY8zlxpjTiOhRZn7Y9/3u2267bffXvva1gfvuu29k/fr1mDFjBl1wwQWSSqVqvvjFL9YaY1pKpdKchoaGM8MwvBDA5GR2HVBJuT/uh7erq6t83XXXPSYiq621r9FaqziOXeJeJB4ej7b9JqJm59ybc7ncPCJ6MJ1OrymVSs9OmzZt4Jvf/GZZROzAwEDNnj17JorI6Vu3br1QRM5j5jlKqWw15Fm1KKoanpmJmTmOY2OMeba2tvYPnuftrQrUYwkTnhimb2sRdIF6W7yBKYOp39tCdKbP6jxhEs9Pix3OYdt3/zMuPjOv7rRPfeD1mXP3vsJ/Yqvn/fpeU8wPSIBaiGbAVfrMHTXIloyp1hR4hcFhpPoHkV+38YN9GzYs0E1NeyWdavSVysy87W9eNeefbx4K9/bPyf9udVB2Bo7Aamye9VjtKYDyNIwxyA/1lE49c3F69nvfpHdrubPZmTA9WPzo1FyErd3rjZetV1oHylorRnMfxXi8Lqc3U2WOHdNxrLUbmy0mIgQHcKULylki0kBEEQBv/2DSF3Tt6sGDcy4Mw/CRcrn8TWbu6+jocJ/85Ce3W2vvJaLFzrnztdbKWuuSZxrVWNWQnud5aQALrLUzAJwVx/H27du3D8ZxPFRfXz9y8cUXOyKi3bt3s1Iq63lejVKqQUQmWWunEVErgMwYTU9jwmmjgurFhvXGRCiksbHxiaGhoYeiKLpIa12XKPuD9xtj4vZ1zrnzRWSmiJxfLpd3b926dURE4mRuVMDM9c65qcx8mlKqPtlXJHt2sABzlSROzXEc7yOiB621G5P23y/LOX0aldin/Ol3v1t68C3ve9gMROfZ0C7SzmmdDjSsxfpf3qPnTml6gyrEb1AzWof7tu3snfjai1ro1w8g3zcoXk0NkWLIC6nCSWq7PV2rh3buhrpvNRr6h5b7tenlijWGBoZhjUFDU8PXJZWByRcxtPpx9K3tBqcCTawOMu0lSTRjmCiCOIuGbGPQdO4Z0ciZs/ZOv+ySr23669sQmvjqzCNrsymGcSKsAbZAGKRTD8HLPHzOE98eAoCVWMrAqhMloUez5FipVgCtx5KLPpr+yQx2DsYYBeBH1cP5la98pfSZz3zmIedcVxiGrcw8W0Ro7HC0RNiQiJC11iWhvVoiOpeIzpVRg0wfYLUopVBlirHMdnARysEZa845ZYx5UaDl2OGMn/3sZ3ded911j4jI+jiOL1RK+cyMxKSnMXF7iIjEcSxJxlwLEbWM0d6jz1jdlmRdVSFCCTh6wHqStFs2xggRPZ5Kpf47m83uw8t4VIKmjg7XWRl7a9eJPN1/5ltWcyl+nZSjU5RiisSJzQ2GqWd3pnI//TWKk+vfm152cXxqKvWrpkwGD955x4gXerWczVAEAdtqARLhSHFaca5i4qfTKPcOYs+Pf4Pcbx9C4HsgViiM5GGdw1BdFkppuMhiZGAQ4cgISDMIXLlGNf5SfWGeQqlvyGTTKb3s/X/C27PqvvDZnveGwLvmvG7Zex/5zOdr9nZvdLamzvOULxkoFDT6gknN90x9+1Xr8de/AADsq1hAJwJ5fs7Xx8P0HdWgzNDaQzUvPYEO5B/+4R9233zzzT/bu3fvgjiOm4moTinlnHO2CuhWD3Himz7HJNdajwqmsUx9qPUczORjjBInItXkH36Ra5VqWi8R2RtuuGGNUurHURRVBZplZmut9cbG0XFgI8cDnvdQsf5R49ElDSFpv5BNrCujlOJE4G0ionsWLVp0/9VXX11cunSpXrVq1cuyX0AittsAdOFMxdGayz78SOji38TR4LsDg2wEckGqlvY9uSHuuWPYnX3JRbOiZRc/lps+4Xrv0nM+cFHxz+eu7fypK/TtMakJrR6UjLbKOpqkDFEKElpEQ3tQNMVKni8YBN8TEI0giiqddBSRSnucDoi8pOnKaFddC/Y9wDiU+/vLjUGaaFqLlAr5O3Dl0ntmX/7qxeHqDX+BJ59dEG7ZheFSMU43NysyViIF69Le05lJE+6besPVg51/+Lla3tXllnd2upeglLA6itQdYwKLVHACrjbFLPq+P9ZKYSKyIrL5+uuv/14+n4eIvFFr3TpGS9uqpk8+1aTLasfaap0qnHNVRhpNzKz+XlUGJxmAVeaodvBRSilGZSCjFpFRQGbZsmWooukvUOurz3/+8/tWrFjxU2NMszHm3UQ0jZlVImASbG80T59ERKy1o2sbYwiMCoQxQokqrZdllN8BcUSkWLGXREN2aq07nXO/vPrqqwvAgTPpX5ZM34ZOVymHFsIvb3/6sdd/8D/KudI5zkWLtbPs0tmgZ9cu45dGgtTb3vS1oZ/e+4tJdfTmvUvO9Cc2NX66btumOnl4vbh8SShQRFpXJqLKczXbocJWYIZXWwtC1pNRXHuURkdVS1IuTgc12RQBrDWAcVAMPeOS83Vpybzik89u/n8XXP7qRgzk7w9/8wju//t/KlgxNem6evatgJylQlptQm3q7p7Vm59dSOTuXbpUJw/9Ur00Plaga1TtVWxrCEQfNPfcjemft/Izn/lMrlwuh1EUvZGIpjCzTvqrj1ZRVhl37Ms4RNbbYa2ZMVp0bBtuMcZYERkOgmAjgL3HYNmMIvlJmGzDpz/96e9FUURhGL5Taz21EsnjQ7kXVeHEh7NEn/s+CMREUqmmZ2aGs86a2PQw808mTJjwvZtuuump5Jru5QbeHXzgQJUGcli5dKki5tBrnviw39T0a8qkd/qs4CnlOJMC8iHWfaMTeKR7WWnizB/nTz/ll9xa/47TPvE+LHrPW1U+7M2bkUIFOvUURPHo1cd+MLYUEpJk11YEqoxpTCCVEdjJS3FVsQuIA7kKJsDagx+kURwYNOWRofi0V71CT7/6rWh5/1uDszq/+v/ld+35x4HOX2BT589QyA8GTmv4WktKCPC9kDP+f7VeMPvfXr/3ngIALFu1yh0P4CUBqgwzx0qpOJlKckI+RGSIKE7+NMkuj3UqZeyf559//hP19fX/qLX+AhHdDWCoOggx+RhmjokoHnsfETHOOSMiz/kkcXlTXSsRWWYWrTW01lW3IScivwdwRxAE/9rU1PT0WMH0YvZ5xYoVtrrUJUuWrFdK3eF53leJ6EFjjKkOhUgKcwyAeOxanHMHrO/Qa5PKHjM5VgzteZUKOocHgiD4x6ampjv+5m/+5ulD7fXL2LxPTKyWFoEInfWDLwx2X/V/fzIUPzPVRuFybWyQTqXEGoetax8Z8WtraictnHflHFGrd5+38GepCXXtmdi9+0LPm/fMT+5Bbu/2WHOGOZ1mCgKqJvCMWoyjiaJ0ALBX7dNK8txEm2pUH0SjE3NtHIsbyhmDkptz2vxAnT4dA8Z8Lzhjsj/l1JnLASwb+e0jWPvVfy2XN2zzsrWN2jK7jIN2LA616YdqWhr/a+F3v76jgiu2E+HYZ65Za1WCXtdrrelI1s7xyE8Xkf2+NgBnbU21+OPg211zzTV6+fLlMYBnrr/++oFyubyTmTdGUbRIRGYS0TSllH8orGGsH3+4bjFjgDqIiHXODTrn9jjneohoPYDVWus1V1111ebzzjsvHpPk445B41NnZ6dKMuCebW9vv2twcHAPgKfjOD6HmacDaFZKcbXsdazVcihr4ADLIPmvFQsC+q21OwE8SaBftLa23nf99df3dHR0oK2tTR2v6T8nkujgKBqNiQI9fMH7rir29XxaDY1cQMZ4ZUVQVsTlS5anT8SrP3+jzp029Td1+XmX5+bv+WTdvtLfrf3yN/3eX6wyyBU8sRbia1T67/HoVBp2yQFhGtMq+yj8X3FJF95ELVgLshaU8uKz3/0WDhfN7Sk923Px3C9+7NRwcPje8k9XusdvuSMsbt6VTpMHP52WOA7JZyVhWm+gqc1fyp47+6eL7/xyf+VJ2vkYmH40PPPlL395QV9f36fy+fxr4ziuS/xhIyJ8Il5i4jdX5+2R1vr+hQsX/u2HP/zhNdZaPsi8PyCbQUT4lltuaenv759XKBQutta+wjl3OhHVM3OKmTUq040PJQBGr5k4xKG1NnbOhagMadittX6aiB4F8Hi5XN7e2to6UJ2jjuM/Anz0HXR2dqonnnhiWhiGl4Rh+Mo4jhcBmMHMGWb2AAQHgXwHYy3Voh0DoOScKxLRnnQ6/QfP81YS0QM333zzFiKS9vZ2PpkGdNKhwudV1GLjbd+t2/X9n78ZPXs+5Zfjs8PYOFFKolwBZJ3MvOBcnV26KJr4mgv/073uvH9Kw8PAo+vuauoPp/Z2/hee+e9VGNy1OWaw06msp2trmFhXk5oACMgloN8B7a5o/ywWTtBVZlhjEI8UbBTmYoGgYdK01Nlvfj3q3/4G5PK578NLddS98cKrEOLKpz7/tWXDP/6Nza3fCPiBx54fpZRSClA2m37GNmS/Hcya+I2Lfv7NvSLvUIQuO3btx0K33XbbxOHh4fOHh4dnlctlTylltdb2eNeUH0YAKN/3dy9atOiB9/7pn/a4im8vh2OO6l90dnb6q1atajbGTAyCYKpSarq1djoztzBzA4CMtdZzznESz1dUQeZCZi4x80gURb0isjeTyey11u4Jw3BQKTWslOr/8pe/PHiICTYnjOmrf/GFL3yhfsuWLS1KqaZUKjXLWjvVGDPJ87zJzFxvjPGrwrgKPhKRVUqFAAoisg/AVkduOwvvYeZ9LS0te6+//vrhI933pGT6dizVHbTKdP/V5yfs+/kDf+GGCu/3CuFcOIcykXMOVMjtys8585zahX/xbqxb90THrI9/4L7sgjnfBfDsxs9+bWNx1963NYTSVH52G/Y9swmlXA4ilYl0pFhIqUrjioMr5xKgTpxAnAUbh0punVa1ExrROnsmsqdOx46RgY318+fed9oXP00FYFXNntzG4ac3/kf9rsEpv73xZpffugOpTC17qZRjK+wRw2T9fVJf9w09//RvX9p1y9MCENramI6jWdbe3q7nzJkTlEolPTg4iObmZjd9+vSXRBP09vaqMAzlAx/4QJmZ4yO5De3t7bxy5UpetmyZO1hTbdmyJfWNb3xjsohMIKI6a20mDEMviiJOKtcYAPu+HwZBUAqCIJ/P5/sbGhr6P//5z/fFcXxIpD0pzDmhc+yS+oCq9j0gF+Fzn/tc486dOydms9kWIqorl8tektcwOhJaa22DIAiVUkXf9/tbW1t3XXvttYMH805SkOROtjHch9U8Y03dte+8cfrQ2vXvNQODf+mVy1Mia53RPpMIUC6DanxkzphdnvvBdwbNb7+comzwp7kNG37i+dnf1xu9cOO3ukzu0bUq/+wWCvsGgNCAFVcKdohArhIE3T80p5okkTC9rSD8uqkR6VOmRNMvu9if9LoLMejTlycuOfdTIKDvwSc+ST19t/b/7Le07T/vLrtCKSW+B0qlnHbgrCPEge7jloYfckPd7Rfe//1uAOhsa1PLTwI/bJzG6YQAeQfhoiLoYALcwq6bdzz+mmvvypG10Qi/V5XChV5kYYhsESLoH0Z2855U4a7/xsCj6xBPyP7JGde8ZxlPbZ4K4BaeNvnHM161+P9JGJ01uPpJmZB35A/lEQ8MoZTLwZXKoMjCSSX5lT2GSgXgbAZ+YwO4uRGNZ8zFQEMGfTt2fDOrvH9Vl5wrzcASiePbe279NrZ2fP2C1nSWBh5+FOHQEHuZWucpz/iWfK0ZNqO3qXTQiabMv16w6ntPg74PAWjFgd1Y/piJ2tvbqbu7m5La+GPVXtzW1kbz58+XMWW5L/VeU9LjrrquY4nMUHt7OyURg/+p9ZxYTV819VegnYAOdBBc98f/evKu3214t+obfJeXK56lLILQYwggUa4Ql+MR5wV1wazXXkLz3/0mlBfMQN+z2/4WrS3/PvkV5/6LAs4Li8XSyKPdv88/+MRgacsOjPT0UDQwKMiXK0yvCCrw4TXWIZg8EdnZM6hmwWnhpNcvnYhM8EoA39ixfv1tq9/xGV70l+/5m1Nmz3lv9NvVWNP5M/Rv31TWHOigqUGTELxKno+zKX8T6oKu1OSmH1xw713rAVDn/DZveXdXdAJ96wOmkhxcs32iaMWKFZQcSjkez9/d3U3zD2yUeUhasGCBdHV1YQyTy8tZsLW1tR3V/Lzu7m6ZP3++vNApMict0+9nfqFqLH/o5tsb1//o3svD3v5rqFS6SFkXGECMOLHOMYTBxkDXBMicOhWpeadGdWefGWUXzlUtr74gHRszBE9f6QEPYvlyXtnVS6/CqkOa151tbdz2V3/FWLzYAFhY7Nnzq4zl5s2/+m1+ZE23V3z86ZTZsUebXBGOACEWAYRFyCMiGyggEzzm19d/K51N//u5D9y1u4JXtHMHOhzGaZz+GE26o2X6JPVYQMAfrm5vKDzx1MWSH34ziqXLvJKdRQCK5OCMNVGx5IwpQCvfmzRnDtXPmYXBgFAz9xR49dmwtG+wU9XX7qqfN5tSMydT0NLk/MZaMADjBKYcIRocRrhtJw0/tYWGn9wgprd/YnbWtOXNQU22vH0X7J596N28HQN9+yIF5YJshj0d+J4QmIHQ5wGpy/za1KV/km1t+O0Fv/j2nipWsQLAONOP0zjTHw0qinZehg5+FWBIK/zhir84Z+TpbW92w8XLObZzjNimwIGtIlgCTBjBjhQiA+MolfbZ87imoQFTF8xH7YzJCJoboRtroWoz0OkUCAQngFgDVywhHhxGuXcA4d4+5Ht60bNhEwr9fYZgDcMJp2q0X1vr+SDAWFgRMKshCdR2qk3d68+Y+p/n337DQ3TaaWEnoNqWthOt6hgfmjhO40z/ov2+9nZes7tcK7v6zslv3vXGeDh/OcX29CC22loHQ+SESCBC1jqCE2gQ+b4PUgTLybBDVpVut+Ak1bbSmx1OINZBxMFYiyg0EEBYs5CCsHOihbX2NEJNQp73bLq2/r7MhIaf5l55xu8uPXdOjpcvt+NI3TiN0zEyfXuSs9+RILwiou5++5/Pxca9i1XZXZQKo4UutPO0SItnBNY5xM7BVtIznQvD2JlYnBgkHfIO6KNPIDAIBAUCE2sN8jxmrT0mIo8IATOMBkoKOdZ+t6T8tVSbfixoaH70gs/d1E0XzyhVn3UF2kHj5vw4jdPx0fQrO1bySqxyHYCD7+Hxt370NLNt13nhcP7C0tDQEiqZKQzUsOZaRcqDFVhxYKbKYA0AQgRO8rktHGRMJZ24ZMYeK7BixNbGcLZIQN5mdK/UpJ7gdM19NbNnPXr+f9y2mYiKALAai73NbbPd8mML04zTOI0z/fMKAhHa8eUvp3Zv2l1femTT9BTrU8mac8J84QIzUppjS1GDFZvWYPaIoVmBSYGJweLgSGBI4KyFcw7GOhixjhWHKpMaUkFqK2eCJ7yazGobBE85F+5Ml0t9i1f/rExMbpy9x2mcXgKmF4C60Mbr0SVVk79SrUyQLdvS6z57y5Shp7dPD4dGmtmqetJqoivFDa4UZpXiDDwOQKwBYU8xRMgaa0KKXYnARU7rIcfSZ63s07U1/cGUKXua3vPmnae976oczAHRPhK0E7BCCDTO/uM0Ti+Jpkc7A920Er20D6tk+dhe7gxQTQaup9Dy8Mf+bnL4+OP1juI6ylA6dBIwEdcqHz58ExkUXITChKbW3Iz3Xdabetflu5L67lHqBNRELCUsBZYtW+bQ0SE0bsqP0zgdkf5/g6+bm9bgj9YAAAAASUVORK5CYII="},"SKY":{"h":23,"src":"data:image/png;base64,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"},"HV":{"h":20,"src":"data:image/png;base64,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"}};
+
+var SEED = {"설정": [{"키": "제목", "값": "통신사별 환수규정"}, {"키": "기준일", "값": "2026년 07월"}, {"키": "버전", "값": "2607.ver"}, {"키": "공지", "값": "본 자료는 사내 및 협력점 공유용 참고자료입니다. 실제 정산은 각 통신사 본사 정책 및 최종 공문 기준을 따릅니다."}, {"키": "담당", "값": ""}, {"키": "최종수정", "값": "2026-08-07"}], "통신사": [{"code": "KT", "name": "KT", "color": "#1f5fbf"}, {"code": "SK", "name": "SK", "color": "#e8380d"}, {"code": "LG", "name": "LG U+", "color": "#c2185b"}, {"code": "SKY", "name": "스카이", "color": "#0b7285"}, {"code": "HV", "name": "헬로비전", "color": "#7048e8"}, {"code": "ETC", "name": "기타", "color": "#495057"}], "중분류": [{"통신사": "KT", "중분류": "환수규정", "표시": ""}, {"통신사": "KT", "중분류": "이상영업규정", "표시": "접기"}, {"통신사": "KT", "중분류": "불편법영업", "표시": "접기"}, {"통신사": "SK", "중분류": "환수규정", "표시": ""}, {"통신사": "SK", "중분류": "이상영업규정", "표시": "접기"}, {"통신사": "LG", "중분류": "환수규정", "표시": ""}, {"통신사": "LG", "중분류": "이상영업규정", "표시": "접기"}, {"통신사": "SKY", "중분류": "환수규정", "표시": ""}, {"통신사": "SKY", "중분류": "이상영업규정", "표시": "접기"}, {"통신사": "HV", "중분류": "환수규정", "표시": ""}, {"통신사": "HV", "중분류": "이상영업규정", "표시": "접기"}, {"통신사": "ETC", "중분류": "환수규정", "표시": ""}, {"통신사": "ETC", "중분류": "이상영업규정", "표시": "접기"}], "환수율": [{"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 90일 이하", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 91~150일 이하", "환수율": "80%", "비고": "", "비고색": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 151~210일 이하", "환수율": "60%", "비고": "", "비고색": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 211~270일 이하", "환수율": "30%", "비고": "", "비고색": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 271~360일 이하", "환수율": "20%", "비고": "25년 10월 유선접수분~", "비고색": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "전화·버디·결합", "구간": "270일 이내 해지", "환수율": "100%", "비고": "해당 상품 전액 환수", "비고색": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "KT오피스넷 전화·센트릭스", "구간": "1년 이내 해지", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "의무사용기간", "대상": "전체", "구간": "개통 후 180일 이내 실사용일수 90일 미만", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "상품변경", "대상": "상품 하향·변경", "구간": "270일 이내", "환수율": "100%", "비고": "상품 간 갭 만큼", "비고색": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "상품변경", "대상": "결합 유형 변경", "구간": "270일 이내", "환수율": "100%", "비고": "결합수수료", "비고색": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "상품변경", "대상": "보편역무 인터넷 접수 및 변경", "구간": "-", "환수율": "100%", "비고": "전액 환수", "비고색": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "상품변경", "대상": "OTV 슬림 이하 하향", "구간": "-", "환수율": "결합수수료 환수", "비고": "", "비고색": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "구분": "기타", "대상": "교육청 할인 등록", "구간": "-", "환수율": "100%", "비고": "전액 환수", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "해지", "대상": "인단독·번들 (동시해지)", "구간": "□ 1~180일 이내", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "해지", "대상": "인단독·번들 (동시해지)", "구간": "□ 181~270일 이내", "환수율": "50%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "해지", "대상": "인단독·번들 (동시해지)", "구간": "□ 271~360일 이내", "환수율": "20%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "해지", "대상": "TV (단독·다셋)", "구간": "□ 90일 이내", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "해지", "대상": "TV (단독·다셋)", "구간": "□ 91~120일 이내", "환수율": "80%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "해지", "대상": "TV (단독·다셋)", "구간": "□ 121~150일 이내", "환수율": "60%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "해지", "대상": "TV (단독·다셋)", "구간": "□ 151~180일 이내", "환수율": "40%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "해지", "대상": "TV (단독·다셋)", "구간": "□ 181~270일 이내", "환수율": "30%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "해지", "대상": "TV (단독·다셋)", "구간": "□ 271~360일 이내", "환수율": "20%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "해지", "대상": "번들 중 TV만 해지 시", "구간": "90일 이내", "환수율": "번들수수료의 50%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "해지", "대상": "번들 중 TV만 해지 시", "구간": "120일 이내", "환수율": "번들수수료/2 × 80%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "의무사용기간", "대상": "SKT", "구간": "개통 후 180일 이내 실사용일수 90일 미만", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "상품 하향·변경", "대상": "전체", "구간": "□ 90일 이내", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "상품 하향·변경", "대상": "전체", "구간": "□ 91~120일 이내", "환수율": "80%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "상품 하향·변경", "대상": "전체", "구간": "□ 121~150일 이내", "환수율": "60%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "상품 하향·변경", "대상": "전체", "구간": "□ 151~180일 이내", "환수율": "40%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKT", "구분": "상품 하향·변경", "대상": "전체", "구간": "□ 181~270일 이내", "환수율": "30%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKB", "구분": "해지·상품 하향·변경", "대상": "전체", "구간": "□ 90일 이내", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKB", "구분": "해지·상품 하향·변경", "대상": "전체", "구간": "□ 91~120일 이내", "환수율": "80%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKB", "구분": "해지·상품 하향·변경", "대상": "전체", "구간": "□ 121~150일 이내", "환수율": "60%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKB", "구분": "해지·상품 하향·변경", "대상": "전체", "구간": "□ 151~180일 이내", "환수율": "40%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKB", "구분": "해지·상품 하향·변경", "대상": "전체", "구간": "□ 181~270일 이내", "환수율": "30%", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKB", "구분": "해지·상품 하향·변경", "대상": "전체", "구간": "□ 271~360일 이내", "환수율": "20%", "비고": "해지만 해당", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKB", "구분": "기타", "대상": "SK소호 인전·센트릭스", "구간": "-", "환수율": "홈상품과 동일", "비고": "", "비고색": ""}, {"통신사": "SK", "중분류": "환수규정", "그룹": "SKB", "구분": "기타", "대상": "SKB 유심", "구간": "M+3개월 이내 명의변경·정지", "환수율": "100%", "비고": "수수료 전액환수", "비고색": ""}, {"통신사": "LG", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 90일 이하", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "LG", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 91~150일 이하", "환수율": "80%", "비고": "", "비고색": ""}, {"통신사": "LG", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 151~210일 이하", "환수율": "60%", "비고": "", "비고색": ""}, {"통신사": "LG", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 211~270일 이하", "환수율": "30%", "비고": "", "비고색": ""}, {"통신사": "LG", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 271~360일 이하", "환수율": "20%", "비고": "해지만 해당", "비고색": ""}, {"통신사": "LG", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "LG소호 인터넷·TV", "구간": "9개월 이내", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "LG", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "LG소호 전화·CCTV", "구간": "1년 이내", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "LG", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "LG오피스넷", "구간": "13개월 이내 하향·미납·해지", "환수율": "전액환수", "비고": "", "비고색": ""}, {"통신사": "LG", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "LG재약정", "구간": "1년 이내 인터넷·TV 요금제 하향", "환수율": "전액환수", "비고": "", "비고색": ""}, {"통신사": "LG", "중분류": "환수규정", "그룹": "", "구분": "상품변경", "대상": "상품 하향·변경", "구간": "270일 이내", "환수율": "갭만큼 환수", "비고": "", "비고색": ""}, {"통신사": "LG", "중분류": "환수규정", "그룹": "", "구분": "기타", "대상": "홈·소호·오피스넷 자동이체 → 지로 진행/변경", "구간": "-", "환수율": "100%", "비고": "단, 오피스넷 법인은 지로 가능", "비고색": ""}, {"통신사": "LG", "중분류": "환수규정", "그룹": "", "구분": "기타", "대상": "3회선 초과 동일 납부 계정", "구간": "-", "환수율": "수수료 미지급", "비고": "인터넷·IPTV", "비고색": ""}, {"통신사": "SKY", "중분류": "환수규정", "그룹": "유선", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 90일 이하", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "SKY", "중분류": "환수규정", "그룹": "유선", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 91~150일 이하", "환수율": "90%", "비고": "", "비고색": ""}, {"통신사": "SKY", "중분류": "환수규정", "그룹": "유선", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 151~210일 이하", "환수율": "80%", "비고": "", "비고색": ""}, {"통신사": "SKY", "중분류": "환수규정", "그룹": "유선", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 211~270일 이하", "환수율": "70%", "비고": "", "비고색": ""}, {"통신사": "SKY", "중분류": "환수규정", "그룹": "UIT", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 90일 이하", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "SKY", "중분류": "환수규정", "그룹": "UIT", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 180일 이하", "환수율": "50%", "비고": "", "비고색": ""}, {"통신사": "SKY", "중분류": "환수규정", "그룹": "유선", "구분": "의무사용기간", "대상": "전체", "구간": "개통 후 180일 이내 실사용일수 90일 미만", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "HV", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 90일 이내", "환수율": "90%", "비고": "", "비고색": ""}, {"통신사": "HV", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 91~150일 이내", "환수율": "60%", "비고": "", "비고색": ""}, {"통신사": "HV", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 151~270일 이내", "환수율": "40%", "비고": "", "비고색": ""}, {"통신사": "HV", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "실사용일수 기준", "구간": "□ 271~365일 이내", "환수율": "20%", "비고": "", "비고색": ""}, {"통신사": "HV", "중분류": "환수규정", "그룹": "", "구분": "해지", "대상": "연속미납", "구간": "개통월 포함 9개월 이내 3개월간(90일) 연속미납", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "HV", "중분류": "환수규정", "그룹": "", "구분": "기타", "대상": "동등결합 (차감)", "구간": "90일 이내 결합 시", "환수율": "10만원", "비고": "26.02~ 미차감", "비고색": ""}, {"통신사": "HV", "중분류": "환수규정", "그룹": "", "구분": "기타", "대상": "지로변경", "구간": "M+3개월", "환수율": "50만원", "비고": "", "비고색": ""}, {"통신사": "ETC", "중분류": "환수규정", "그룹": "CCTV", "구분": "텔레캅", "대상": "해지", "구간": "□ 1년 이내", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "ETC", "중분류": "환수규정", "그룹": "CCTV", "구분": "텔레캅", "대상": "해지", "구간": "□ 1년 6개월 이내", "환수율": "50%", "비고": "", "비고색": ""}, {"통신사": "ETC", "중분류": "환수규정", "그룹": "CCTV", "구분": "KT기가아이즈", "대상": "해지", "구간": "□ 1년 이내", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "ETC", "중분류": "환수규정", "그룹": "CCTV", "구분": "캡스", "대상": "해지", "구간": "□ 1년 이내", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "ETC", "중분류": "환수규정", "그룹": "CCTV", "구분": "캡스", "대상": "해지", "구간": "□ 결합 해지 (M+12개월)", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "ETC", "중분류": "환수규정", "그룹": "다회선·오피스넷", "구분": "다회선 (전 통신사 동일)", "대상": "해지", "구간": "요금완납기준 1년 이내", "환수율": "100%", "비고": "", "비고색": ""}, {"통신사": "ETC", "중분류": "환수규정", "그룹": "다회선·오피스넷", "구분": "오피스넷 (SK)", "대상": "해지·하향·미납", "구간": "요금완납기준 1년 이내", "환수율": "100%", "비고": "", "비고색": ""}], "정책": [{"통신사": "KT", "중분류": "", "그룹": "", "섹션": "핵심 기준", "소제목": "해지 후 재가입", "내용": "M+3개월", "강조": "Y"}, {"통신사": "KT", "중분류": "", "그룹": "", "섹션": "핵심 기준", "소제목": "기존회선 유지", "내용": "M+9개월", "강조": "Y"}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "섹션": "유심 환수기준", "소제목": "유심 개통 후 동일명의 무선 해지 시 수수료 환수", "내용": "183일 유지 / 기간 내 가입회선·요금제·결합 미유지 시 전액 환수\n(기존) 25년 5월 11일부터 ~ 개통기준 결합추가수수료 유지기간 273일\n(변경) 26년 6월 01일부터 ~ 개통기준 결합추가수수료 유지기간 365일", "강조": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "섹션": "단판 수수료 지급 기준 & 유의사항", "소제목": "■ 불완전 판매건 지급제외", "내용": "① USIM 단독 개통 후 익월 말까지 한 번도 단말기에 장착되지 않은 경우\n② 익월 말 기준, 서로 다른 선불 USIM의 최종 장착 단말기가 동일한 경우 (동일 대리점 판매분)\n③ 익월 말까지 발신통화 이력이 없는 경우", "강조": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "섹션": "단판 수수료 지급 기준 & 유의사항", "소제목": "■ 당월 동일 명의 모바일 해지 발생 회선 지급 제외", "내용": "", "강조": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "섹션": "기타 유의사항", "소제목": "", "내용": "· AM법인 접수 및 개통 시 수수료 없음\n· 교육청 할인 등록 시 전액 환수\n· 복지등록(기초수급자·국가유공자·장애인)은 가능, 결합할인 중복불가\n★ 비즈성공팩 결합 시 수수료 지급 불가", "강조": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "섹션": "기타 유의사항", "소제목": "KT OSS 취소 시", "내용": "무조건 재접수 진행 — 재인증 및 재접수 시점 정책으로 적용", "강조": "Y"}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "섹션": "기타 유의사항", "소제목": "KT오피스넷", "내용": "환수기준 홈상품과 동일", "강조": ""}, {"통신사": "KT", "중분류": "이상영업규정", "그룹": "", "섹션": "KT SQM (개통 후 사용량 저조)", "소제목": "", "내용": "● KT는 신규 개통 후 사용량이 없는 고객들에 대해서 이상 영업(실적을 위한 부정가입)으로 판단하여 사용량 저조에 대한 소명을 해야 합니다.\n- 대체로 정당한 사유가 있어서 소명이 가능한 케이스가 있음\n- 본사는 애초에 정상 가입자라면 사용량이 없을 이유가 없다는 판단\n- 특별한 사유가 아니라면 소명 불인정되어 차감 (-10만원)\n이에 고객께 개통 후 인터넷·TV 의 사용량이 없을 시 이상영업으로 차감 내려올 수 있다고 안내 이후 정상사용 안내 부탁드립니다.", "강조": ""}, {"통신사": "KT", "중분류": "환수규정", "그룹": "", "섹션": "KT 약정갱신 환수기준 (기존과 동일)", "소제목": "", "내용": "● 해지 : 실사용일수 271일 이하 100% 환수\n- 25년 10월 접수건부터 361일 이하 100% 환수\n● 의무사용기간 : 개통 후 180일 이내 실사용일수 90일 미만일 시 100% 환수\n● 제한적 재가입 소명 미인정 차감 (본사 환수규정에 따름)\n● 상품 하향·변경 : 270일 이내 상품 간 차액만큼 환수", "강조": ""}, {"통신사": "KT", "중분류": "이상영업규정", "그룹": "", "섹션": "음성적 재가입", "소제목": "■ 인터넷 및 TV 상품의 판매채널의 고의적인 '신규 후 해지' 금지", "내용": "● 인터넷 및 TV 음성적 처리분 모니터링\n- 조건 1 : 해지회선 중 동월 내 동일 명의 및 동일 설치장소 신규 이력 존재 회선\n- 조건 2 : 해지회선 중 M+2, M-1~9개월 내 동일 설치장소 신규 이력 존재 회선 (동월 제외)\n- 조건 3 : 명의변경 후 재가입 해지 발생건 (동일월)\n- 조건 4 : 설치변경 전후 재가입 해지 발생건 (동일월)\n※ 해당 기간 산정 시 정지·중단일 제외\n※ 동일 명의 : 결합상품 가입 현황, 빅데이터 분석 등을 통해 가족으로 판명될 경우 동일인으로 간주(비동거 포함) → 명의자 변칙 처리 감지\n※ 조건 3, 4 해당건 무소명 환수 원칙 적용", "강조": ""}, {"통신사": "KT", "중분류": "이상영업규정", "그룹": "", "섹션": "음성적 재가입", "소제목": "■ 고객센터·플라자 인입 해지요청 VOC 분석에 따른 재가입 판명 건 추가 반영", "내용": "● 주요 소명 관련 안내\n- 전산확인 가능건 대상 제외\n  → 사망, 원스톱전환, 단기(선불)인터넷, 동일장소 타명의(사업자 포함)\n- 실의심 건에 대한 소명 진행", "강조": ""}, {"통신사": "KT", "중분류": "불편법영업", "그룹": "", "섹션": "불편법영업 중요 공지사항", "소제목": "● 시행", "내용": "2026년 04월 01일 접수분부터 적용", "강조": "Y"}, {"통신사": "KT", "중분류": "불편법영업", "그룹": "", "섹션": "불편법영업 중요 공지사항", "소제목": "● 기준", "내용": "접수건에 한해서 불편법 영업건수에 대해 수수료 조정", "강조": ""}, {"통신사": "KT", "중분류": "불편법영업", "그룹": "", "섹션": "불편법영업 중요 공지사항", "소제목": "● 수수료 조정 내용", "내용": "적발 당월 개통 건수 전체 수수료 조정 - 접점별 개통건수 기준 (KT중복거래 대리점 전체 적용)\n예) 불편법영업 1건이 발생하더라도 300개통건 전체 건당 차감\n3회 이상 발생 시 정책제외 (KT중복거래점 동일 적용)", "강조": ""}, {"통신사": "KT", "중분류": "불편법영업", "그룹": "", "섹션": "불편법영업 중요 공지사항", "소제목": "● 불완전판매 유형 요약", "내용": "- 가입시점에서 고객과의 완전판매를 충족하지 못한 경우 (가입 관련 제반사항을 명확하게 안내하지 않거나, 허위 판매로 고객을 기만하는 등)\n- 고객이 업무 요청에 대하여 부당하게 거부하는 경우\n- 임의적으로 고객정보를 수집하거나 고객정보 관리를 소홀히 하는 경우 (제3자로부터 고객정보를 수집하여 정상적 업무 외 목적으로 활용, 또는 고객정보 유출)\n- 불편법영업 행위로 인해 건전한 유통질서의 혼란을 야기하는 경우\n- 고객 또는 업자와 공모해 명의도용·대여 등으로 개통, 판매 및 대가를 받는 경우\n- 고객 동의 없는 모든 TM의 경우\n- 가입신청에 대한 구비서류를 조작하는 경우\n- 대외규제기관 VOC가 발생할 경우 — 고객 기만 행위, 재화 등 편취, 개인정보법 위반\n- 규제기관 지침에 대한 준수의무를 지키지 못한 경우\n\n적발 확정 내용 : 당시 민원 발생 사안과 소명을 종합하여 결정 후 공유", "강조": ""}, {"통신사": "SK", "중분류": "", "그룹": "", "섹션": "핵심 기준", "소제목": "해지 후 재가입", "내용": "M+3개월", "강조": "Y"}, {"통신사": "SK", "중분류": "", "그룹": "", "섹션": "핵심 기준", "소제목": "기존회선 유지 (SKT)", "내용": "M+9개월", "강조": "Y"}, {"통신사": "SK", "중분류": "", "그룹": "", "섹션": "핵심 기준", "소제목": "기존회선 유지 (SKB)", "내용": "25.06.30 개통건까지 270일 / 25.07.01 개통건부터 270일 → 360일 변경", "강조": "Y"}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "섹션": "비정상 개통 / 해지 후 재가입", "소제목": "★ 모든 소명은 증빙 필수", "내용": "SKT / SKB 모두 증빙 없이 소명 일절 불가", "강조": "Y"}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "섹션": "비정상 영업 관리", "소제목": "1) 초고속 재가입", "내용": "동일장소(동일건물) 또는 동일세대 기준, 기 사용중인 초고속 서비스 이외에 추가로 신규 초고속을 가입하는 경우\n(실사용 목적 외 다른 용도로 사용하기 위해 회선을 개통하는 행위 포함)", "강조": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "섹션": "비정상 영업 관리", "소제목": "2) IPTV 해지 후 재가입", "내용": "관측기간 내 재가입 판정 시, 판정월 기준 실적 차감\n- 목적 : 유통망 주도의 이전설치 및 유무선결합 처리 등을 통한 관측기간 회피 목적의 우회재가입 근절\n- 추출기준 : 가입 후 M+12개월까지, 우회재가입 건이 대리점별 월 5건 이상 발생 시 대상\n- 적용시점 : 비정상 행위 발생 시점을 기준으로 '20년 10월부터 적용\n- 재정산 : 별도의 소명 과정을 거쳐 재정산 진행", "강조": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "섹션": "소명 인정 케이스 안내", "소제목": "", "내용": "- SK'T'만 해당 / 증빙 필수, 증빙 불충족 또는 미첨부 시 인정 케이스에 해당되더라도 소명 일절 불가", "강조": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "섹션": "재가입 판정 보조 기준", "소제목": "", "내용": "- 실 사용일 기준으로 적용\n- 정지일수가 30일 초과할 때마다 1개월씩 추가 관측", "강조": ""}, {"통신사": "LG", "중분류": "", "그룹": "", "섹션": "핵심 기준", "소제목": "해지 후 재가입", "내용": "M+3개월", "강조": "Y"}, {"통신사": "LG", "중분류": "", "그룹": "", "섹션": "핵심 기준", "소제목": "기존회선 유지", "내용": "93일", "강조": "Y"}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "섹션": "홈 이상영업 / 해지 후 재가입", "소제목": "● 대상상품", "내용": "홈 상품 전체 (인터넷 / IPTV / IoT), 다회선", "강조": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "섹션": "가개통", "소제목": "", "내용": "- 실적 및 수수료 획득 목적으로 실제 사용 의도 없이 개통 처리한 것", "강조": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "섹션": "불법 위면해지", "소제목": "", "내용": "- 개통불가지역으로 허위 불법전입 신고하여 위약금 면제처리 받아 해지하는 행위\n- 의심지역 : 3개월 누적 2곳 이상의 동일주소(지번)로 위면해지된 지역\n- 유도영업점 : 영업점에서 유치한 건(유치기간 무관)이 한달에 2건 이상 동일 의심지역으로 위면해지 시 유도점으로 확정 (동일주소 고객번호 기준)", "강조": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "섹션": "홈매니저신고", "소제목": "", "내용": "- 홈 매니저가 청약주소지 방문 시 불량 유치임을 확인하면 개통하지 않고 취소하며 신고함", "강조": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "섹션": "홈 해지 후 재가입 정의 & 사전 승인", "소제목": "", "내용": "- 홈 해지 후 재가입 : 기존 홈 상품 가입자에게 신규 가입하고 기존 홈 상품을 해지하여 신규 수수료와 실적을 편취하는 행위\n- 판단 기준 : 홈 상품을 신규 가입하고 기존 홈 상품을 D-60일 ~ D+90일 이내 해지\n※ 적발 기준을 피하고자 발생된 편법 행위 확인 시, 기준에 벗어나더라도 해지 후 재가입으로 확정하여 수수료 반환 (예 : 90일 뒤에 유무선 결합 등)", "강조": "Y"}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "섹션": "자주 묻는 질문", "소제목": "Q. 가족이지만, 해지된 홈 상품과 신규 가입된 홈 상품의 설치 주소가 다릅니다. 왜 적발하나요?", "내용": "A. 이사할 때 기존 주소에 설치된 건 해지하고 새로 이사간 주소에 가족 명의로 신규 개통하는 편법이 있기 때문에, 주소가 다른 경우도 적발하고 있습니다.", "강조": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "섹션": "자주 묻는 질문", "소제목": "• 동일 주소인 경우의 소명", "내용": "해지된 홈 상품의 명의자와 신규 가입된 홈 상품의 명의자의 관계가 가족이 아니라 동거인·지인이라고 소명하는 경우 인정 불가합니다. (두 분이 전혀 모르는 관계에만 인정됨)\n(단, 직원이 지인들의 명의로 동일주소에 해지하고 신규 가입하는 경우, 명의자 간 관계는 없지만 해지 후 재가입으로 확정)", "강조": ""}, {"통신사": "SKY", "중분류": "", "그룹": "", "섹션": "핵심 기준", "소제목": "해지 후 재가입", "내용": "183일", "강조": "Y"}, {"통신사": "SKY", "중분류": "", "그룹": "", "섹션": "핵심 기준", "소제목": "기존회선 유지", "내용": "273일", "강조": "Y"}, {"통신사": "SKY", "중분류": "환수규정", "그룹": "유선", "섹션": "의무사용기간 상세", "소제목": "", "내용": "· 개통 후 180일 이내 실사용일수 90일 미만일 시 100% 환수\n· 무료시청 1개월 제공되는 상품일 경우 실사용일수에서 제외됨\n  - 무료시청 종료일자 후부터 개통일자 산정\n  - 9개월 + 무료 1개월 = 10개월 이용해야 함", "강조": ""}, {"통신사": "SKY", "중분류": "환수규정", "그룹": "유선", "섹션": "상품변경", "소제목": "■ 개통 후 상품변경 및 요금제 하향은 실사용·완납 기준 9개월 이후 가능", "내용": "- 9개월 이전 변경 시 수수료 전액 환수", "강조": "Y"}, {"통신사": "SKY", "중분류": "환수규정", "그룹": "UIT", "섹션": "UIT 유의사항", "소제목": "", "내용": "※ 동판 진행 후 유선만 해지 시에도(결합 미유지) 수수료 환수\n- 이용정지, 일시정지 등 실사용일 미포함\n- 요금제 기간 내 하향 시 차액분 차감\n- 고객 사망해지 시 환수 제외 (단, 사망진단서 제출 필수)", "강조": ""}, {"통신사": "SKY", "중분류": "이상영업규정", "그룹": "", "섹션": "완전판매가이드 (환수대상)", "소제목": "", "내용": "- 가개통(정책 수혜를 위한 USIM 활용 다량 개통) 및 해지 후 재가입\n- 기계 OTA 미등록(D+7 이내) 처리 : 무통화 등 무사용 내역 지속 확인\n- 당월 동일명의 다량 개통 (명의당 3회선 이상 개통 모니터링)", "강조": ""}, {"통신사": "HV", "중분류": "", "그룹": "", "섹션": "핵심 기준", "소제목": "해지 후 재가입", "내용": "M+3개월", "강조": "Y"}, {"통신사": "HV", "중분류": "", "그룹": "", "섹션": "핵심 기준", "소제목": "기존회선 유지", "내용": "M+3개월", "강조": "Y"}, {"통신사": "HV", "중분류": "환수규정", "그룹": "", "섹션": "환수예외 사유", "소제목": "", "내용": "- 가입자 사망 (전액 제외 / 단, 증빙서류 필수)\n- 가입자의 국외 이전(이민 제외)과 군입대 (증빙서류 필수 / 환수대상 수수료 기준의 50% 제외 환수)", "강조": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "섹션": "영업 제한 사항", "소제목": "● 동일장소·동일통신사 9개월 이내 해지이력 있을 시", "내용": "대표자 또는 가족구성원 가족결합 및 신규가입 불가, 진행 시 수수료 및 사은품 전액 환수", "강조": "Y"}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "섹션": "영업 제한 사항", "소제목": "● 다회선 가입자의 경우", "내용": "기존 사용중인 회선 변경·정지·해지 등 신규회선 개통 후 실사용 9개월(271일) 이내로 해지 불가 (타 주소지 가족명의 동일). 위반 시 수수료 및 사은품 전액 환수", "강조": "Y"}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "섹션": "영업 제한 사항", "소제목": "● 알뜰형(8VSB)", "내용": "신규개통 후 1년 이내 디지털 전환 금지 — 고객 본사 접수만 가능", "강조": ""}, {"통신사": "HV", "중분류": "환수규정", "그룹": "", "섹션": "동등결합 차감 이력", "소제목": "", "내용": "· 25.06.12 ~ : 판가 인상요금제 개통 > 판가 인상 전 요금제로 변경 후 동등결합 예외 가능 (단, 당월만 상품변경 가능)\n· 25.09.16 ~ : 인터넷 광랜라이트(100M) 동등결합 적용 불가\n· 26.02 ~ : 동등결합 수수료 미차감", "강조": ""}, {"통신사": "HV", "중분류": "환수규정", "그룹": "", "섹션": "기타 안내", "소제목": "", "내용": "● 모든 복지 등록 가능, 복지 등록 환수 없음\n● 자동이체 → 지로 변경 패널티\n  - 예) 25.11 개통 → 26.02 지로 변경 시 2월 기준 패널티", "강조": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "섹션": "정도영업 / 불완전영업", "소제목": "", "내용": "● 정도영업 패널티 : 위반 사실 제보와 일부 항목은 영업정책팀·리스크관리팀의 검수로 위반 점검\n● 불완전영업 패널티 : 서비스계정 당 30만원, 위반 항목별 부과 (1. 패널티 부과 / 2. 수수료 환수)\n- 소명자료 : 가입사실확인서, 전산 본인인증 진행\n- 소명 시 고객 해피콜을 통해 재확인 시 이슈가 해결되지 않은 건은 불완전 영업으로 최종 판정\n● 상품 강요 및 하향 유도 (1. 패널티 부과 / 2. 수수료 환수)", "강조": ""}, {"통신사": "ETC", "중분류": "이상영업규정", "그룹": "", "섹션": "KT기가아이즈 & 텔레캅", "소제목": "해지 후 재가입 관련", "내용": "- 동일명의·동일장소 해지이력 있을 경우 진행 불가, 수수료 미지급", "강조": "Y"}], "기준표": [{"통신사": "KT", "중분류": "불편법영업", "그룹": "", "표명": "불편법영업 — 수수료 조정 기준", "순번": 1, "행유형": "헤더", "열1": "구간", "열2": "M월", "열3": "M+1월", "열4": "M+2월", "열5": "M+3월"}, {"통신사": "KT", "중분류": "불편법영업", "그룹": "", "표명": "불편법영업 — 수수료 조정 기준", "순번": 2, "행유형": "본문", "열1": "1 Strike", "열2": "-30,000", "열3": "0", "열4": "0", "열5": "0"}, {"통신사": "KT", "중분류": "불편법영업", "그룹": "", "표명": "불편법영업 — 수수료 조정 기준", "순번": 3, "행유형": "본문", "열1": "2 Strike", "열2": "-50,000", "열3": "-30,000", "열4": "0", "열5": "0"}, {"통신사": "KT", "중분류": "불편법영업", "그룹": "", "표명": "불편법영업 — 수수료 조정 기준", "순번": 4, "행유형": "본문", "열1": "3 Strike", "열2": "-100,000", "열3": "-50,000", "열4": "-30,000", "열5": "0"}, {"통신사": "KT", "중분류": "불편법영업", "그룹": "", "표명": "불편법영업 — 구간 적용 기준", "순번": 1, "행유형": "헤더", "열1": "구간", "열2": "M월", "열3": "M+1월", "열4": "M+2월", "열5": "M+3월"}, {"통신사": "KT", "중분류": "불편법영업", "그룹": "", "표명": "불편법영업 — 구간 적용 기준", "순번": 2, "행유형": "본문", "열1": "1 Strike", "열2": "1회", "열3": "1회", "열4": "0회", "열5": "0회"}, {"통신사": "KT", "중분류": "불편법영업", "그룹": "", "표명": "불편법영업 — 구간 적용 기준", "순번": 3, "행유형": "본문", "열1": "2 Strike", "열2": "2회", "열3": "2회", "열4": "1회", "열5": "0회"}, {"통신사": "KT", "중분류": "불편법영업", "그룹": "", "표명": "불편법영업 — 구간 적용 기준", "순번": 4, "행유형": "본문", "열1": "3 Strike", "열2": "3회", "열3": "3회", "열4": "2회", "열5": "1회"}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "비정상 영업 유형", "순번": 1, "행유형": "헤더", "열1": "구분", "열2": "정의 및 유형", "열3": "", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "비정상 영업 유형", "순번": 2, "행유형": "본문", "열1": "재가입", "열2": "\"동일장소&동일서비스\" 또는 \"동일세대&동일서비스\" 재가입 (복수회선 포함) 시 비정상 판정\n유형 : T → T / B → T / B → B", "열3": "", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "비정상 영업 유형", "순번": 3, "행유형": "본문", "열1": "단기해지", "열2": "가입기간 365일 이하 해지건", "열3": "", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "비정상 영업 유형", "순번": 4, "행유형": "본문", "열1": "사은품 가이드 위반", "열2": "고객 사은품 가이드 위반 지급", "열3": "", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "비정상 영업 유형", "순번": 5, "행유형": "본문", "열1": "허위 수용불가 & 명의변경", "열2": "수용불가 지역으로 허위 이전 신청 후 이를 근거로 해지하거나, 위면해지·직권해지 목적으로 명의변경 후 해지하는 것", "열3": "", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "비정상 영업 유형", "순번": 6, "행유형": "본문", "열1": "채널 치팅", "열2": "판매 채널 간 차별적인 정책 부당 수혜 목적의 채널 코드 치팅 건", "열3": "", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "비정상 영업 유형", "순번": 7, "행유형": "본문", "열1": "허위 판매 (청약/개통)", "열2": "인센티브 및 청약·개통 정책 부당 수혜 목적의 허위판매(청약/개통)\n고객(회선명의/집주인/거주자) 미동의 하에 가청약·가개통 적발 시, 적발 건당 실적 2배수 차감", "열3": "", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "비정상 영업 유형", "순번": 8, "행유형": "본문", "열1": "고객본인 미확인", "열2": "고객 본인 미확인 판매 건", "열3": "", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "용어 정의", "순번": 1, "행유형": "헤더", "열1": "용어", "열2": "내용", "열3": "", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "용어 정의", "순번": 2, "행유형": "본문", "열1": "동일세대", "열2": "유무선결합관계 / 회선명의(명의변경 전후 포함) / 납부계정 / Device Mac Addr 등의 이력을 통해, 기존회선과 신규회선 간의 연관성이 입증된 관계", "열3": "", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "용어 정의", "순번": 3, "행유형": "본문", "열1": "동일장소", "열2": "전산상의 동일주소 기준으로, 아파트·공동주택 등은 번지/동/호수까지 일치하는 경우이며, 단독주택·일반건물·기타 등은 번지까지만 일치하는 조건임. 이외는 타장소로 명기.", "열3": "", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "용어 정의", "순번": 4, "행유형": "본문", "열1": "동일건물", "열2": "전산상의 건물ID 기준으로, 대부분 물리적으로 하나의 건축물임 (Ex. OO아파트 단지)", "열3": "", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "소명 인정 케이스 (SKT 한정 · 증빙 필수)", "순번": 1, "행유형": "헤더", "열1": "구분", "열2": "내용", "열3": "소명 인정 케이스", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "소명 인정 케이스 (SKT 한정 · 증빙 필수)", "순번": 2, "행유형": "본문", "열1": "사업장 개/폐업", "열2": "사업장과 댁내 회선은 별개의 회선으로 간주하여 예외 인정", "열3": "(사업자 등록증, 폐업신고서) 서류 증빙 필요 또는 swing에서 사업자 등록증/번호 조회 가능 시", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "소명 인정 케이스 (SKT 한정 · 증빙 필수)", "순번": 3, "행유형": "본문", "열1": "이전 설치 불가", "열2": "기존회선의 이전설치 장소가 비가용지역으로 설치 불가로 인한 해지인 경우 예외 인정", "열3": "swing에서 기존회선 수용불가 해지 확인 가능 시", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "소명 인정 케이스 (SKT 한정 · 증빙 필수)", "순번": 4, "행유형": "본문", "열1": "품질 불만", "열2": "품질 불만으로 인한 기존회선 해지인 경우 예외 인정", "열3": "swing에서 기존회선 품질불만 해지 확인 가능 시 (단, 해지 후 동일장소에 재개통 시 추가 검토 진행)", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "소명 인정 케이스 (SKT 한정 · 증빙 필수)", "순번": 5, "행유형": "본문", "열1": "사망", "열2": "사망으로 인한 기존회선 해지인 경우 예외 인정", "열3": "(사망확인서, 가족관계증명서) 서류 증빙 필요 또는 swing에서 위면 해지를 위해 전달된 서류 조회 가능 시", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "소명 인정 케이스 (SKT 한정 · 증빙 필수)", "순번": 6, "행유형": "본문", "열1": "이민", "열2": "이민으로 인한 기존회선 해지인 경우 예외 인정", "열3": "(해외이주신고확인서, 출입국 사실증명서 등) 서류 증빙 필요", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "소명 인정 케이스 (SKT 한정 · 증빙 필수)", "순번": 7, "행유형": "본문", "열1": "군입대", "열2": "군입대로 인한 기존회선 해지인 경우 예외 인정", "열3": "(입영통지서) 서류 증빙 필요", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "소명 인정 케이스 (SKT 한정 · 증빙 필수)", "순번": 8, "행유형": "본문", "열1": "이혼", "열2": "이혼으로 인한 기존회선 해지인 경우 예외 인정", "열3": "(이혼합의서, 혼인관계증명서) 서류 증빙 필요", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "소명 인정 케이스 (SKT 한정 · 증빙 필수)", "순번": 9, "행유형": "본문", "열1": "수감", "열2": "수감으로 인한 기존회선 해지인 경우 예외 인정", "열3": "(수감 증명서) 서류 증빙 필요", "열4": "", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "재가입 판정 기준", "순번": 1, "행유형": "헤더", "열1": "재가입기준 (기존/신규회선)", "열2": "세부 적용 기준", "열3": "관측기간 (신규 개통일 기준)", "열4": "비고", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "재가입 판정 기준", "순번": 2, "행유형": "본문", "열1": "동일장소 & 동일세대", "열2": "신규 개통 회선 중 기존 서비스와 \"동일장소 & 동일세대\"로 개통된 회선\n· 신규회선의 가족구성원 중 일부가 기존회선 가족구성원과 중복 이력 존재\n· 기존 회선 가족구성원 중 1명 이상과 동일명의·동일납부계좌로 개통된 신규 회선 (가족명의 재가입)\n· 신규회선과 기존회선 간의 중복 Device (MAC Addr 기준) 이력 존재\n· 기존회선 가족구성원 중 일부 구성원과 동일한 명의로 신규회선 명의변경 이력 존재 (명의변경 우회가입)\n· 명의변경 재가입 해지\n  - 기존회선 명의변경 후 해지, 관측기간 內 가족구성원 신규회선 개통\n  - 신규회선 개통 & 명의변경 후, 관측기간 內 가족구성원 기존회선 해지", "열3": "M-3 ~ M+9", "열4": "기존 회선 해지 전이라도, 관측기간 내 재가입 기준 모니터링 항목 기준 충족 시 소명 후 재가입 확정", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "재가입 판정 기준", "순번": 3, "행유형": "본문", "열1": "타장소 & 동일세대", "열2": "타 장소에서 신규회선 개통 시, 기존회선과 동일세대 구성원으로 개통 후 기존회선 해지\n· 타장소 & 동일명의\n  - 타장소 동일명의로 개통 후, 관측기간 내 동일명의 기존회선 해지\n· 설치변경 재가입 해지\n  - 기존회선 설치변경 후 해지, 관측기간 內 가족구성원 신규회선 개통\n  - 신규회선 개통 & 설치변경 후, 관측기간 內 가족구성원 기존회선 해지\n· 동일건물 & 동일세대\n  - 물리적인 동일건물 내에서 동일세대 구성원으로, 신규회선 개통과 기존회선 해지", "열3": "M-3 ~ M+9", "열4": "기존 서비스 해지 시, 소명 후 재가입 확정", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "재가입 판정 기준", "순번": 4, "행유형": "본문", "열1": "동일장소 복수개통", "열2": "동일장소에 단기간 내, 복수회선으로 개통된 회선\n· 단일세대 거주 동일 장소에 1년 이내 복수 회선 개통 시 → 해지 여부 및 동일세대 여부와 무관하게, 소명 후 비정상 판정", "열3": "M-3 ~ M+9", "열4": "가개통(임의개통) 의심건으로 소명 후, 비정상 확정", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "재가입 판정 기준", "순번": 5, "행유형": "본문", "열1": "허위주소 청약/개통 및 주소 왜곡", "열2": "실사용이 아닌 인센·사은품 편취 목적의 허위주소 가개통 또는 청약주소와 설치주소가 상이한 경우\n· 재가입 회피 목적으로, 실 사용(개통)주소에 청약하지 않고 임의장소에 청약·개통한 경우 (기존 회선 해지 여부와 무관)\n· 악의적인 주소 왜곡 행위 등을 통한 재가입 회피 또는 가개통", "열3": "M-3 ~ M+9", "열4": "소명 후, 재가입 확정", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "재가입 판정 기준", "순번": 6, "행유형": "본문", "열1": "무출동 개통", "열2": "무출동 개통 초고속 회선", "열3": "개통당월", "열4": "소명 후, 재가입 확정", "열5": ""}, {"통신사": "SK", "중분류": "이상영업규정", "그룹": "", "표명": "재가입 판정 기준", "순번": 7, "행유형": "본문", "열1": "제보/신고", "열2": "개통기사·고객·경쟁사 등으로부터 비정상 제보 및 신고 건", "열3": "M-3 ~ M+9", "열4": "소명 후, 재가입 확정", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "가개통 적발 기준", "순번": 1, "행유형": "헤더", "열1": "적발항목", "열2": "적발기준", "열3": "", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "가개통 적발 기준", "순번": 2, "행유형": "본문", "열1": "동일명의 다량회선", "열2": "동일명의 누적 3건 이상 개통한 회선", "열3": "", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "가개통 적발 기준", "순번": 3, "행유형": "본문", "열1": "동일명의 동일납부", "열2": "동일명의 납부명의 누적 3건 이상 개통한 회선", "열3": "", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "가개통 적발 기준", "순번": 4, "행유형": "본문", "열1": "직원명의 개통", "열2": "청약 넣는 소속점의 전산ID 보유자로 개통한 회선", "열3": "", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "가개통 적발 기준", "순번": 5, "행유형": "본문", "열1": "직원명의 납부", "열2": "청약 넣는 소속점의 전산ID 보유자로 납부한 회선", "열3": "", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "가개통 적발 기준", "순번": 6, "행유형": "본문", "열1": "동일영업점 동일주소", "열2": "동일한 유치점에서 설치주소지가 중복 시, 기준 1월 내 동일아파트 3건 or 동일주택 2건 (번지수까지)", "열3": "", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "불법 위면해지 적발 기준", "순번": 1, "행유형": "헤더", "열1": "적발항목", "열2": "적발기준", "열3": "", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "불법 위면해지 적발 기준", "순번": 2, "행유형": "본문", "열1": "불법위면해지", "열2": "동일주소 고객번호 2건 이상 위면해지된 건", "열3": "", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈매니저신고 — 취소 유형", "순번": 1, "행유형": "헤더", "열1": "유형", "열2": "취소사유", "열3": "상세 내용", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈매니저신고 — 취소 유형", "순번": 2, "행유형": "본문", "열1": "해지 후 재가입청약", "열2": "기사용 명의변경 후 재가입", "열3": "- 신규주소에 자사 홈상품 회선이 있는 경우", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈매니저신고 — 취소 유형", "순번": 3, "행유형": "본문", "열1": "가개통 및 명의도용 청약", "열2": "명의도용 의심 / 실거주 고객 아님", "열3": "- 고객이 지원금을 받기 위하거나 유치자가 실적을 받기 위해 실 사용 의도 없이 청약한 경우\n- 명의자 동의 없이 명의를 도용하여 청약한 경우", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈매니저신고 — 취소 유형", "순번": 4, "행유형": "본문", "열1": "사행성 및 실설치 불가능한 장소 청약", "열2": "게임방 / 성인PC방 / 노래방", "열3": "- 게임방(게임작업장) / 성인PC방 / 노래방 / 유흥업소 / 비트코인 채굴방 등\n- 단기 사용 목적 : 박람회 / 전시회 등 (박람회 등의 행사로 자사 무과금회선은 설치 가능)\n- 가건물 : 건설 공사 현장 / 컨테이너 등", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈매니저신고 — 취소 유형", "순번": 5, "행유형": "본문", "열1": "회선 공유 목적 청약", "열2": "원룸 / 고시원 / 모텔 / 노래방", "열3": "- 숙박업소 : 원룸텔 / 고시원(텔) / 리빙텔 / 모텔 / 펜션 / 게스트하우스 등", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "해지 후 재가입 판단 기준 (명의·주소)", "순번": 1, "행유형": "헤더", "열1": "기준", "열2": "구분", "열3": "내용", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "해지 후 재가입 판단 기준 (명의·주소)", "순번": 2, "행유형": "본문", "열1": "명의기준", "열2": "동일 명의", "열3": "기 가입된 홈 상품의 명의자와 신규 가입된 홈 상품의 명의자가 동일한 경우", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "해지 후 재가입 판단 기준 (명의·주소)", "순번": 3, "행유형": "본문", "열1": "명의기준", "열2": "가족 명의", "열3": "기 가입된 홈 상품의 명의자와 신규 가입된 홈 상품의 명의자가 가족인 경우", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "해지 후 재가입 판단 기준 (명의·주소)", "순번": 4, "행유형": "본문", "열1": "주소기준", "열2": "동일 주소", "열3": "기 가입된 홈 상품의 설치주소와 신규 가입된 홈 상품의 설치주소가 동일한 경우", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈 해지 후 재가입 — 필요 증빙", "순번": 1, "행유형": "헤더", "열1": "해지·신규 유형", "열2": "필요한 증빙자료 및 조건", "열3": "비고", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈 해지 후 재가입 — 필요 증빙", "순번": 2, "행유형": "본문", "열1": "위면 해지", "열2": "커버리지 문제로 인한 위면해지\n- 위면해지 된 주소와 신규가입 된 주소가 일치한 경우만\n- 신규 가입자의 등본 or 초본\n소호 위면해지 : 신규가입자의 등본", "열3": "• 이전 설치하여 위면 해지됐으나, N/W 공사로 인해 신규 가입이 가능하게 된 경우만 인정 가능\n  (위의 사유에 해당되지 않는 위면 해지는 일반 해지로 간주하며, 이 외에 예외 케이스 해지 사유에 해당되는 경우 소명하시기 바랍니다.\n   예 : 위면해지 됐으나 위면해지된 주소와 신규 주소가 상이하며 해지·신규 사유가 분가인 경우 → 분가가 확인되는 증빙 제출해야 함)\n• 불법 위면해지 인정 불가\n  - 의도적으로 위면해지하거나 품질 민원을 제기하는 경우, 해지 건은 불법 위면해지로 신규 가입 건은 해지 후 재가입으로 각각 페널티 적용\n• 건물주 설치 반대로 인한 해지는 위면해지로 간주하지 않음\n• 사업 폐지로 인해 소호 상품 위면해지인 경우는 신규가입 가능", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈 해지 후 재가입 — 필요 증빙", "순번": 3, "행유형": "본문", "열1": "사망 / 군입대 위면해지", "열2": "위면해지 된 주소와 신규가입 된 주소가 일치한 경우 인정 불가", "열3": "• 사망과 군입대의 경우 해지와 신규 설치 주소가 동일하면 인정 불가\n  - 기존에 A주소에 설치된 홈 상품을 90일 내 B로 이전설치 후 위면해지하고 A주소로 설치하는 경우, 주소가 다르더라도 인정 불가", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈 해지 후 재가입 — 필요 증빙", "순번": 4, "행유형": "본문", "열1": "분가 / 합가", "열2": "분가나 합가가 확인되는 등본이나 초본 (이사가 아닌 분가/합가가 확인되어야 함)", "열3": "• 구비서류 예 : A, B 고객이 함께 살다가 A고객이 분가한 경우\n  → A고객의 초본 or 등본(전입 사실이 확인되어야 함) + B고객의 초본 or 등본 (함께 살았던 주소에 거주해야 함)\n만약 A, B고객이 함께 이사한 것이 확인된다면 분가가 아니라 이사이므로 인정 불가", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈 해지 후 재가입 — 필요 증빙", "순번": 5, "행유형": "본문", "열1": "이혼", "열2": "해지주소와 신규주소가 일치한 경우는 불가\n- 혼인관계증명서, 신규고객의 주민등록등본", "열3": "• 이혼했다고 해서 명의변경이나 주소 이전설치가 불가하다고 해지 후 재가입을 요청하는 경우 인정 불가", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈 해지 후 재가입 — 필요 증빙", "순번": 6, "행유형": "본문", "열1": "가족명의 주소가 다른 경우", "열2": "① 해지 회선 명의자 등본\n② 신규 회선 명의자 등본", "열3": "• 해지 회선 명의자와 신규 회선 명의자의 현재 거주하는 주소지가 다른 경우 인정\n  (직원이 예외 케이스를 악용하여 해지 후 재가입을 하는 경우 이상영업으로 확정)", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈 해지 후 재가입 — 필요 증빙", "순번": 7, "행유형": "본문", "열1": "사업 폐업", "열2": "폐업 증명서", "열3": "• 폐업증명서에 명시된 사업자 명의와 홈 상품 명의 / 사업장 주소와 홈 상품 주소가 일치해야 함", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈 해지 후 재가입 & 홈매니저신고 — 소명 인정 불가", "순번": 1, "행유형": "헤더", "열1": "불가 유형", "열2": "비고", "열3": "", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈 해지 후 재가입 & 홈매니저신고 — 소명 인정 불가", "순번": 2, "행유형": "본문", "열1": "단순/부실 소명", "열2": "• 증빙이 없거나 전산상으로 확인되지 않으며 단순 글로만 소명하는 경우 및 소명 없이 증빙만 보낸 경우\n• 해지 후 재가입인지 몰랐다 (팝업이 없었다 / 고객이 기존 회선에 대한 언급이 없었다 / 고객이 기존 회선 계속 사용한다고 했었다 등)", "열3": "", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈 해지 후 재가입 & 홈매니저신고 — 소명 인정 불가", "순번": 3, "행유형": "본문", "열1": "녹취 증빙자료", "열2": "• 음성으로 고객의 신원을 판단할 수 없기 때문에 녹취 파일은 소명 인정 불가", "열3": "", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈 해지 후 재가입 & 홈매니저신고 — 소명 인정 불가", "순번": 4, "행유형": "본문", "열1": "허위 소명", "열2": "• 소명을 바탕으로 전산·녹취·웹검색·주소 실제확인·정책&프로세스를 확인했을 때 사실과 다른 경우 (기억이 나지 않았다, 소명 번복 인정 불가)", "열3": "", "열4": "", "열5": ""}, {"통신사": "LG", "중분류": "이상영업규정", "그룹": "", "표명": "홈 해지 후 재가입 & 홈매니저신고 — 소명 인정 불가", "순번": 5, "행유형": "본문", "열1": "주소 편법", "열2": "• 주소를 편법으로 입력하는 경우 (습관이다, 몰랐다 인정 불가)\n• 유사주소 (101호이나 102호로 입력 / 1층이나 2층으로 입력)", "열3": "", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 1, "행유형": "헤더", "열1": "분류", "열2": "항목", "열3": "세부기준", "열4": "조치방안", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 2, "행유형": "본문", "열1": "대외민원", "열2": "기준", "열3": "대외민원 발생 시 위약벌 및 선조치 비용 반환\n과학기술정보통신부(방통위 포함), 소비자보호원, LG그룹 및 헬로비전 신문고를 통한 민원 인입건", "열4": "패널티 100만원 (26.02.01~ 변경)", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 3, "행유형": "본문", "열1": "대외민원", "열2": "선조치비용 반환", "열3": "회사가 대외민원 해소를 위해 진행한 요금조정 및 할인반환금 면제비용 1배 반환", "열4": "패널티 100만원 (26.02.01~ 변경)", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 4, "행유형": "본문", "열1": "대외민원", "열2": "위약벌 부과", "열3": "영업 경로의 귀책으로 정도영업 위반행위 발생한 민원 건", "열4": "패널티 100만원 (26.02.01~ 변경)", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 5, "행유형": "본문", "열1": "신규", "열2": "가개통", "열3": "실제 고객이 없는 주소지에 허위 개통\n수수료 및 상품권 편취 등의 목적으로 실사용 의도 없이 회사 또는 제3자의 명의로 개통", "열4": "1. 패널티 부과 2. 수수료 환수\n서비스계정 당 30만원 위반 항목별 부과\n※ 명의도용 100만원\n불완전영업 소명 : 증빙자료 미첨부 시 패널티 (가입녹취, 가입사실확인서, 소명 관련 증명자료 증빙)", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 6, "행유형": "본문", "열1": "신규", "열2": "명의도용", "열3": "실제 고객이 아닌 불특정 명의로 (허무인 포함) 서비스를 허위개통", "열4": "※ 명의도용 100만원", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 7, "행유형": "본문", "열1": "신규", "열2": "불완전영업", "열3": "요금, 약정, 위약금 등 주요 계약조건을 잘못 안내하거나 충분하게 안내하지 않는 행위", "열4": "서비스계정 당 30만원", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 8, "행유형": "본문", "열1": "신규", "열2": "약속 미이행", "열3": "고객이 기존 사용하는 위약금 납부를 약속한 후(위약금 또는 사은품) 최종 지급하지 않은 경우", "열4": "서비스계정 당 30만원", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 9, "행유형": "본문", "열1": "신규", "열2": "요금대리납부 (신규청약 시)", "열3": "일정기간 요금 대리납부를 제시하거나 약속을 미이행한 경우\n가입 명의와 납부자 명의가 상이한 고객 중 월요금 총액 6개월 이상을 가상계좌로 입금한 건\n※ 다회선 고객 대상 대납조건(금액 일부 or 전체)으로 고객 유치하는 행위", "열4": "서비스계정 당 30만원", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 10, "행유형": "본문", "열1": "신규", "열2": "가입서류 미비/위조", "열3": "- 가입신청서 또는 신분증 등 구비서류 위/변조, 대리 작성하는 행위\n- 본인신분증 미확인 및 가입신청서를 수취하지 않고 개통시키는 행위\n- 대리인 가입절차 시 \"신분증, 대리인신분증, 인감날인된 위임장\"을 확인하지 않고 계약하는 행위", "열4": "서비스계정 당 30만원", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 11, "행유형": "본문", "열1": "신규", "열2": "허위정보등록", "열3": "가입신청 시 필요한 정보를 의도를 가지고 허위로 입력하는 행위 (연락처, 납부정보, 주소 등)\n※ 50세대 이상 주거형 다회선 방송단체 고객 대상, 개인/타 사업체 명의를 통한 B2C 인터넷 가입 후 단체서비스 제공 불가 (B2C 공동청약을 통한 개별 유치만 가능)", "열4": "서비스계정 당 30만원", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 12, "행유형": "본문", "열1": "해지", "열2": "해지 후 재가입", "열3": "기존 고객을 해지 유도하고, 재가입시켜 신규실적으로 발생시키는 행위\n- 예시1) 고객명, 주소지 변경에 의한 해지 후 재가입\n- 예시2) A해지 후 D신규가입은 A→D전환 접수 필요\n(신규가입일 기준 기존상품 해지 및 동일명의, 가족명의, 동일장소 해지건)\n단, 위 기준을 벗어나더라도 의도적 해지 후 재가입(신규가입 후 해지)을 유도한 건은 패널티 대상", "열4": "서비스계정 당 30만원", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 13, "행유형": "본문", "열1": "해지", "열2": "단기해지 유도", "열3": "일정기간 후 해지할 것을 유도 (개통 6개월 이내 해지건 중 의도적 해지유도건 / 타사전환 유치목적 등)", "열4": "서비스계정 당 30만원", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 14, "행유형": "본문", "열1": "해지", "열2": "불법위면 해지", "열3": "위약금 면제 사유가 없음에도 불구하고, 서비스제공 또는 설불 주소지로 위장전입 한 경우", "열4": "서비스계정 당 30만원", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 15, "행유형": "본문", "열1": "부가서비스", "열2": "해지·가입", "열3": "고객 동의 없는 부가서비스 가입 및 해지하는 행위", "열4": "서비스계정 당 30만원", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 16, "행유형": "본문", "열1": "사은품", "열2": "상품권 대리수령", "열3": "가입자 본인 외 상품권 수령 금지\n단, 고객사유로 수령 불가 시에는 예외품의 진행 후 고객 입금처리\n(※ 예외지급 프로세스 : SMS 인증불가 화면 및 고객 이체내역 첨부 후 예외지급 품의 작성)", "열4": "서비스계정 당 30만원", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 17, "행유형": "본문", "열1": "기타", "열2": "고객사칭", "열3": "고객 또는 가족을 사칭하는 행위 / 사칭하여 고객 정보를 변경하는 행위", "열4": "서비스계정 당 30만원", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "정도영업 위반 기준", "순번": 18, "행유형": "본문", "열1": "기타", "열2": "일시정지 및 명의변경", "열3": "해지환수기간 내 일시정지 및 신규개통건 당월 명의변경 진행", "열4": "수수료 전액 환수 · 보정 불가", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "완전영업 가입기준", "순번": 1, "행유형": "헤더", "열1": "항목", "열2": "세부기준", "열3": "조치방안", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "완전영업 가입기준", "순번": 2, "행유형": "본문", "열1": "동일주소 중복가입", "열2": "신규 생성된 고객이 3개월 이내 동일주소지*로 인터넷 신규/추가 청약 시, 최초 1회선만 오퍼 제공 가능\n- 2회선부터 무오퍼 판매 / 단, 1개월 이상 요금 정상 납부 시 오퍼 지급 가능\n* 동일주소지 : 번지, 도로명 주소 기준으로 인정 (단독주택의 경우 층이 달라도 동일주소로 간주)", "열3": "사은품 지급 불가", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "완전영업 가입기준", "순번": 3, "행유형": "본문", "열1": "미납고객", "열2": "접수시점 기준 1개월 이상 연체 고객 주상품 추가회선 접수 불가 (미납금 해소 후 가능)", "열3": "회선 추가 불가", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "완전영업 가입기준", "순번": 4, "행유형": "본문", "열1": "과다 가입 제한", "열2": "1) 설치주소지가 2개를 초과하거나 2) D+I 합산 회선이 7개를 초과할 경우 가입 제한\n※ 명의자와 해당 주소지의 관계 증빙 필요 (접수 전 사전제출 필수)\n- 소유자 : 등기부등본 / 임차인 : 임대계약서, 가족관계증명서 등", "열3": "증빙 제출 없이 설치완료 시 고객계정 당 30만원 패널티", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "완전영업 가입기준", "순번": 5, "행유형": "본문", "열1": "가입자 대리납부 방지", "열2": "당월 개통기준 납부자·가입자 명의 불일치\n납부자 1개, 고객계정 3개 이상 납부건 점검 (※ 청구계정 당 고객계정 3개 초과 등록 불가)", "열3": "대리납부건은 사용자 명의로 납부 방법 변경 조치", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "완전영업 가입기준", "순번": 6, "행유형": "본문", "열1": "외국인", "열2": "잔여 체류기간 1년 이상 거주자 한정 가입 가능 ※ 체류기간 증빙 필수", "열3": "위반 시 영업 관련 비용환수, 고객계정 당 30만원 패널티", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "완전영업 가입기준", "순번": 7, "행유형": "본문", "열1": "사업자", "열2": "1) 휴/폐업, 미납대상자 가입 불가\n2) 비영리, 국가기관 오퍼 가입 가능\n3) 당사가입 6개월 이상 고객의 추가상품 오퍼 가입 가능\n4) 개인사업자 - 5회선 이상의 경우 \"개인명의\"로 진행\n※ 기존 사업자 고객이 상품추가 or 재약정 시 5회선 및 다회선 이관 사항이 아닐 경우 사업자로 진행\n5) 일반 신규 사업자 가입고객은 무조건 무오퍼 청약 (단, 기존상품 6개월 이상 정상 사용 사업자 한정 추가 가입건 오퍼 지급 가능 : 후번들 신규)", "열3": "", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "소개자 분쟁 / 영업편취", "순번": 1, "행유형": "헤더", "열1": "항목", "열2": "세부기준", "열3": "조치방안", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "소개자 분쟁 / 영업편취", "순번": 2, "행유형": "본문", "열1": "우선영업기준", "열2": "경로 간 영업 충돌 시 본인인증 먼저 완료한 경로의 실적 인정\n※ 단, 상품접수 20분 내 본인인증 건만 인정", "열3": "", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "소개자 분쟁 / 영업편취", "순번": 3, "행유형": "본문", "열1": "영업편취", "열2": "영업편취 목적으로 고객명의 또는 주소지 변경 건은 실적 인정 불가 및 영업 편취건 판정\n※ 가족의 경우 설치주소 기준으로 증빙", "열3": "수수료 환수 + 서비스 계정 당 30만원", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "소개자 분쟁 / 영업편취", "순번": 4, "행유형": "본문", "열1": "타겟보호", "열2": "타겟보호대상 (공동주택) 한정하여 영업경로에 우선권 부여", "열3": "", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "소개자 분쟁 / 영업편취", "순번": 5, "행유형": "본문", "열1": "대손", "열2": "대손 발생으로 인해 접수 불가 고객은 본인인증 먼저 완료한 경로의 실적 인정 전제하에, 본인인증 당일까지 인정", "열3": "", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "소개자 분쟁 / 영업편취", "순번": 6, "행유형": "본문", "열1": "편성취소", "열2": "편성건의 취소요청 발생 시 편성일 D+3일 경과 시 타 경로에서 취소 가능\n취소 후 영업일 제외 D+3일 후부터 타 경로에서 접수 가능", "열3": "수수료 환수 + 서비스 계정 당 30만원", "열4": "", "열5": ""}, {"통신사": "HV", "중분류": "이상영업규정", "그룹": "", "표명": "소개자 분쟁 / 영업편취", "순번": 7, "행유형": "본문", "열1": "분쟁조정", "열2": "상기 사례 포함한 경로 간 영업 편취 발생 시 헬로 운영기준 내 분쟁 조정\n→ 소개자 분쟁 종료 후 수수료 정산 대상 헬로에서 정산예외 품의 반영 후 정산 반영", "열3": "", "열4": "", "열5": ""}]};
+
+var DATA=null, PW="", CUR="", SUB="", GRP="", Q="";
+var FOPEN={};
+
+/* ---------- 유틸 ---------- */
+function $(s){return document.querySelector(s)}
+function el(t,c,x){var e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
+function hl(s){
+  var t=esc(s); if(!Q) return t;
+  try{ return t.replace(new RegExp('('+Q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>') }
+  catch(e){ return t }
+}
+function toast(m){
+  var t=$('#toast'); t.textContent=m; t.classList.add('on');
+  clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove('on')},2300);
+}
+function conf(k,d){
+  var r=(DATA['설정']||[]).filter(function(x){return x['키']===k})[0];
+  return r&&r['값'] ? r['값'] : (d||'');
+}
+function carriers(){
+  var l=(DATA['통신사']||[]).filter(function(c){return c.code});
+  return l.length?l:SEED['통신사'];
+}
+function carrierHead(code){
+  var l=LOGOS[code];
+  if(l) return '<img class="clogo" src="'+l.src+'" alt="'+esc(cName(code))+'" title="'+esc(cName(code))+'" style="height:'+l.h+'px">';
+  return '<b>'+esc(cName(code))+'</b>';
+}
+function carrierMini(code){
+  var l=LOGOS[code];
+  if(l) return '<img class="clogo mini" src="'+l.src+'" alt="'+esc(cName(code))+'" style="height:'+Math.round(l.h*0.72)+'px">';
+  return '<b>'+esc(cName(code))+'</b>';
+}
+function cName(code){
+  var c=carriers().filter(function(x){return x.code===code})[0];
+  return c?c.name:code;
+}
+/* 라인 폴더 아이콘 (닫힘 / 열림) */
+function folderSVG(open){
+  var a='xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" '+
+        'stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+  if(open){
+    return '<svg '+a+'>'+
+      '<path d="M3 9.4V6.6A1.6 1.6 0 0 1 4.6 5h3.7a1.6 1.6 0 0 1 1.13.47l1.1 1.1a1.6 1.6 0 0 0 1.14.47h5.73A1.6 1.6 0 0 1 19 8.6v.8"/>'+
+      '<path d="M3.6 9.4h16.1a1 1 0 0 1 .97 1.25l-1.53 6.1A1.9 1.9 0 0 1 17.3 18.2H5.2a1.9 1.9 0 0 1-1.84-1.44l-1.53-6.1A1 1 0 0 1 2.8 9.4z"/>'+
+      '</svg>';
+  }
+  return '<svg '+a+'>'+
+    '<path d="M3 7.1A1.6 1.6 0 0 1 4.6 5.5h3.7a1.6 1.6 0 0 1 1.13.47l1.1 1.1a1.6 1.6 0 0 0 1.14.47h6.73A1.6 1.6 0 0 1 20 9.14v8.26a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 17.4z"/>'+
+    '</svg>';
+}
+function cColor(code){
+  var c=carriers().filter(function(x){return x.code===code})[0];
+  return (c&&c.color)?c.color:'#1f5fbf';
+}
+/* 통신사별 중분류 목록 : 중분류 시트 우선, 없으면 데이터에서 추출 */
+function mids(code){
+  var out=[], seen={};
+  (DATA['중분류']||[]).forEach(function(r){
+    if(r['통신사']===code && r['중분류'] && !seen[r['중분류']]){ seen[r['중분류']]=1; out.push(r['중분류']) }
+  });
+  ['환수율','정책','기준표'].forEach(function(s){
+    (DATA[s]||[]).forEach(function(r){
+      if(r['통신사']===code && r['중분류'] && !seen[r['중분류']]){ seen[r['중분류']]=1; out.push(r['중분류']) }
+    });
+  });
+  return out;
+}
+var GCOLORS=['#0d5bd4','#c2410c','#0b7285','#7048e8','#b06000','#2b8a3e','#ae3ec9'];
+function groupsOf(code, sub){
+  var out=[], seen={};
+  ['환수율','정책','기준표'].forEach(function(sh){
+    pick(sh,code,sub).forEach(function(r){
+      var g=(r['그룹']||'').trim();
+      if(g && !seen[g]){ seen[g]=1; out.push(g) }
+    });
+  });
+  return out;
+}
+function gColor(code, sub, name){
+  var i=groupsOf(code,sub).indexOf(name);
+  return GCOLORS[(i<0?0:i)%GCOLORS.length];
+}
+/* 특정 통신사 + 중분류의 행. 중분류가 빈 행은 공통으로 항상 포함 */
+function pick(sheet,code,sub){
+  return (DATA[sheet]||[]).filter(function(r){
+    if(r['통신사']!==code) return false;
+    if(!sub) return true;
+    return !r['중분류'] || r['중분류']===sub;
+  });
+}
+function groupBy(rows,key){
+  var order=[],map={};
+  rows.forEach(function(r){
+    var k=(r['그룹']||'')+'\u241F'+(r[key]||'');
+    if(!map[k]){map[k]=[];order.push(k)}
+    map[k].push(r);
+  });
+  return order.map(function(k){return {name:k.split('\u241F')[1], grp:k.split('\u241F')[0], rows:map[k]}});
+}
+/* 설명문 : ■ ● - ※ ① 등 마커를 인식해 계층·들여쓰기 적용 */
+function fmtText(raw){
+  var lines=String(raw==null?'':raw).replace(/\r/g,'').split('\n');
+  var rows=[], seen=[];
+  lines.forEach(function(ln){
+    if(!ln.trim()){ rows.push(null); return }
+    var lead=(ln.match(/^[ \t\u00a0]*/)[0]||'').replace(/\t/g,'  ').length;
+    var t=ln.trim(), lv=null, mk='', cls='', m;
+    if((m=t.match(/^([■◆★])\s*(.*)$/)))            { lv=0; mk=m[1]; t=m[2]; cls='l0' }
+    else if((m=t.match(/^([●○])\s*(.*)$/)))         { lv=1; mk=m[1]; t=m[2]; cls='l1' }
+    else if((m=t.match(/^([※])\s*(.*)$/)))          { lv=2; mk=m[1]; t=m[2]; cls='l2 note' }
+    else if((m=t.match(/^([→▶])\s*(.*)$/)))         { lv=3; mk=m[1]; t=m[2]; cls='l2 arw' }
+    else if((m=t.match(/^([-–—])\s*(.*)$/)))        { lv=2; mk='–'; t=m[2]; cls='l2' }
+    else if((m=t.match(/^([·•])\s*(.*)$/)))         { lv=2; mk='·'; t=m[2]; cls='l2' }
+    else if((m=t.match(/^([①-⑮])\s*(.*)$/)))        { lv=2; mk=m[1]; t=m[2]; cls='l2' }
+    else if((m=t.match(/^(\d{1,2}\))\s*(.*)$/)))   { lv=2; mk=m[1]; t=m[2]; cls='l2' }
+    if(lv!==null) seen.push(lv);
+    rows.push({lv:lv, mk:mk, t:t, cls:cls||'l3', lead:lead});
+  });
+  var base = seen.length ? Math.min.apply(null, seen) : 0;
+  var out='', last=0;
+  rows.forEach(function(r){
+    if(!r){ out+='<div class="sp"></div>'; return }
+    var lv = r.lv===null ? last : r.lv;
+    if(r.lv!==null) last=r.lv;
+    /* 단계는 최대 3까지만. 원본 앞 공백은 무시한다 (들여쓰기가 들쭉날쭉해지는 원인) */
+    var step = Math.min(3, Math.max(0, lv-base));
+    out+='<div class="'+r.cls+'"'+(step?' style="margin-left:calc(var(--mk) * '+step+')"':'')+'>'+
+         (r.mk?'<i class="mk">'+esc(r.mk)+'</i>':'')+hl(r.t)+'</div>';
+  });
+  return out;
+}
+/* 소제목 : 앞 기호를 마커칸으로 분리해 본문과 같은 눈금에 올린다 */
+function fmtHead(raw){
+  var t=String(raw==null?'':raw).trim();
+  var m=t.match(/^([\u25a0\u25c6\u2605\u25cf\u25cb\u203b\u2192\u25b6\-\u2013\u2014\u00b7\u2022\u2460-\u246e])\s*(.*)$/);
+  if(m && m[2]) return {hm:true, h:'<i class="mk">'+esc(m[1])+'</i>'+hl(m[2])};
+  return {hm:false, h:hl(t)};
+}
+
+/* ---------- 사이드바 ---------- */
+function renderSide(){
+  var s=$('#side'); s.innerHTML='';
+  carriers().forEach(function(c){
+    var open = (c.code===CUR) && !Q;
+    var gp=el('div','gp'+(open?' open':''));
+    var gt=el('button','gt');
+    var ic=el('span','ci');
+    ic.innerHTML=folderSVG(open);
+    ic.style.color = open ? '#0d5bd4' : '#7ba0dc';
+    gt.appendChild(ic);
+    gt.appendChild(el('span','',c.name));
+    gt.appendChild(el('span','arw','›'));
+    gt.onclick=function(){
+      if(CUR===c.code && !Q){ gp.classList.toggle('open'); return }
+      CUR=c.code; SUB=(mids(c.code)[0]||''); GRP=''; Q='';
+      $('#search').value=''; $('#clrSearch').style.display='none';
+      renderSide(); renderBody(); closeNav(); window.scrollTo(0,0);
+    };
+    gp.appendChild(gt);
+
+    var subs=el('div','subs');
+    var list=mids(c.code).map(function(m){return {n:m,v:m}});
+    if(!list.length) list=[{n:'전체',v:''}];
+    list.forEach(function(it){
+      var b=el('button','sb'+((c.code===CUR&&SUB===it.v&&!Q)?' on':''), it.n);
+      b.onclick=function(e){
+        e.stopPropagation();
+        CUR=c.code; SUB=it.v; GRP=''; Q='';
+        $('#search').value=''; $('#clrSearch').style.display='none';
+        renderSide(); renderBody(); closeNav(); window.scrollTo(0,0);
+      };
+      subs.appendChild(b);
+    });
+    gp.appendChild(subs);
+    s.appendChild(gp);
+  });
+
+  /* 하단 버전 표기 */
+  var v=conf('기준일','')+(conf('버전','')?' · '+conf('버전',''):'');
+  var up=conf('최종수정','');
+  if(v||up){
+    var f=el('div','sidever');
+    if(v)  f.appendChild(el('span','vb',v));
+    if(up) f.appendChild(el('span','vu','최종수정 '+up));
+    s.appendChild(f);
+  }
+}
+function closeNav(){ document.body.classList.remove('nav') }
+$('#hamb').onclick=function(){ document.body.classList.toggle('nav') };
+$('#sideBk').onclick=closeNav;
+
+/* ---------- 카드 ---------- */
+function flat(t){
+  return String(t==null?'':t).replace(/\r/g,'').split('\n')
+    .map(function(x){ return x.replace(/^[ \t\u00a0]+/,'') }).join('\n').trim();
+}
+function memoCls(v){
+  var t=String(v||'').trim();
+  if(/빨|red|R/i.test(t)) return ' m-red';
+  if(/파|블|blue|B/i.test(t)) return ' m-blue';
+  return '';
+}
+function clean(t){ return String(t==null?'':t).replace(/^\s*[□■☐▪▫·•]\s*/,'').trim() }
+function rateCell(v){
+  var t=String(v||'').trim();
+  var m=t.match(/^(\d+(?:\.\d+)?)\s*%$/);
+  if(m){
+    var n=parseFloat(m[1]);
+    return '<b class="num '+(n>=100?'r3':(n>=50?'r2':'r1'))+'">'+esc(t)+'</b>';
+  }
+  return '<b class="num txt '+(/전액|100/.test(t)?'r3':'r0')+'">'+hl(t)+'</b>';
+}
+function cardRates(g,tag,meta){
+  var rows=g.rows;
+  var blank=function(v){ var t=String(v||'').trim(); return !t || t==='-' || t==='—' };
+  var key=function(r){ return blank(r['대상']) ? '' : String(r['대상']).trim() };
+
+  var useKey=rows.some(function(r){ return key(r)!=='' });
+  var kMax=0; rows.forEach(function(r){ kMax=Math.max(kMax, key(r).length) });
+  var kCls = kMax<=16 ? ' nw' : '';
+
+  var h='<table class="rt2"><thead><tr>'+
+        (useKey?'<th class="k'+kCls+'">구분</th>':'')+
+        '<th>내용</th><th class="val">환수</th></tr></thead><tbody>';
+  rows.forEach(function(r,i){
+    var k=key(r);
+    var pk=i>0?key(rows[i-1]):null;
+    var nk=i+1<rows.length?key(rows[i+1]):null;
+    var same=useKey && k!=='' && k===pk;
+    var nextSame=useKey && k!=='' && k===nk;
+    h+='<tr>';
+    if(useKey) h+='<td class="key'+kCls+(same?' mg':'')+(nextSame?' nb':'')+'">'+(same?'':hl(k))+'</td>';
+    h+='<td class="sec">'+(blank(r['구간'])?'<span class="dash">—</span>':hl(clean(r['구간'])));
+    if(!blank(r['비고'])) h+='<span class="memo'+memoCls(r['비고색'])+'">'+hl(r['비고'])+'</span>';
+    h+='</td><td class="val">'+rateCell(r['환수율'])+'</td></tr>';
+  });
+  h+='</tbody></table>';
+  return card(g.name, h, tag, widthOf(rows,false), 100+rows.length*33, meta, meta&&meta.showGrp?g.grp:'');
+}
+function cardPolicy(g,tag,meta){
+  var h='', len=0, est=70;
+  g.rows.forEach(function(r){
+    var hi=/^y|^Y|^예|^1/.test(String(r['강조']||''));
+    h+='<div class="pol'+(hi?' hi':'')+'">';
+    var hasHead=!!(r['소제목']||'').trim();
+    if(hasHead){ var hd=fmtHead(r['소제목']); h+='<div class="st'+(hd.hm?' hm':'')+'">'+hd.h+'</div>' }
+    if((r['내용']||'').trim())   h+='<div class="ct tx'+(hasHead?' ind':'')+'">'+fmtText(r['내용'])+'</div>';
+    h+='</div>';
+    var c=String(r['내용']||''), nl=(c.match(/\n/g)||[]).length;
+    len+=c.length;
+    est+=30+Math.max(nl+1, Math.ceil(c.length/52))*21;
+  });
+  return card(g.name, h, tag, widthOf(g.rows, len>900), est, meta, meta&&meta.showGrp?g.grp:'');
+}
+function cardTable(g,tag,meta){
+  var rows=g.rows.slice().sort(function(a,b){return (parseFloat(a['순번'])||0)-(parseFloat(b['순번'])||0)});
+  var head=rows.filter(function(r){return r['행유형']==='헤더'})[0];
+  var body=rows.filter(function(r){return r['행유형']!=='헤더'});
+  var cols=['열1','열2','열3','열4','열5'].filter(function(c){
+    return (head&&(head[c]||'').trim()) || body.some(function(r){return (r[c]||'').trim()});
+  });
+  if(!cols.length) cols=['열1','열2'];
+  var h='<div class="tblwrap"><table class="t'+(cols.length>2?' wide':'')+'">';
+  if(head){ h+='<thead><tr>'; cols.forEach(function(c){h+='<th>'+esc(head[c])+'</th>'}); h+='</tr></thead>' }
+  h+='<tbody>';
+  var same=body.map(function(r,i){
+    return i>0 && String(r[cols[0]]||'').trim()!=='' &&
+           String(r[cols[0]]||'')===String(body[i-1][cols[0]]||'');
+  });
+  body.forEach(function(r,ri){
+    h+='<tr>';
+    cols.forEach(function(c,i){
+      if(i===0){
+        var cls='w'+(same[ri]?' mg':'')+((same[ri+1])?' nb':'');
+        h+='<td class="'+cls+'">'+(same[ri]?'':hl(flat(r[c])))+'</td>';
+      }else{
+        h+='<td class="w">'+hl(flat(r[c]))+'</td>';
+      }
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table></div>';
+  var maxLen=0, est=90;
+  body.forEach(function(r){
+    var mx=0;
+    cols.forEach(function(c){ mx=Math.max(mx, String(r[c]||'').length) });
+    maxLen=Math.max(maxLen,mx);
+    est+=28+Math.ceil(mx/Math.max(26,Math.floor(66/cols.length)))*20;
+  });
+  return card(g.name, h, tag, widthOf(g.rows, cols.length>=3 || maxLen>230), est, meta, meta&&meta.showGrp?g.grp:'');
+}
+/* 배치 열 : '넓게'(전체폭) / '좁게'(2단) / 비우면 자동 */
+function widthOf(rows, auto){
+  for(var i=0;i<rows.length;i++){
+    var v=String(rows[i]['배치']||'').trim();
+    if(!v) continue;
+    if(/^(넓게|넓|전체|W|w|wide|1)$/.test(v)) return true;
+    if(/^(좁게|좁|반|N|n|narrow|2)$/.test(v)) return false;
+  }
+  return auto;
+}
+function card(title, inner, tag, wide, est, meta, grp){
+  var gb='';
+  if(grp){
+    var c=gColor(CUR,SUB,grp);
+    gb='<span class="gtag" style="color:color-mix(in srgb,'+c+' 80%,#2b3038);background:color-mix(in srgb,'+c+' 15%,#fff)">'+esc(grp)+'</span>';
+  }
+  var btn='';
+  if(EDITMODE && meta){
+    CARDS.push(meta);
+    var ci=CARDS.length-1;
+    btn='<span class="cardops">'+
+        (meta.ord?'<button class="drag" data-ci="'+ci+'" title="끌어서 순서 변경">⠿</button>':'')+
+        (meta.ord?'<button class="mv" data-mv="-1" data-ci="'+ci+'" title="앞으로">↑</button>':'')+
+        (meta.ord?'<button class="mv" data-mv="1" data-ci="'+ci+'" title="뒤로">↓</button>':'')+
+        '<button class="ed" data-ci="'+ci+'">✎ 수정</button></span>';
+  }
+  return {
+    wide: !!wide,
+    est: est||200,
+    h: '<section class="card"'+(meta&&meta.ord&&EDITMODE?' data-ci="'+ci+'"':'')+
+       '><h3><span class="dot"></span>'+esc(title)+ gb +
+       (tag?'<span class="tag">'+esc(tag)+'</span>':'')+ btn +
+       '</h3><div class="bd'+(/^<table|^<div class="tblwrap/.test(inner)?'':' pad')+'">'+inner+'</div></section>'
+  };
+}
+
+/* ---------- 레이아웃 : 높이 균형 다단 배치 ---------- */
+function colCount(){
+  return window.innerWidth < 1200 ? 1 : 2;
+}
+function layout(cards){
+  var n=colCount();
+  if(n===1) return cards.map(function(c){return c.h}).join('');
+  var out='', buf=[];
+  function flush(){
+    if(!buf.length) return;
+    if(buf.length===1){ out+=buf[0].h; buf=[]; return }
+    var k=Math.min(n,buf.length), cols=[], hs=[];
+    for(var i=0;i<k;i++){ cols.push([]); hs.push(0) }
+    buf.forEach(function(c){
+      var m=0;
+      for(var i=1;i<k;i++) if(hs[i]<hs[m]) m=i;
+      cols[m].push(c.h); hs[m]+=c.est;
+    });
+    out+='<div class="grid" style="--n:'+k+'">'+
+         cols.map(function(cl){return '<div class="col">'+cl.join('')+'</div>'}).join('')+
+         '</div>';
+    buf=[];
+  }
+  cards.forEach(function(c){ if(c.wide){ flush(); out+=c.h } else buf.push(c) });
+  flush();
+  return out;
+}
+
+/* ---------- 본문 ---------- */
+function ordOf(rows){
+  for(var i=0;i<rows.length;i++){
+    var v=parseFloat(rows[i]['정렬']);
+    if(!isNaN(v)) return v;
+  }
+  return 1e9;
+}
+function buildCards(code, sub, opts){
+  opts=opts||{};
+  var tag=function(r){ return opts.withTag ? (r['중분류']||'공통') : '' };
+  var M=function(sh,g){ return {sheet:sh, rows:g.rows, code:code, showGrp:!!opts.showGrp,
+                                ord:true, grp:(g.grp||''), mid:(g.rows[0]['중분류']||'')} };
+  function keep(g){
+    if(opts.grp===undefined) return true;
+    if(opts.grp==='__none__') return !(g.grp||'');
+    return (g.grp||'')===opts.grp;
+  }
+  var items=[];
+  groupBy(pick('환수율',code,sub),'구분').filter(keep)
+    .forEach(function(g,i){ items.push({k:0,i:i,g:g,fn:cardRates,sh:'환수율'}) });
+  groupBy(pick('정책',code,sub).filter(function(r){return r['섹션']!=='핵심 기준'}),'섹션').filter(keep)
+    .forEach(function(g,i){ items.push({k:1,i:i,g:g,fn:cardPolicy,sh:'정책'}) });
+  groupBy(pick('기준표',code,sub),'표명').filter(keep)
+    .forEach(function(g,i){ items.push({k:2,i:i,g:g,fn:cardTable,sh:'기준표'}) });
+  items.sort(function(a,b){
+    var oa=ordOf(a.g.rows), ob=ordOf(b.g.rows);
+    if(oa!==ob) return oa-ob;
+    if(a.k!==b.k) return a.k-b.k;
+    return a.i-b.i;
+  });
+  return items.map(function(it){ return it.fn(it.g, tag(it.g.rows[0]), M(it.sh,it.g)) });
+}
+function matches(html){
+  if(!Q) return true;
+  return html.replace(/<[^>]*>/g,' ').toLowerCase().indexOf(Q.toLowerCase())>-1;
+}
+
+/* 그룹 탭 / 헤더 */
+function gtabsHTML(gs){
+  var h='<div class="gtabs">';
+  h+='<button class="gt2'+(GRP===''?' on':'')+'" data-g="">⊞ 나란히 보기</button>';
+  gs.forEach(function(g){
+    var c=gColor(CUR,SUB,g), act=(GRP===g);
+    h+='<button class="gt2'+(act?' on':'')+'" data-g="'+esc(g)+'"'+
+       (act?' style="background:'+c+';border-color:'+c+';color:#fff"':'')+
+       '><span class="gd" style="background:'+(act?'#fff':c)+'"></span>'+esc(g)+'</button>';
+  });
+  return h+'</div>';
+}
+function gheadHTML(g){
+  var c=gColor(CUR,SUB,g);
+  return '<div class="ghead" style="--gc:'+c+'"><span class="gd" style="background:'+c+'"></span>'+esc(g)+'</div>';
+}
+
+/* ═════════ 접기형 메뉴 ═════════ */
+function midRow(code, sub){
+  return (DATA['중분류']||[]).filter(function(r){
+    return r['통신사']===code && (r['중분류']||'')===(sub||'');
+  })[0] || null;
+}
+function foldOn(code, sub){
+  var r=midRow(code, sub);
+  return !!(r && /접/.test(String(r['표시']||'')));
+}
+function fkey(title){ return CUR+'␟'+SUB+'␟'+title }
+function foldize(cards){
+  if(!cards.length) return '';
+  var box=document.createElement('div');
+  box.innerHTML=cards.map(function(c){return c.h}).join('');
+  var out='', n=0;
+  [].slice.call(box.children).forEach(function(sec){
+    var h3=sec.querySelector('h3'), bd=sec.querySelector('.bd');
+    if(!h3||!bd){ out+=sec.outerHTML; return }
+    var ops=h3.querySelector('.cardops');   if(ops) ops.remove();
+    var tg =h3.querySelector('.tag');       if(tg)  tg.remove();
+    var gtg=h3.querySelector('.gtag');      if(gtg) gtg.remove();
+    var dot=h3.querySelector('.dot');       if(dot) dot.remove();
+    var title=h3.textContent.trim();
+    var k=fkey(title), open=!!FOPEN[k];
+    n++;
+    out+='<div class="ai'+(open?' on':'')+'">'+
+         '<div class="ah" role="button" tabindex="0" aria-expanded="'+(open?'true':'false')+'" data-fk="'+esc(k)+'">'+
+           '<span class="chev">›</span>'+
+           '<span class="at">'+esc(title)+'</span>'+
+           (gtg?gtg.outerHTML:'')+(tg?tg.outerHTML:'')+(ops?ops.outerHTML:'')+
+         '</div>'+
+         '<div class="ab">'+bd.outerHTML+'</div>'+
+         '</div>';
+  });
+  return {html:'<div class="acc">'+out+'</div>', n:n};
+}
+function foldBarHTML(keys, n){
+  var openCnt=keys.filter(function(k){return FOPEN[k]}).length;
+  var allOpen=(n>0 && openCnt>=n);
+  return '<div class="foldbar">'+
+    '<button class="fb" id="fbAll" data-open="'+(allOpen?'0':'1')+'">'+
+      (allOpen?'– 모두 접기':'+ 모두 펼치기')+'</button>'+
+    '<span class="fcnt">'+n+'개 항목</span></div>';
+}
+function foldSection(cards){
+  var r=foldize(cards);
+  if(!r || !r.n) return '<div class="empty">등록된 내용이 없습니다.</div>';
+  var keys=[];
+  var box=document.createElement('div'); box.innerHTML=r.html;
+  box.querySelectorAll('.ah').forEach(function(a){ keys.push(a.getAttribute('data-fk')) });
+  FKEYS=keys;
+  return foldBarHTML(keys, r.n)+r.html;
+}
+var FKEYS=[];
+/* 펼침/접힘 상호작용 */
+document.getElementById('main').addEventListener('click', function(e){
+  if(!e.target.closest) return;
+  var fb=e.target.closest('#fbAll');
+  if(fb){
+    var on=fb.getAttribute('data-open')==='1';
+    FKEYS.forEach(function(k){ if(on) FOPEN[k]=true; else delete FOPEN[k] });
+    renderBody(); return;
+  }
+  if(e.target.closest('.cardops')) return;
+  var ah=e.target.closest('.ah');
+  if(ah){
+    var k=ah.getAttribute('data-fk');
+    if(FOPEN[k]) delete FOPEN[k]; else FOPEN[k]=true;
+    ah.parentNode.classList.toggle('on', !!FOPEN[k]);
+    ah.setAttribute('aria-expanded', FOPEN[k]?'true':'false');
+    var fbb=document.getElementById('fbAll');
+    if(fbb){
+      var oc=FKEYS.filter(function(x){return FOPEN[x]}).length;
+      var all=(FKEYS.length>0 && oc>=FKEYS.length);
+      fbb.setAttribute('data-open', all?'0':'1');
+      fbb.textContent = all ? '– 모두 접기' : '+ 모두 펼치기';
+    }
+  }
+}, true);
+document.getElementById('main').addEventListener('keydown', function(e){
+  if(e.key!=='Enter' && e.key!==' ') return;
+  var ah=e.target.closest && e.target.closest('.ah');
+  if(!ah) return;
+  e.preventDefault(); ah.click();
+});
+
+function renderBody(){
+  CARDS=[];
+  var out='';
+
+  if(Q){
+    $('#crumb').innerHTML='<b>검색 결과</b><span class="sep">·</span>\u2018'+esc(Q)+'\u2019';
+    var total=0;
+    carriers().forEach(function(c){
+      var hits=buildCards(c.code,'',{withTag:true, showGrp:true}).filter(function(x){return matches(x.h)});
+      if(!hits.length) return;
+      total+=hits.length;
+      out+='<div class="seclab">'+carrierMini(c.code)+'<span class="cnt">'+hits.length+'건</span></div>'+layout(hits);
+    });
+    if(!total) out='<div class="empty">\u2018'+esc(Q)+'\u2019 에 대한 검색 결과가 없습니다.</div>';
+    $('#main').innerHTML=out;
+    return;
+  }
+
+  var subs=mids(CUR);
+  if(subs.length && subs.indexOf(SUB)<0) SUB=subs[0];
+  $('#crumb').innerHTML=carrierHead(CUR)+(SUB?'<span class="sep">\u203A</span>'+esc(SUB):'');
+
+  var keyRows=pick('정책',CUR,SUB).filter(function(r){return r['섹션']==='핵심 기준'});
+  if(keyRows.length){
+    out+='<div class="keys">';
+    keyRows.forEach(function(r){
+      out+='<div class="key"><div class="k">'+esc(r['소제목'])+'</div><div class="v">'+esc(r['내용'])+'</div></div>';
+    });
+    if(EDITMODE){
+      CARDS.push({sheet:'정책', rows:keyRows, code:CUR});
+      out+='<button class="editbtn keyedit" data-ci="'+(CARDS.length-1)+'">✎ 요약 수정</button>';
+    }
+    out+='</div>';
+  }
+
+  var FOLD=foldOn(CUR,SUB);
+  var gs=groupsOf(CUR,SUB);
+  if(FOLD && gs.length<2){
+    out += foldSection(buildCards(CUR,SUB,{}));
+    $('#main').innerHTML=out;
+    return;
+  }
+  if(gs.length>=2){
+    var plain=buildCards(CUR,SUB,{grp:'__none__'});
+    if(plain.length) out+=layout(plain);
+    out+=gtabsHTML(gs);
+    if(GRP===''){
+      out+='<div class="ggrid" style="--n:'+gs.length+'">';
+      gs.forEach(function(g){
+        var cs=buildCards(CUR,SUB,{grp:g});
+        var inner;
+        if(FOLD){ var fr=foldize(cs); inner=(fr&&fr.n)?fr.html:'<div class="empty" style="padding:24px 0">내용 없음</div>' }
+        else inner=cs.length?cs.map(function(c){return c.h}).join(''):'<div class="empty" style="padding:24px 0">내용 없음</div>';
+        out+='<div class="gcol" style="--gc:'+gColor(CUR,SUB,g)+'">'+gheadHTML(g)+inner+'</div>';
+      });
+      out+='</div>';
+    }else{
+      var cs2=buildCards(CUR,SUB,{grp:GRP});
+      out+='<div class="gone" style="--gc:'+gColor(CUR,SUB,GRP)+'">'+
+           (cs2.length?(FOLD?foldSection(cs2):layout(cs2)):'<div class="empty">내용 없음</div>')+'</div>';
+    }
+  }else{
+    var cards=buildCards(CUR,SUB,{});
+    out += cards.length ? layout(cards) : '<div class="empty">등록된 내용이 없습니다.</div>';
+  }
+  $('#main').innerHTML=out;
+}
+
+function renderHead(){
+  $('#siteTitle').textContent=conf('제목','통신사별 환수규정');
+  var nt=conf('공지','');
+  $('#tNotice').textContent=nt; $('#tNotice').title=nt;
+  $('#tNotice').style.display=nt?'':'none';
+  $('#ftNotice').textContent=nt;
+  $('#ftUpdated').textContent=conf('최종수정','')?'최종수정 '+conf('최종수정',''):'';
+  document.title=conf('제목','통신사별 환수규정');
+}
+function renderAll(){ renderHead(); renderSide(); renderBody() }
+
+/* ---------- 데이터 ---------- */
+function normalize(raw){
+  var out={};
+  Object.keys(SHEETS).forEach(function(name){
+    var rows=(raw&&raw[name])?raw[name]:[];
+    out[name]=rows.map(function(r){
+      var o={}; SHEETS[name].forEach(function(h){o[h]=r[h]==null?'':String(r[h])}); return o;
+    });
+  });
+  return out;
+}
+function load(){
+  DATA=normalize(SEED);
+  if(!CUR){ CUR=(carriers()[0]||{}).code||''; SUB=mids(CUR)[0]||'' }
+  renderAll();
+  if(!API_URL) return;
+  fetch(API_URL,{method:'GET'}).then(function(r){return r.json()}).then(function(j){
+    if(!j.ok) throw new Error(j.error||'불러오기 실패');
+    var d=normalize(j.data);
+    if(!(d['환수율'].length||d['정책'].length||d['기준표'].length)) return;
+    DATA=d;
+    var codes=carriers().map(function(c){return c.code});
+    if(codes.indexOf(CUR)<0){ CUR=codes[0]||''; SUB=mids(CUR)[0]||''; GRP='' }
+    renderAll();
+  }).catch(function(e){
+    console.warn('시트 연동 실패:',e);
+    toast('시트를 불러오지 못해 내장 데이터를 표시합니다.');
+  });
+}
+
+/* ---------- 검색 / 인쇄 ---------- */
+$('#search').addEventListener('input',function(e){
+  Q=e.target.value.trim();
+  $('#clrSearch').style.display=Q?'block':'none';
+  renderSide(); renderBody();
+});
+$('#clrSearch').onclick=function(){
+  $('#search').value=''; Q=''; this.style.display='none'; renderSide(); renderBody();
+};
+
+/* ═════════ 편집 모드 ═════════ */
+var EDITMODE=false, DEMO=false;
+
+function enterEdit(){
+  EDITMODE=true; document.body.classList.add('edit');
+  $('#edDemo').style.display = DEMO ? '' : 'none';
+  $('#edSave').textContent = DEMO ? '적용' : '저장';
+  renderAll();
+}
+function exitEdit(){
+  EDITMODE=false; document.body.classList.remove('edit'); closeDrawer();
+  if(DEMO){ renderAll() } else { load() }
+}
+
+$('#btnAdmin').onclick=function(){
+  if(EDITMODE){ exitEdit(); return }
+  if(!API_URL){
+    if(confirm('구글시트가 아직 연결되지 않았습니다.\n\n[확인] 을 누르면 편집 화면을 그대로 체험해볼 수 있습니다.\n화면에는 바로 반영되지만 저장되지는 않으며, 새로고침하면 원래대로 돌아갑니다.')){
+      DEMO=true; enterEdit();
+    }
+    return;
+  }
+  DEMO=false;
+  $('#loginErr').textContent=''; $('#pw').value='';
+  $('#loginMask').classList.add('on'); setTimeout(function(){$('#pw').focus()},50);
+};
+$('#loginCancel').onclick=function(){ $('#loginMask').classList.remove('on') };
+$('#pw').addEventListener('keydown',function(e){ if(e.key==='Enter') $('#loginOk').click() });
+$('#loginOk').onclick=function(){
+  var v=$('#pw').value;
+  if(!v){ $('#loginErr').textContent='비밀번호를 입력하세요.'; return }
+  var b=this; b.disabled=true; b.textContent='확인 중…';
+  post({action:'login',pw:v}).then(function(j){
+    b.disabled=false; b.textContent='확인';
+    if(!j.ok){ $('#loginErr').textContent=j.error||'로그인 실패'; return }
+    PW=v; $('#loginMask').classList.remove('on'); enterEdit();
+  }).catch(function(){
+    b.disabled=false; b.textContent='확인';
+    $('#loginErr').textContent='서버에 연결할 수 없습니다.';
+  });
+};
+function post(body){
+  return fetch(API_URL,{
+    method:'POST',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify(body)
+  }).then(function(r){return r.json()});
+}
+
+$('#edExit').onclick=function(){
+  if(DEMO || confirm('편집 모드를 끝낼까요?\n저장하지 않은 변경사항은 사라집니다.')) exitEdit();
+};
+$('#edSave').onclick=function(){
+  if(DEMO){ renderAll(); toast('화면에 반영했습니다. (미리보기 — 저장되지 않습니다)'); return }
+  var b=this; b.disabled=true; b.textContent='저장 중…';
+  post({action:'save',pw:PW,data:DATA}).then(function(j){
+    b.disabled=false; b.textContent='저장';
+    if(!j.ok){ alert('저장 실패: '+(j.error||'')); return }
+    if(j.data) DATA=normalize(j.data);
+    renderAll(); toast('저장되었습니다.'+(j.updated?' ('+j.updated+')':''));
+  }).catch(function(e){
+    b.disabled=false; b.textContent='저장';
+    alert('저장 중 오류가 발생했습니다.\n'+e);
+  });
+};
+
+/* ---------- 데이터 조작 헬퍼 ---------- */
+function idxOf(sheet, rows){
+  var arr=DATA[sheet];
+  return rows.map(function(r){return arr.indexOf(r)}).filter(function(i){return i>=0})
+             .sort(function(a,b){return a-b});
+}
+function addRowTo(sheet, rows, proto){
+  var arr=DATA[sheet], idx=idxOf(sheet,rows);
+  var at = idx.length ? idx[idx.length-1]+1 : arr.length;
+  arr.splice(at,0,proto); rows.push(proto);
+  return proto;
+}
+function delRowFrom(sheet, rows, r){
+  var arr=DATA[sheet], i=arr.indexOf(r); if(i>=0) arr.splice(i,1);
+  var j=rows.indexOf(r); if(j>=0) rows.splice(j,1);
+}
+function moveRow(sheet, rows, a, b){
+  if(b<0||b>=rows.length) return;
+  var arr=DATA[sheet], idx=idxOf(sheet,rows);
+  var objs=idx.map(function(i){return arr[i]});
+  var t=objs[a]; objs[a]=objs[b]; objs[b]=t;
+  idx.forEach(function(i,k){ arr[i]=objs[k] });
+  rows.length=0; objs.forEach(function(o){rows.push(o)});
+}
+function setAll(rows, key, val){ rows.forEach(function(r){ r[key]=val }) }
+
+/* ── 카드 순서 : 종류 상관없이 한 화면 안에서 통합 정렬 ── */
+function orderList(meta){
+  return CARDS.filter(function(m){
+    return m.ord && (m.grp||'')===(meta.grp||'') && (m.mid||'')===(meta.mid||'');
+  });
+}
+function applyOrder(list){
+  list.forEach(function(m,i){ m.rows.forEach(function(r){ r['정렬']=String(i+1) }) });
+}
+function reorderCard(fromCi, toCi, place){
+  var a=CARDS[fromCi], b=CARDS[toCi];
+  if(!a||!b||!a.ord||!b.ord||a===b) return false;
+  if((a.grp||'')!==(b.grp||'')||(a.mid||'')!==(b.mid||'')) return false;
+  var list=orderList(a), ia=list.indexOf(a);
+  if(ia<0) return false;
+  list.splice(ia,1);
+  var ib=list.indexOf(b);
+  if(ib<0) return false;
+  list.splice(place==='before'?ib:ib+1, 0, a);
+  applyOrder(list);
+  return true;
+}
+function moveCardBy(ci, dir){
+  var a=CARDS[ci]; if(!a||!a.ord) return false;
+  var list=orderList(a), i=list.indexOf(a), j=i+dir;
+  if(i<0||j<0||j>=list.length) return false;
+  return reorderCard(ci, CARDS.indexOf(list[j]), dir<0?'before':'after');
+}
+
+/* ---------- 서랍 ---------- */
+function openDrawer(title){
+  $('#dTitle').textContent=title;
+  $('#drawer').classList.add('on'); $('#dmask').classList.add('on');
+}
+function closeDrawer(){
+  $('#drawer').classList.remove('on'); $('#dmask').classList.remove('on');
+}
+$('#dClose').onclick=function(){ closeDrawer(); renderBody() };
+$('#dmask').onclick=function(){ closeDrawer(); renderBody() };
+
+function el2(t,c,x){ var e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e }
+function fld(label, node, hint){
+  var w=el2('div','fld');
+  if(label) w.appendChild(el2('label','',label));
+  w.appendChild(node);
+  if(hint) w.appendChild(el2('div','hint',hint));
+  return w;
+}
+function textInput(obj, key, ph){
+  var e=document.createElement('input'); e.type='text'; e.value=obj[key]||'';
+  if(ph) e.placeholder=ph;
+  e.addEventListener('input',function(){ obj[key]=e.value });
+  return e;
+}
+function textArea(obj, key, ph, minH){
+  var e=document.createElement('textarea'); e.value=obj[key]||''; e.rows=1;
+  if(ph) e.placeholder=ph;
+  var mh = minH || 76;
+  e.style.minHeight=mh+'px'; e.style.overflow='hidden';
+  function fit(){ e.style.height='auto'; e.style.height=Math.max(mh, Math.min(e.scrollHeight+2, 300))+'px' }
+  e.addEventListener('input',function(){ obj[key]=e.value; fit() });
+  setTimeout(fit,0);
+  return e;
+}
+function selectBox(opts, val, onch){
+  var s=document.createElement('select');
+  opts.forEach(function(o){ s.appendChild(new Option(o[0], o[1])) });
+  s.value=val; s.onchange=function(){ onch(s.value) };
+  return s;
+}
+function capWrap(cap, node){
+  var d=el2('div');
+  d.appendChild(el2('span','cap',cap));
+  d.appendChild(node);
+  return d;
+}
+
+/* ---------- 카드 편집 서랍 ---------- */
+var CARDS=[];
+
+function openCardEditor(meta){
+  var sheet=meta.sheet, rows=meta.rows, code=meta.code;
+  var titleKey = sheet==='환수율' ? '구분' : (sheet==='정책' ? '섹션' : '표명');
+  var isKey = (sheet==='정책' && rows.length && rows[0]['섹션']==='핵심 기준');
+
+  openDrawer(sheet==='기준표' ? '표 수정' : '카드 수정');
+  var body=$('#dBody'); body.innerHTML='';
+
+  /* 제목 */
+  var tHolder={v:rows.length?rows[0][titleKey]:''};
+  var tIn=document.createElement('input'); tIn.type='text'; tIn.value=tHolder.v;
+  tIn.addEventListener('input',function(){ setAll(rows,titleKey,tIn.value) });
+  body.appendChild(fld(sheet==='기준표'?'표 제목':'카드 제목', tIn,
+    isKey ? '‘핵심 기준’ 이라고 두면 화면 맨 위 요약 배지로 표시됩니다.' : ''));
+
+  /* 위치 · 폭 */
+  var r2=el2('div','row2');
+  var midOpts=[['공통 (모든 메뉴에 표시)','']].concat(mids(code).map(function(m){return [m,m]}));
+  var curMid = rows.length ? (rows[0]['중분류']||'') : '';
+  r2.appendChild(fld('메뉴 위치', selectBox(midOpts, curMid, function(v){ setAll(rows,'중분류',v) })));
+  var curW = rows.length ? (rows[0]['배치']||'') : '';
+  r2.appendChild(fld('가로 폭', selectBox([['자동',''],['넓게 (한 줄 전체)','넓게'],['좁게 (2단)','좁게']], curW,
+    function(v){ setAll(rows,'배치',v) })));
+  body.appendChild(r2);
+
+  /* 소분류(그룹) */
+  var gList=groupsOf(code, rows.length?(rows[0]['중분류']||''):SUB);
+  var curG = rows.length ? (rows[0]['그룹']||'') : '';
+  if(curG && gList.indexOf(curG)<0) gList.push(curG);
+  var gwrap=el2('div');
+  var gsel=selectBox([['구분 없음','']].concat(gList.map(function(g){return [g,g]})).concat([['＋ 새 구분 만들기…','__new__']]),
+    curG, function(v){
+      if(v==='__new__'){
+        var nv=prompt('새 구분 이름을 입력하세요. (예: SKT, SKB, 유선)','');
+        if(nv && nv.trim()){ setAll(rows,'그룹',nv.trim()) } 
+        closeDrawer(); renderBody(); return;
+      }
+      setAll(rows,'그룹',v);
+    });
+  gwrap.appendChild(gsel);
+  body.appendChild(fld('구분 (같은 메뉴 안에서 나누기)', gwrap,
+    'SKT / SKB 처럼 한 메뉴 안에서 좌우로 나눠 보고 싶을 때 사용합니다. 비우면 구분 없이 표시됩니다.'));
+
+  if(sheet==='환수율')      buildRateItems(body, rows, sheet);
+  else if(sheet==='정책')   buildPolicyItems(body, rows, sheet, isKey);
+  else                      buildTableItems(body, rows, sheet);
+
+  /* 하단 버튼 */
+  var foot=$('#dFoot'); foot.innerHTML='';
+  var del=el2('button','dbtn danger', sheet==='기준표'?'표 삭제':'카드 삭제');
+  del.onclick=function(){
+    if(!confirm('이 '+(sheet==='기준표'?'표':'카드')+'를 통째로 삭제할까요?')) return;
+    rows.slice().forEach(function(r){ delRowFrom(sheet,rows,r) });
+    closeDrawer(); renderBody(); toast('삭제했습니다.');
+  };
+  foot.appendChild(del);
+  foot.appendChild(el2('div','grow'));
+  var ok=el2('button','dbtn pri','완료');
+  ok.onclick=function(){ closeDrawer(); renderBody() };
+  foot.appendChild(ok);
+}
+
+function itemShell(n, total, onUp, onDown, onDel){
+  var box=el2('div','item'), top=el2('div','top');
+  top.appendChild(el2('span','no', n+'번'));
+  var up=el2('button','mb','↑'); up.title='위로'; up.onclick=onUp;
+  var dn=el2('button','mb','↓'); dn.title='아래로'; dn.onclick=onDown;
+  var dl=el2('button','mb del','✕'); dl.title='삭제'; dl.onclick=onDel;
+  top.appendChild(up); top.appendChild(dn); top.appendChild(dl);
+  box.appendChild(top);
+  return box;
+}
+
+/* 환수율 */
+function buildRateItems(body, rows, sheet){
+  body.appendChild(el2('div','dsec','구간 목록'));
+  var list=el2('div');
+  function draw(){
+    list.innerHTML='';
+    rows.forEach(function(r,i){
+      var box=itemShell(i+1, rows.length,
+        function(){ moveRow(sheet,rows,i,i-1); draw() },
+        function(){ moveRow(sheet,rows,i,i+1); draw() },
+        function(){ delRowFrom(sheet,rows,r); draw() });
+      var g=el2('div','g c2');
+      g.appendChild(capWrap('대상 (상품·유형)', textInput(r,'대상','예) 실사용일수 기준')));
+      g.appendChild(capWrap('구간', textInput(r,'구간','예) □ 90일 이하')));
+      g.appendChild(capWrap('환수율', textInput(r,'환수율','예) 100%')));
+      (function(){
+        var box=el2('div'); box.appendChild(el2('span','cap','비고'));
+        var row=el2('div','memorow');
+        row.appendChild(textInput(r,'비고','비워도 됩니다'));
+        row.appendChild(selectBox([['회색',''],['빨강','빨강'],['파랑','파랑']], (function(){
+          var v=String(r['비고색']||'').trim();
+          return /빨/.test(v)?'빨강':(/파/.test(v)?'파랑':'');
+        })(), function(v){ r['비고색']=v }));
+        box.appendChild(row); g.appendChild(box);
+      })();
+      box.appendChild(g); list.appendChild(box);
+    });
+  }
+  draw();
+  body.appendChild(list);
+  var add=el2('button','addrow','＋ 구간 추가');
+  add.onclick=function(){
+    var last=rows[rows.length-1]||{};
+    addRowTo(sheet,rows,{'통신사':last['통신사']||CUR,'중분류':last['중분류']||'',
+      '구분':last['구분']||'','대상':last['대상']||'','구간':'','환수율':'','비고':'','배치':last['배치']||''});
+    draw();
+  };
+  body.appendChild(add);
+}
+
+/* 정책 */
+function buildPolicyItems(body, rows, sheet, isKey){
+  body.appendChild(el2('div','dsec', isKey?'요약 항목':'내용 항목'));
+  var list=el2('div');
+  function draw(){
+    list.innerHTML='';
+    rows.forEach(function(r,i){
+      var box=itemShell(i+1, rows.length,
+        function(){ moveRow(sheet,rows,i,i-1); draw() },
+        function(){ moveRow(sheet,rows,i,i+1); draw() },
+        function(){ delRowFrom(sheet,rows,r); draw() });
+      var g=el2('div','g');
+      g.appendChild(capWrap(isKey?'항목명':'소제목 (굵은 글씨 · 비워도 됨)',
+        textInput(r,'소제목', isKey?'예) 해지 후 재가입':'')));
+      if(isKey){
+        g.appendChild(capWrap('값', textInput(r,'내용','예) M+3개월')));
+      }else{
+        g.appendChild(capWrap('본문', textArea(r,'내용','줄바꿈은 Enter')));
+        var lb=el2('label','chk');
+        var cb=document.createElement('input'); cb.type='checkbox';
+        cb.checked=/^y|^Y|^예|^1/.test(String(r['강조']||''));
+        cb.onchange=function(){ r['강조']=cb.checked?'Y':'' };
+        lb.appendChild(cb); lb.appendChild(document.createTextNode('빨간 강조 박스로 표시'));
+        g.appendChild(lb);
+      }
+      box.appendChild(g); list.appendChild(box);
+    });
+  }
+  draw();
+  body.appendChild(list);
+  var add=el2('button','addrow','＋ 항목 추가');
+  add.onclick=function(){
+    var last=rows[rows.length-1]||{};
+    addRowTo(sheet,rows,{'통신사':last['통신사']||CUR,'중분류':last['중분류']||'',
+      '섹션':last['섹션']||'','소제목':'','내용':'','강조':'','배치':last['배치']||''});
+    draw();
+  };
+  body.appendChild(add);
+}
+
+/* 기준표 */
+function buildTableItems(body, rows, sheet){
+  var COLS=['열1','열2','열3','열4','열5'];
+  function used(){
+    var n=2;
+    COLS.forEach(function(c,i){ if(rows.some(function(r){return String(r[c]||'').trim()})) n=Math.max(n,i+1) });
+    return n;
+  }
+  var ncol=used();
+  var wrap=el2('div');
+  function draw(){
+    wrap.innerHTML='';
+    renumber(rows);
+    var head=rows.filter(function(r){return r['행유형']==='헤더'})[0];
+    var bodyRows=rows.filter(function(r){return r['행유형']!=='헤더'});
+
+    /* 열 개수 */
+    var cbar=el2('div','fld');
+    cbar.appendChild(el2('label','','열 개수'));
+    var cs=selectBox([['2칸','2'],['3칸','3'],['4칸','4'],['5칸','5']], String(ncol), function(v){
+      var nv=parseInt(v,10);
+      if(nv<ncol){ for(var i=nv;i<5;i++) setAll(rows,COLS[i],'') }
+      ncol=nv; draw();
+    });
+    cbar.appendChild(cs);
+    wrap.appendChild(cbar);
+
+    /* 머리글 */
+    wrap.appendChild(el2('div','dsec','표 머리글'));
+    if(!head){
+      var mk=el2('button','addrow','＋ 머리글 줄 만들기');
+      mk.onclick=function(){
+        var proto={'통신사':CUR,'중분류':rows.length?rows[0]['중분류']:'','표명':rows.length?rows[0]['표명']:'',
+                   '순번':'0','행유형':'헤더','열1':'','열2':'','열3':'','열4':'','열5':'','배치':''};
+        DATA[sheet].splice(idxOf(sheet,rows)[0]||DATA[sheet].length,0,proto);
+        rows.unshift(proto); draw();
+      };
+      wrap.appendChild(mk);
+    }else{
+      var hb=el2('div','item'), hg=el2('div','g c2');
+      for(var i=0;i<ncol;i++) hg.appendChild(capWrap((i+1)+'번째 칸', textInput(head,COLS[i],'제목')));
+      hb.appendChild(hg); wrap.appendChild(hb);
+    }
+
+    /* 본문 */
+    wrap.appendChild(el2('div','dsec','표 내용'));
+    bodyRows.forEach(function(r,i){
+      var gi=rows.indexOf(r);
+      var box=itemShell(i+1, bodyRows.length,
+        function(){ moveRow(sheet,rows,gi,gi-1); draw() },
+        function(){ moveRow(sheet,rows,gi,gi+1); draw() },
+        function(){ delRowFrom(sheet,rows,r); draw() });
+      var g=el2('div','g'+(ncol>=4?' c2':''));
+      for(var k=0;k<ncol;k++){
+        var lab=(head && String(head[COLS[k]]||'').trim()) ? head[COLS[k]] : ((k+1)+'번째 칸');
+        g.appendChild(capWrap(lab, k===0 ? textInput(r,COLS[k],'') : textArea(r,COLS[k],'',34)));
+      }
+      box.appendChild(g); wrap.appendChild(box);
+    });
+    var add=el2('button','addrow','＋ 줄 추가');
+    add.onclick=function(){
+      var last=rows[rows.length-1]||{};
+      addRowTo(sheet,rows,{'통신사':last['통신사']||CUR,'중분류':last['중분류']||'','표명':last['표명']||'',
+        '순번':'','행유형':'본문','열1':'','열2':'','열3':'','열4':'','열5':'','배치':last['배치']||''});
+      draw();
+    };
+    wrap.appendChild(add);
+  }
+  draw();
+  body.appendChild(wrap);
+}
+
+/* ---------- 카드 추가 ---------- */
+$('#edAdd').onclick=function(){
+  openDrawer('새 카드 만들기');
+  var body=$('#dBody'); body.innerHTML='';
+  var st={kind:'환수율', mid:SUB||'', title:''};
+
+  body.appendChild(fld('어떤 형태로 만들까요?', selectBox([
+    ['환수율 표  (구간 → 환수율)','환수율'],
+    ['안내 카드  (제목 + 설명 글)','정책'],
+    ['기준표  (여러 칸으로 된 표)','기준표']
+  ], st.kind, function(v){ st.kind=v }), '나중에 바꿀 수 없으니 형태만 골라주세요.'));
+
+  var midOpts=[['공통 (모든 메뉴에 표시)','']].concat(mids(CUR).map(function(m){return [m,m]}));
+  body.appendChild(fld('어느 메뉴에 넣을까요?', selectBox(midOpts, st.mid, function(v){ st.mid=v }),
+    '현재 통신사 : '+cName(CUR)));
+
+  var ti=document.createElement('input'); ti.type='text'; ti.placeholder='예) 해지, 유심 환수기준, 소명 인정 케이스';
+  ti.addEventListener('input',function(){ st.title=ti.value });
+  body.appendChild(fld('제목', ti));
+
+  var foot=$('#dFoot'); foot.innerHTML='';
+  var c=el2('button','dbtn','취소'); c.onclick=function(){ closeDrawer() };
+  foot.appendChild(c); foot.appendChild(el2('div','grow'));
+  var mk=el2('button','dbtn pri','만들기');
+  mk.onclick=function(){
+    if(!st.title.trim()){ alert('제목을 입력해주세요.'); ti.focus(); return }
+    var sheet=st.kind, rows=[], proto;
+    if(sheet==='환수율'){
+      proto={'통신사':CUR,'중분류':st.mid,'구분':st.title,'대상':'','구간':'','환수율':'','비고':'','배치':''};
+    }else if(sheet==='정책'){
+      proto={'통신사':CUR,'중분류':st.mid,'섹션':st.title,'소제목':'','내용':'','강조':'','배치':''};
+    }else{
+      proto={'통신사':CUR,'중분류':st.mid,'표명':st.title,'순번':'1','행유형':'헤더',
+             '열1':'','열2':'','열3':'','열4':'','열5':'','배치':''};
+    }
+    DATA[sheet].push(proto); rows.push(proto);
+    if(sheet==='기준표'){
+      var b2={'통신사':CUR,'중분류':st.mid,'표명':st.title,'순번':'2','행유형':'본문',
+              '열1':'','열2':'','열3':'','열4':'','열5':'','배치':''};
+      DATA[sheet].push(b2); rows.push(b2);
+    }
+    if(st.mid) SUB=st.mid;
+    renderSide();
+    openCardEditor({sheet:sheet, rows:rows, code:CUR});
+  };
+  foot.appendChild(mk);
+};
+
+/* ---------- 설정 ---------- */
+$('#edConf').onclick=function(){
+  openDrawer('설정');
+  var body=$('#dBody'); body.innerHTML='';
+  function confRow(key, label, area, ph){
+    var r=(DATA['설정']||[]).filter(function(x){return x['키']===key})[0];
+    if(!r){ r={'키':key,'값':''}; DATA['설정'].push(r) }
+    body.appendChild(fld(label, area?textArea(r,'값',ph):textInput(r,'값',ph)));
+  }
+  confRow('제목','대시보드 제목');
+  var r2=el2('div','row2');
+  (function(){
+    var a=(DATA['설정']||[]).filter(function(x){return x['키']==='기준일'})[0]||{'키':'기준일','값':''};
+    var b=(DATA['설정']||[]).filter(function(x){return x['키']==='버전'})[0]||{'키':'버전','값':''};
+    if(DATA['설정'].indexOf(a)<0) DATA['설정'].push(a);
+    if(DATA['설정'].indexOf(b)<0) DATA['설정'].push(b);
+    r2.appendChild(fld('기준일', textInput(a,'값','예) 2026년 07월')));
+    r2.appendChild(fld('버전', textInput(b,'값','예) 2607.ver')));
+  })();
+  body.appendChild(r2);
+  confRow('공지','상단 공지 문구', true);
+
+  body.appendChild(el2('div','dsec', cName(CUR)+' 메뉴 관리'));
+  var list=el2('div');
+  function drawMids(){
+    list.innerHTML='';
+    var rows=(DATA['중분류']||[]).filter(function(r){return r['통신사']===CUR});
+    rows.forEach(function(r,i){
+      var box=itemShell(i+1, rows.length,
+        function(){ moveRow('중분류',rows,i,i-1); drawMids() },
+        function(){ moveRow('중분류',rows,i,i+1); drawMids() },
+        function(){
+          if(!confirm('메뉴 ‘'+r['중분류']+'’ 를 목록에서 뺄까요?\n(카드 내용은 지워지지 않습니다)')) return;
+          delRowFrom('중분류',rows,r); drawMids(); renderSide();
+        });
+      var inp=textInput(r,'중분류','메뉴 이름');
+      inp.addEventListener('change',function(){ renderSide() });
+      box.appendChild(inp);
+      var mrow=el2('div','row2');
+      mrow.appendChild(fld('보기 방식', selectBox(
+        [['카드형 (내용 펼쳐서 표시)',''],['접기형 (제목만 보이고 눌러서 펼치기)','접기']],
+        (/접/.test(String(r['표시']||''))?'접기':''),
+        function(v){ r['표시']=v; renderBody() })));
+      mrow.appendChild(el2('div'));
+      box.appendChild(mrow);
+      list.appendChild(box);
+    });
+  }
+  drawMids();
+  body.appendChild(list);
+  var addm=el2('button','addrow','＋ 메뉴 추가');
+  addm.onclick=function(){
+    DATA['중분류'].push({'통신사':CUR,'중분류':'','표시':''});
+    drawMids(); renderSide();
+  };
+  body.appendChild(addm);
+
+  var foot=$('#dFoot'); foot.innerHTML='';
+  foot.appendChild(el2('div','grow'));
+  var ok=el2('button','dbtn pri','완료');
+  ok.onclick=function(){ closeDrawer(); renderAll() };
+  foot.appendChild(ok);
+};
+
+/* ---------- 카드 수정 버튼 ---------- */
+document.getElementById('main').addEventListener('click', function(e){
+  if(!e.target.closest) return;
+  var t=e.target.closest('.gt2');
+  if(t){ GRP=t.getAttribute('data-g')||''; renderBody(); window.scrollTo({top:0,behavior:'smooth'}); return }
+  var mv=e.target.closest('.cardops button[data-mv]');
+  if(mv){
+    if(moveCardBy(parseInt(mv.getAttribute('data-ci'),10), parseInt(mv.getAttribute('data-mv'),10))) renderBody();
+    else toast('더 이상 옮길 수 없습니다.');
+    return;
+  }
+  var b=e.target.closest('.cardops .ed') || e.target.closest('.editbtn');
+  if(!b) return;
+  var m=CARDS[parseInt(b.getAttribute('data-ci'),10)];
+  if(m) openCardEditor(m);
+});
+
+/* ---------- 드래그로 카드 순서 변경 ---------- */
+(function(){
+  var main=document.getElementById('main'), src=null;
+  function clearMark(){
+    main.querySelectorAll('.dropb,.dropa').forEach(function(x){ x.classList.remove('dropb','dropa') });
+  }
+  main.addEventListener('mousedown', function(e){
+    var h=e.target.closest && e.target.closest('.cardops .drag');
+    if(!h) return;
+    var c=h.closest('.card'); if(c) c.setAttribute('draggable','true');
+  });
+  main.addEventListener('dragstart', function(e){
+    var c=e.target.closest && e.target.closest('.card[draggable="true"]');
+    if(!c){ e.preventDefault(); return }
+    src=c; c.classList.add('dragging');
+    try{ e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain', c.getAttribute('data-ci')||'') }catch(x){}
+  });
+  main.addEventListener('dragover', function(e){
+    if(!src) return;
+    var c=e.target.closest && e.target.closest('.card[data-ci]');
+    if(!c || c===src) return;
+    e.preventDefault();
+    var a=CARDS[parseInt(src.getAttribute('data-ci'),10)], b=CARDS[parseInt(c.getAttribute('data-ci'),10)];
+    if(!a||!b||(a.grp||'')!==(b.grp||'')||(a.mid||'')!==(b.mid||'')) return;
+    var r=c.getBoundingClientRect(), before=(e.clientY - r.top) < r.height/2;
+    clearMark(); c.classList.add(before?'dropb':'dropa');
+  });
+  main.addEventListener('dragleave', function(e){
+    var c=e.target.closest && e.target.closest('.card[data-ci]');
+    if(c) c.classList.remove('dropb','dropa');
+  });
+  main.addEventListener('drop', function(e){
+    if(!src) return;
+    e.preventDefault();
+    var c=e.target.closest && e.target.closest('.card[data-ci]');
+    clearMark();
+    if(c && c!==src){
+      var r=c.getBoundingClientRect(), before=(e.clientY - r.top) < r.height/2;
+      if(reorderCard(parseInt(src.getAttribute('data-ci'),10), parseInt(c.getAttribute('data-ci'),10), before?'before':'after')){
+        src=null; renderBody(); return;
+      }
+    }
+    src.classList.remove('dragging'); src.removeAttribute('draggable'); src=null;
+  });
+  main.addEventListener('dragend', function(){
+    clearMark();
+    if(src){ src.classList.remove('dragging'); src.removeAttribute('draggable') }
+    src=null;
+  });
+})();
+
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape') return;
+  if($('#loginMask').classList.contains('on')) $('#loginMask').classList.remove('on');
+  else if($('#drawer').classList.contains('on')){ closeDrawer(); renderBody() }
+});
+
+var _cols=colCount();
+window.addEventListener('resize',function(){
+  clearTimeout(window._rz);
+  window._rz=setTimeout(function(){
+    var n=colCount();
+    if(n!==_cols){ _cols=n; renderBody() }
+  },160);
+});
+
+load();
+
+</script>
+</body>
+</html>
