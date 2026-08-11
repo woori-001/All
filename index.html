@@ -160,7 +160,8 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
 .grid .col{min-width:0}
 
 /* ── 환수율 표 : 선 없이 정렬로 구분 ── */
-table.rt2{width:100%;border-collapse:collapse;font-size:13.2px}
+/* 카드가 화면 전체를 쓸 때 '환수' 열이 너무 멀리 밀리지 않도록 상한을 둔다 */
+table.rt2{width:100%;max-width:860px;border-collapse:collapse;font-size:13.2px}
 table.rt2 th,table.rt2 td{text-align:left;padding:10px 10px;vertical-align:top}
 table.rt2 tr > *:first-child{padding-left:18px}
 table.rt2 tr > *:last-child{padding-right:18px}
@@ -856,6 +857,16 @@ function cardTable(g,tag,meta){
   return card(g.name, h, tag, widthOf(g.rows, cols.length>=3 || maxLen>230), est, meta, meta&&meta.showGrp?g.grp:'');
 }
 /* 배치 열 : '넓게'(전체폭) / '좁게'(2단) / 비우면 자동 */
+/* 배치 칸에 '좁게' 라고 직접 적었는지 (자동 판정과 구분하기 위해) */
+function isNarrow(rows){
+  for(var i=0;i<rows.length;i++){
+    var v=String(rows[i]['배치']||'').trim();
+    if(!v) continue;
+    if(/^(좁게|좁|반|N|n|narrow|2)$/.test(v)) return true;
+    if(/^(넓게|넓|전체|W|w|wide|1)$/.test(v)) return false;
+  }
+  return false;
+}
 function widthOf(rows, auto){
   for(var i=0;i<rows.length;i++){
     var v=String(rows[i]['배치']||'').trim();
@@ -883,6 +894,7 @@ function card(title, inner, tag, wide, est, meta, grp){
   }
   return {
     wide: !!wide,
+    narrow: !!(meta && meta.rows && isNarrow(meta.rows)),
     est: est||200,
     h: '<section class="card"'+(meta&&meta.ord&&EDITMODE?' data-ci="'+ci+'"':'')+
        '><h3><span class="dot"></span>'+esc(title)+ gb +
@@ -904,7 +916,14 @@ function layout(cards){
   var out='', buf=[];
   function flush(){
     if(!buf.length) return;
-    if(buf.length===1){ out+=buf[0].h; buf=[]; return }
+    if(buf.length===1){
+      /* 카드가 하나만 남아도 '넓게' 가 아니면 절반 폭으로 세운다.
+         표 하나가 화면 전체로 늘어나면 환수율이 멀리 떨어져 눈에 안 들어온다. */
+      out += buf[0].wide
+        ? buf[0].h
+        : '<div class="grid" style="--n:2"><div class="col">'+buf[0].h+'</div><div class="col"></div></div>';
+      buf=[]; return;
+    }
     var k=Math.min(n,buf.length), cols=[], hs=[];
     for(var i=0;i<k;i++){ cols.push([]); hs.push(0) }
     buf.forEach(function(c){
@@ -1445,7 +1464,7 @@ function openCardEditor(meta){
   var curMid = rows.length ? (rows[0]['중분류']||'') : '';
   r2.appendChild(fld('메뉴 위치', selectBox(midOpts, curMid, function(v){ setAll(rows,'중분류',v) })));
   var curW = rows.length ? (rows[0]['배치']||'') : '';
-  r2.appendChild(fld('가로 폭', selectBox([['자동',''],['넓게 (한 줄 전체)','넓게'],['좁게 (2단)','좁게']], curW,
+  r2.appendChild(fld('가로 폭', selectBox([['자동',''],['넓게 (한 줄 전체)','넓게'],['좁게 (절반 폭)','좁게']], curW,
     function(v){ setAll(rows,'배치',v) })));
   body.appendChild(r2);
 
