@@ -444,6 +444,31 @@ body.edit .card:hover{border-color:#c9dbf2}
   .ah .chev,.foldbar{display:none !important}
   .ai{break-inside:avoid}
 }
+
+/* ── 첫 로딩 ── */
+body.wait .ft{display:none}
+.loading{padding:80px 0 60px;text-align:center;color:var(--tx2)}
+.loading .sp2{
+  width:26px;height:26px;margin:0 auto 16px;border-radius:50%;
+  border:2.5px solid var(--line);border-top-color:var(--pri);animation:spin .8s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading .t1{font-size:14px;font-weight:600;color:var(--tx)}
+.loading .t2{font-size:12.5px;color:var(--tx3);margin-top:7px;min-height:18px}
+.skel{padding:6px 2px}
+.skel i{
+  display:block;height:11px;border-radius:5px;background:var(--line2);
+  margin:14px 6px;animation:pulse 1.3s ease-in-out infinite
+}
+.skel i:nth-child(2n){width:70%}
+.skel i:nth-child(3n){width:85%}
+@keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+.stale{
+  background:#fff6e5;border:1px solid #f0d9a8;color:#8a5a00;border-radius:var(--r);
+  padding:11px 15px;margin-bottom:18px;font-size:12.8px;font-weight:500;
+  display:flex;align-items:center;gap:9px
+}
+.stale b{font-weight:700}
 </style>
 </head>
 <body>
@@ -1039,6 +1064,13 @@ document.getElementById('main').addEventListener('keydown', function(e){
   e.preventDefault(); ah.click();
 });
 
+function staleHTML(){
+  return STALE
+    ? '<div class="stale">⚠ <span><b>최신 자료를 불러오지 못했습니다.</b> '+
+      '아래 내용은 마지막으로 배포된 시점의 자료라 최신이 아닐 수 있습니다. '+
+      '잠시 후 새로고침해 주세요.</span></div>'
+    : '';
+}
 function renderBody(){
   CARDS=[];
   var out='';
@@ -1057,6 +1089,7 @@ function renderBody(){
     return;
   }
 
+  out+=staleHTML();
   var subs=mids(CUR);
   if(subs.length && subs.indexOf(SUB)<0) SUB=subs[0];
   $('#crumb').innerHTML=carrierHead(CUR)+(SUB?'<span class="sep">\u203A</span>'+esc(SUB):'');
@@ -1161,23 +1194,52 @@ function normalize(raw){
   });
   return out;
 }
-function load(){
-  DATA=normalize(SEED);
-  if(!CUR){ CUR=(carriers()[0]||{}).code||''; SUB=mids(CUR)[0]||'' }
-  renderAll();
-  if(!API_URL) return;
-  fetch(API_URL,{method:'GET'}).then(function(r){return r.json()}).then(function(j){
-    if(!j.ok) throw new Error(j.error||'불러오기 실패');
-    var d=normalize(j.data);
-    if(!(d['환수율'].length||d['정책'].length||d['기준표'].length)) return;
-    DATA=d;
-    var codes=carriers().map(function(c){return c.code});
-    if(codes.indexOf(CUR)<0){ CUR=codes[0]||''; SUB=mids(CUR)[0]||''; GRP='' }
-    renderAll();
-  }).catch(function(e){
-    console.warn('시트 연동 실패:',e);
-    toast('시트를 불러오지 못해 내장 데이터를 표시합니다.');
-  });
+var STALE=false;
+function fixCur(){
+  var codes=carriers().map(function(c){return c.code});
+  if(!CUR || codes.indexOf(CUR)<0){ CUR=codes[0]||''; SUB=mids(CUR)[0]||''; GRP='' }
+  else if(!SUB){ SUB=mids(CUR)[0]||'' }
+}
+function showLoading(){
+  document.body.classList.add('wait');
+  $('#side').innerHTML='<div class="skel"><i></i><i></i><i></i><i></i><i></i><i></i></div>';
+  $('#crumb').innerHTML='';
+  $('#main').innerHTML=
+    '<div class="loading"><div class="sp2"></div>'+
+    '<div class="t1">최신 자료를 불러오는 중입니다</div>'+
+    '<div class="t2" id="loadSub"></div></div>';
+}
+/* 저장 전 자료가 잠깐 보이는 일이 없도록,
+   구글시트를 다 받은 뒤에 화면을 그린다. 실패했을 때만 내장 자료로 넘어간다. */
+function load(silent){
+  if(!API_URL){
+    DATA=normalize(SEED); fixCur(); renderAll(); return;
+  }
+  var done=false;
+  if(!silent) showLoading();
+  var slow=setTimeout(function(){
+    var n=document.getElementById('loadSub');
+    if(n) n.textContent='구글 서버가 처음 깨어나는 중입니다. 조금만 기다려 주세요…';
+  }, 5000);
+  var giveup=setTimeout(function(){ finish(null, '응답이 너무 늦습니다') }, 25000);
+  function finish(d, err){
+    if(done) return; done=true;
+    clearTimeout(slow); clearTimeout(giveup);
+    document.body.classList.remove('wait');
+    if(d){ DATA=d; STALE=false }
+    else { DATA=normalize(SEED); STALE=true; console.warn('시트 연동 실패:', err) }
+    fixCur(); renderAll();
+    if(!d) toast('시트를 불러오지 못했습니다. 마지막 배포 시점의 자료를 표시합니다.');
+  }
+  fetch(API_URL,{method:'GET',cache:'no-store'})
+    .then(function(r){return r.json()})
+    .then(function(j){
+      if(!j.ok) throw new Error(j.error||'불러오기 실패');
+      var d=normalize(j.data);
+      if(!(d['환수율'].length||d['정책'].length||d['기준표'].length)) throw new Error('내용이 비어 있습니다');
+      finish(d, null);
+    })
+    .catch(function(e){ finish(null, String((e&&e.message)||e)) });
 }
 
 /* ---------- 검색 / 인쇄 ---------- */
@@ -1201,7 +1263,7 @@ function enterEdit(){
 }
 function exitEdit(){
   EDITMODE=false; document.body.classList.remove('edit'); closeDrawer();
-  if(DEMO){ renderAll() } else { load() }
+  if(DEMO){ renderAll() } else { load(true) }
 }
 
 $('#btnAdmin').onclick=function(){
