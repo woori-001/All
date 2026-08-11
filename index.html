@@ -1135,12 +1135,28 @@ function tidyVal(v){
   var ymd = d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
   return (d.getHours()||d.getMinutes()) ? ymd+' '+p(d.getHours())+':'+p(d.getMinutes()) : ymd;
 }
+/* 구글시트가 백분율로 인식해버린 환수율을 되돌린다.
+   예) 0.8 -> 80%,  0.3 -> 30%,  1 -> 100%
+   '10만원' '전액환수' 처럼 글자가 섞인 값은 그대로 둔다. */
+function tidyRate(v){
+  var s=String(v==null?'':v).trim();
+  if(!s || !/^-?\d+(\.\d+)?$/.test(s)) return s;
+  var n=parseFloat(s);
+  if(!isFinite(n) || n<=0) return s;
+  if(n<=1)   return (Math.round(n*1000)/10)+'%';
+  if(n<=100) return (Math.round(n*10)/10)+'%';
+  return s;
+}
 function normalize(raw){
   var out={};
   Object.keys(SHEETS).forEach(function(name){
     var rows=(raw&&raw[name])?raw[name]:[];
     out[name]=rows.map(function(r){
-      var o={}; SHEETS[name].forEach(function(h){o[h]=tidyVal(r[h])}); return o;
+      var o={};
+      SHEETS[name].forEach(function(h){
+        o[h] = (name==='환수율' && h==='환수율') ? tidyRate(r[h]) : tidyVal(r[h]);
+      });
+      return o;
     });
   });
   return out;
