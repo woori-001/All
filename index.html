@@ -547,6 +547,12 @@ function toast(m){
   var t=$('#toast'); t.textContent=m; t.classList.add('on');
   clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove('on')},2300);
 }
+/* 기준일 표기 : 2026-07-01 처럼 날짜로 변해버렸으면 '2026년 07월' 로 되돌려 보여준다 */
+function baseLabel(){
+  var v=conf('기준일','');
+  var m=v.match(/^(\d{4})-(\d{2})-(\d{2})(?: \d{2}:\d{2})?$/);
+  return m ? (m[1]+'년 '+m[2]+'월') : v;
+}
 function conf(k,d){
   var r=(DATA['설정']||[]).filter(function(x){return x['키']===k})[0];
   return r&&r['값'] ? r['값'] : (d||'');
@@ -711,7 +717,7 @@ function renderSide(){
   });
 
   /* 하단 버전 표기 */
-  var v=conf('기준일','')+(conf('버전','')?' · '+conf('버전',''):'');
+  var v=baseLabel()+(conf('버전','')?' · '+conf('버전',''):'');
   var up=conf('최종수정','');
   if(v||up){
     var f=el('div','sidever');
@@ -1113,12 +1119,28 @@ function renderHead(){
 function renderAll(){ renderHead(); renderSide(); renderBody() }
 
 /* ---------- 데이터 ---------- */
+/* 구글시트가 날짜로 인식해버린 칸을 사람이 읽는 형태로 정리한다.
+   예) "Wed Jul 01 2026 16:00:00 GMT+0900 (한국 표준시)" -> "2026-07-01"
+       "2026-08-12T06:59:00.000Z"                        -> "2026-08-12 06:59" */
+function tidyVal(v){
+  var s = (v==null) ? '' : String(v);
+  if(s.length < 16) return s;
+  var looksDate =
+    /^[A-Z][a-z]{2} [A-Z][a-z]{2} \d{2} \d{4} \d{2}:\d{2}:\d{2}/.test(s) ||
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(s);
+  if(!looksDate) return s;
+  var d = new Date(s);
+  if(isNaN(d.getTime())) return s;
+  var p = function(n){ return (n<10?'0':'')+n };
+  var ymd = d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
+  return (d.getHours()||d.getMinutes()) ? ymd+' '+p(d.getHours())+':'+p(d.getMinutes()) : ymd;
+}
 function normalize(raw){
   var out={};
   Object.keys(SHEETS).forEach(function(name){
     var rows=(raw&&raw[name])?raw[name]:[];
     out[name]=rows.map(function(r){
-      var o={}; SHEETS[name].forEach(function(h){o[h]=r[h]==null?'':String(r[h])}); return o;
+      var o={}; SHEETS[name].forEach(function(h){o[h]=tidyVal(r[h])}); return o;
     });
   });
   return out;
