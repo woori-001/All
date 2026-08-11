@@ -492,7 +492,7 @@ body.edit .card:hover{border-color:#c9dbf2}
 <div class="ebar" id="ebar">
   <span class="etag">편집 모드</span>
   <span class="demo" id="edDemo" style="display:none">미리보기 · 저장 안 됨</span>
-  <span class="eh" id="edHint"><b>⠿</b> 을 잡고 끌어서 순서 변경, <b>✎ 수정</b> 으로 내용 편집</span>
+  <span class="eh" id="edHint"><b>⠿</b> 을 잡고 끌어서 순서 변경 · 편집 중에는 순서 확인을 위해 한 줄로 보입니다</span>
   <div class="sp">
     <button class="eb" id="edAdd">＋ 카드 추가</button>
     <button class="eb" id="edConf">설정</button>
@@ -865,7 +865,10 @@ function colCount(){
   return window.innerWidth < 1200 ? 1 : 2;
 }
 function layout(cards){
-  var n=colCount();
+  /* 편집 모드에서는 한 줄로 세운다.
+     2단 배치는 높이를 맞춰 채우기 때문에 화면 순서와 실제 순서가 달라지고,
+     그 상태로 끌어놓으면 엉뚱한 곳에 놓인 것처럼 보인다. */
+  var n = EDITMODE ? 1 : colCount();
   if(n===1) return cards.map(function(c){return c.h}).join('');
   var out='', buf=[];
   function flush(){
