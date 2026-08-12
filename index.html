@@ -510,6 +510,13 @@ body.wait .ft{display:none}
   display:flex;align-items:center;gap:9px
 }
 .stale b{font-weight:700}
+.stale span{flex:1;min-width:0}
+.stale .er{font-style:normal;color:#a2751f;font-size:12px}
+.stale .rebtn{
+  flex:none;height:29px;padding:0 13px;border:1px solid #e0c583;background:#fff;
+  border-radius:6px;color:#8a5a00;font-weight:600;font-size:12.5px
+}
+.stale .rebtn:hover{background:#fff9ec;border-color:#d0ae63}
 </style>
 </head>
 <body>
@@ -1147,6 +1154,9 @@ document.getElementById('main').addEventListener('click', function(e){
     }
   }
 }, true);
+document.getElementById('main').addEventListener('click', function(e){
+  if(e.target && e.target.id==='retryLoad'){ STALE=false; load(); }
+});
 document.getElementById('main').addEventListener('keydown', function(e){
   if(e.key!=='Enter' && e.key!==' ') return;
   var ah=e.target.closest && e.target.closest('.ah');
@@ -1155,11 +1165,12 @@ document.getElementById('main').addEventListener('keydown', function(e){
 });
 
 function staleHTML(){
-  return STALE
-    ? '<div class="stale">⚠ <span><b>최신 자료를 불러오지 못했습니다.</b> '+
-      '아래 내용은 마지막으로 배포된 시점의 자료라 최신이 아닐 수 있습니다. '+
-      '잠시 후 새로고침해 주세요.</span></div>'
-    : '';
+  if(!STALE) return '';
+  return '<div class="stale">⚠ <span><b>최신 자료를 불러오지 못했습니다.</b> '+
+         '아래 내용은 마지막으로 배포된 시점의 자료라 최신이 아닐 수 있습니다. '+
+         '<u>저장하신 내용은 구글시트에 그대로 있습니다.</u>'+
+         (LASTERR?' <em class="er">('+esc(LASTERR)+')</em>':'')+
+         '</span><button class="rebtn" id="retryLoad">다시 시도</button></div>';
 }
 function renderBody(){
   CARDS=[];
@@ -1302,28 +1313,44 @@ function showLoading(){
 }
 /* 저장 전 자료가 잠깐 보이는 일이 없도록,
    구글시트를 다 받은 뒤에 화면을 그린다. 실패했을 때만 내장 자료로 넘어간다. */
-function load(silent){
+var LASTERR='';
+var MAXTRY=3;
+function load(silent, attempt){
+  attempt = attempt || 1;
   if(!API_URL){
     DATA=normalize(SEED); fixCur(); renderAll(); return;
   }
   var done=false;
-  if(!silent) showLoading();
+  if(!silent && attempt===1) showLoading();
+  var sub=function(t){ var n=document.getElementById('loadSub'); if(n) n.textContent=t };
+  if(attempt>1) sub('연결이 원활하지 않아 다시 시도하고 있습니다… ('+attempt+'/'+MAXTRY+')');
   var slow=setTimeout(function(){
-    var n=document.getElementById('loadSub');
-    if(n) n.textContent='구글 서버가 처음 깨어나는 중입니다. 조금만 기다려 주세요…';
+    if(attempt===1) sub('구글 서버가 처음 깨어나는 중입니다. 조금만 기다려 주세요…');
   }, 5000);
-  var giveup=setTimeout(function(){ finish(null, '응답이 너무 늦습니다') }, 25000);
+  /* 구글 스크립트는 처음 깨어날 때 오래 걸린다. 넉넉히 기다린 뒤 자동으로 다시 시도한다 */
+  var giveup=setTimeout(function(){ finish(null, '응답이 너무 늦습니다 (시간 초과)') }, 45000);
   function finish(d, err){
     if(done) return; done=true;
     clearTimeout(slow); clearTimeout(giveup);
+    if(d){
+      document.body.classList.remove('wait');
+      DATA=d; STALE=false; LASTERR='';
+      fixCur(); renderAll();
+      return;
+    }
+    LASTERR=err||'';
+    console.warn('시트 연동 실패('+attempt+'/'+MAXTRY+'):', err);
+    if(attempt < MAXTRY){
+      setTimeout(function(){ load(silent, attempt+1) }, 1800);
+      return;
+    }
     document.body.classList.remove('wait');
-    if(d){ DATA=d; STALE=false }
-    else { DATA=normalize(SEED); STALE=true; console.warn('시트 연동 실패:', err) }
+    DATA=normalize(SEED); STALE=true;
     fixCur(); renderAll();
-    if(!d) toast('시트를 불러오지 못했습니다. 마지막 배포 시점의 자료를 표시합니다.');
+    toast('시트를 불러오지 못했습니다. 마지막 배포 시점의 자료를 표시합니다.');
   }
   fetch(API_URL,{method:'GET',cache:'no-store'})
-    .then(function(r){return r.json()})
+    .then(function(r){ if(!r.ok) throw new Error('서버 응답 '+r.status); return r.json() })
     .then(function(j){
       if(!j.ok) throw new Error(j.error||'불러오기 실패');
       var d=normalize(j.data);
